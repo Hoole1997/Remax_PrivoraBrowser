@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_back" />
+
+    <!-- 可滚动内容区域 -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
+
+            <!-- 标题 -->
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/uninstall_confirm_title"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- 原因选项列表 -->
+            <RadioGroup
+                android:id="@+id/rgReasons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <RadioButton
+                    android:id="@+id/rbDifficult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/uninstall_reason_difficult"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:button="@null"
+                    android:drawableEnd="@drawable/selector_radio_button"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/rbAds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/uninstall_reason_ads"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:button="@null"
+                    android:drawableEnd="@drawable/selector_radio_button" />
+
+                <RadioButton
+                    android:id="@+id/rbCantFind"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/uninstall_reason_cant_find"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:button="@null"
+                    android:drawableEnd="@drawable/selector_radio_button" />
+
+                <RadioButton
+                    android:id="@+id/rbNotRestore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/uninstall_reason_not_restore"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:button="@null"
+                    android:drawableEnd="@drawable/selector_radio_button" />
+
+                <RadioButton
+                    android:id="@+id/rbRecovery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/uninstall_reason_recovery"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:button="@null"
+                    android:drawableEnd="@drawable/selector_radio_button" />
+
+                <RadioButton
+                    android:id="@+id/rbOthers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/uninstall_reason_others"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:button="@null"
+                    android:drawableEnd="@drawable/selector_radio_button" />
+
+            </RadioGroup>
+
+            <!-- 其他原因输入框 -->
+            <EditText
+                android:id="@+id/etOtherReason"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_edittext_rounded"
+                android:gravity="top|start"
+                android:hint="@string/uninstall_reason_hint"
+                android:inputType="textMultiLine"
+                android:padding="12dp"
+                android:textColor="#333333"
+                android:textColorHint="#999999"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- 固定底部区域：按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp">
+
+        <!-- 主按钮: Don't uninstall yet -->
+        <Button
+            android:id="@+id/btnStay"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_button_primary"
+            android:text="@string/uninstall_btn_stay"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textAllCaps="false" />
+
+        <!-- 次要按钮: Uninstall -->
+        <TextView
+            android:id="@+id/btnUninstall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:text="@string/uninstall_btn_uninstall"
+            android:textColor="#999999"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!-- 广告容器 - 最底部 -->
+    <FrameLayout
+        android:id="@+id/adContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>

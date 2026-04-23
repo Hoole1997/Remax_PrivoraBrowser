@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="main_nav_check_color">#0881FE</color>
+    <color name="main_nav_default_color">#999999</color>
+
+    <color name="home_search_text_hint_color">#666666</color>
+    <color name="home_search_bg_color">#f4f4f6</color>
+    <color name="home_search_stroke_color">#111113</color>
+
+    <color name="home_search_guide_btn">#0881FE</color>
+
+    <color name="black_333">#333333</color>
+    <color name="black_666">#666666</color>
+    <color name="black_999">#999999</color>
+
+    <!-- 存储进度条颜色 -->
+    <color name="storage_progress_bg">#E0E0E0</color>
+    <color name="storage_app">#FC4643</color>
+    <color name="storage_video">#FEBE42</color>
+    <color name="storage_image">#6DC882</color>
+    <color name="storage_audio">#706EF6</color>
+
+    <!-- Bookmark -->
+    <color name="bookmark_tab_background">#F0F4F8</color>
+    <color name="bookmark_tab_text_selected">#121820</color>
+    <color name="bookmark_tab_text_unselected">#808A99</color>
+    <color name="bookmark_folder_icon">#FFC940</color>
+    <color name="bookmark_site_icon">#111113</color>
+    <color name="bookmark_surface">#F5F5F5</color>
+    <color name="bookmark_input_bg">#F4F7FC</color>
+    <color name="bookmark_divider">#DEE3ED</color>
+    <color name="bookmark_icon_tint">#2D3A48</color>
+    <color name="bookmark_text_secondary">#7A8392</color>
+
+    <!-- Recommended categories -->
+    <color name="recommended_category_bg">#EEF6FF</color>
+
+    <!-- News list divider -->
+    <color name="black_e5e5e5">#E5E5E5</color>
+
+    <color name="color_material_button">#2E8EFC</color>
+    <color name="switch_thumb_unchecked">#FFFFFF</color>
+    <color name="switch_track_unchecked">#DADDE6</color>
+    <color name="switch_track_checked">#E9F3FF</color>
+
+    <color name="ad_progress_blue">#0881FE</color>
+    <color name="ad_progress_track">#E8F4FF</color>
+</resources>

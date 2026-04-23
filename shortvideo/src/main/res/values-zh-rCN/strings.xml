@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="short_video_module_name">短视频</string>
+    <string name="tab_popular">热门</string>
+    <string name="tab_following">我喜欢的</string>
+    <string name="video_loading">视频加载中...</string>
+    <string name="no_data">暂无数据...</string>
+    <string name="loading_failed">加载失败</string>
+    <string name="loading_failed_desc">出错了，请重试。</string>
+    <string name="retry">重试</string>
+</resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 精确还原：蓝色渐变文件图标 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+
+    <!-- 整体背景 - 圆角矩形 -->
+    <path
+        android:fillColor="#90CAF9"
+        android:pathData="M16,0 L64,0 A16,16 0 0,1 80,16 L80,64 A16,16 0 0,1 64,80 L16,80 A16,16 0 0,1 0,64 L0,16 A16,16 0 0,1 16,0 Z" />
+
+    <!-- 渐变效果 (用多个矩形叠加模拟) -->
+    <path
+        android:fillColor="#64B5F6"
+        android:fillAlpha="0.6"
+        android:pathData="M16,0 L40,0 L40,80 L16,80 A16,16 0 0,1 0,64 L0,16 A16,16 0 0,1 16,0 Z" />
+
+    <!-- 左侧深蓝色条 -->
+    <path
+        android:fillColor="#1E88E5"
+        android:pathData="M16,0 L24,0 L24,80 L16,80 A16,16 0 0,1 0,64 L0,16 A16,16 0 0,1 16,0 Z" />
+
+    <!-- 问号 - 上半部分 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,20 A6,6 0 1,1 12,32 L12,28 A2,2 0 0,0 14,26 A2,2 0 0,0 10,26 A2,2 0 0,0 12,28 Z" />
+
+    <!-- 问号 - 圆点 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,42 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0" />
+
+    <!-- 文档线条 1 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M36,24 L68,24 A2,2 0 0,1 68,28 L36,28 A2,2 0 0,1 36,24 Z" />
+
+    <!-- 文档线条 2 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M36,36 L68,36 A2,2 0 0,1 68,40 L36,40 A2,2 0 0,1 36,36 Z" />
+
+    <!-- 文档线条 3 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M36,48 L68,48 A2,2 0 0,1 68,52 L36,52 A2,2 0 0,1 36,48 Z" />
+
+</vector>

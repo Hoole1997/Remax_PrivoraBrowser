@@ -1,0 +1,19 @@
+<resources>
+    <string name="weather_high">Макс</string>
+    <string name="weather_low">Мин</string>
+    <string name="weather_wind_speed">Ветер</string>
+    <string name="weather_precipitation">Осадки</string>
+    <string name="weather_daily_forecast">Прогноз на 5 дней</string>
+    <string name="weather_more_details">Подробнее</string>
+    <string name="weather_humidity">Влажность</string>
+    <string name="weather_uv_index">УФ-индекс</string>
+    <string name="weather_pressure">Давление</string>
+    <string name="weather_visibility">Видимость</string>
+    <string name="weather_sunrise">Восход</string>
+    <string name="weather_sunset">Закат</string>
+    <string name="weather_load_failed">Ошибка загрузки</string>
+    <string name="weather_retry">Повторить</string>
+    <string name="weather_searching">Поиск...</string>
+    <string name="weather_current_location">Текущее местоположение</string>
+    <string name="weather_search_city_hint">Поиск города...</string>
+</resources>

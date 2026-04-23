@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_title" translatable="false">Open Browser</string>
+
+    <string name="tab_home">Início</string>
+    <string name="tab_short">Curto</string>
+    <string name="tab_files">Arquivos</string>
+    <string name="tab_tabs">Guias</string>
+    <string name="tab_settings">Config.</string>
+    <string name="home_search_text_hint">Pesquisar ou digitar URL</string>
+    <string name="clean">Limpar</string>
+    <string name="news">Notícias</string>
+    <string name="process">Processos</string>
+    <string name="bookmark">Favoritos</string>
+
+    <string name="search_keyword_cancel">Cancelar</string>
+    <string name="search_shortcut_www" translatable="false">www.</string>
+    <string name="search_shortcut_m" translatable="false">m.</string>
+    <string name="search_shortcut_wap" translatable="false">wap.</string>
+    <string name="search_shortcut_dot" translatable="false">.</string>
+    <string name="search_shortcut_slash" translatable="false">/</string>
+    <string name="home_quick_remove_title">Remover atalho</string>
+    
+    <string name="tabs">Guias</string>
+    <string name="normal_tabs">Padrão</string>
+    <string name="private_tabs">Incógnito</string>
+    <string name="new_tab">Nova guia</string>
+    <string name="close_tab">Fechar guia</string>
+    <string name="close_all_tabs">Fechar todas</string>
+    <string name="tab_icon">Ícone da guia</string>
+    <string name="tab_thumbnail">Miniatura da guia</string>
+    <string name="no_tabs">Nenhuma guia aberta</string>
+    <string name="tab_count">%d Guias</string>
+    <string name="empty_state_incognito">O modo incógnito não salvará seu histórico de navegação.</string>
+    <string name="tabs_clear_title">Fechar todas as janelas</string>
+    <string name="tabs_clear_message">Isso fechará todas as janelas no modo atual. Continuar?</string>
+    <string name="tabs_clear_confirm">Fechar tudo</string>
+
+    <!-- Download -->
+    <string name="file_icon">Ícone de arquivo</string>
+    <string name="action_button">Botão de ação</string>
+    <string name="cancel_download">Cancelar download</string>
+    <string name="download_started">Download iniciado</string>
+    <string name="download_view">Ver</string>
+    <string name="download_complete">Download concluído</string>
+    <string name="download_paused">Pausado</string>
+    <string name="download_progress_percent">%1$d%%</string>
+    <string name="download_unknown_file">Arquivo desconhecido</string>
+    <string name="download_empty_state">Nenhum download</string>
+    <string name="download_guide_download_video">Como baixar vídeos?</string>
+
+    <string name="bookmark_root_title">Favoritos</string>
+    <string name="bookmark_action_back">Voltar</string>
+    <string name="bookmark_tab_bookmarks">Favoritos</string>
+    <string name="bookmark_tab_history">Histórico</string>
+    <string name="bookmark_history_placeholder">Recurso de histórico em breve</string>
+    <string name="bookmark_search_hint">Pesquisar favoritos</string>
+    <string name="bookmark_clear_search">Limpar pesquisa</string>
+    <string name="bookmark_empty_state">Nenhum favorito</string>
+    <string name="bookmark_item_icon">Ícone de favorito</string>
+    <string name="bookmark_action_more">Mais opções</string>
+    <string name="bookmark_add_folder">Nova pasta</string>
+    <string name="bookmark_add_folder_hint">Nome da pasta</string>
+    <string name="bookmark_add_folder_empty">O nome da pasta não pode estar vazio</string>
+    <string name="bookmark_folder_created">Pasta criada</string>
+    <string name="bookmark_dialog_confirm">Confirmar</string>
+    <string name="bookmark_dialog_cancel">Cancelar</string>
+    <string name="bookmark_dialog_title_add">Adicionar favorito</string>
+    <string name="bookmark_dialog_title_edit">Editar favorito</string>
+    <string name="bookmark_dialog_field_title">Título</string>
+    <string name="bookmark_dialog_field_url">URL</string>
+    <string name="bookmark_dialog_field_folder">Selecionar pasta</string>
+    <string name="bookmark_dialog_error_title_empty">O título não pode estar vazio</string>
+    <string name="bookmark_dialog_error_url_empty">A URL não pode estar vazia</string>
+    <string name="bookmark_added">Adicionado aos favoritos</string>
+    <string name="bookmark_already_exists">Esta URL já está nos favoritos</string>
+    <string name="bookmark_add_failed">Falha ao adicionar favorito</string>
+    <string name="bookmark_updated">Favorito atualizado</string>
+    <string name="bookmark_update_failed">Falha ao atualizar favorito</string>
+    <string name="bookmark_deleted">Favorito excluído</string>
+    <string name="bookmark_delete_failed">Falha ao excluir favorito</string>
+    <string name="bookmark_menu_open_bookmarks">Favoritos</string>
+    <string name="bookmark_menu_open_history">Histórico</string>
+    <string name="bookmark_menu_share">Compartilhar</string>
+    <string name="bookmark_menu_add_bookmark">Adicionar aos favoritos</string>
+    <string name="bookmark_menu_added_state">Já está nos favoritos</string>
+    <string name="bookmark_menu_cancel">Cancelar</string>
+
+    <string name="web_menu_back">Voltar</string>
+    <string name="web_menu_forward">Avançar</string>
+    <string name="web_menu_share">Compartilhar</string>
+    <string name="web_menu_refresh">Atualizar</string>
+    <string name="web_menu_new_tab">Nova guia</string>
+    <string name="web_menu_bookmarks">Favoritos</string>
+    <string name="web_menu_add">Adicionar</string>
+    <string name="web_menu_history">Histórico</string>
+    <string name="web_menu_downloads">Downloads</string>
+    <string name="web_menu_find_in_page">Localizar na página</string>
+    <string name="web_menu_desktop_site">Site para computador</string>
+    <string name="web_menu_add_to_home">Adicionar à tela inicial</string>
+    
+    <!-- Atalho web -->
+    <string name="web_shortcut_url_empty">URL vazia</string>
+    <string name="web_shortcut_not_supported">O launcher atual não suporta adicionar atalhos</string>
+    <string name="web_shortcut_adding">Adicionando à tela inicial</string>
+    <string name="web_shortcut_added">Adicionado à tela inicial</string>
+    
+    <!-- Compartilhar web -->
+    <string name="web_share_url_empty">Não é possível compartilhar URL vazia</string>
+
+    <string name="bookmark_action_open">Abrir</string>
+    <string name="bookmark_action_edit">Editar</string>
+    <string name="bookmark_action_move">Mover</string>
+    <string name="bookmark_action_delete">Excluir</string>
+    <string name="bookmark_action_rename">Renomear</string>
+    <string name="bookmark_confirm_delete">Confirmar exclusão</string>
+    <string name="bookmark_confirm_delete_site_message">Tem certeza de que deseja excluir este favorito?</string>
+    <string name="bookmark_confirm_delete_folder_message">Tem certeza de que deseja excluir esta pasta e todo o seu conteúdo?</string>
+    <string name="bookmark_folder_renamed">Pasta renomeada</string>
+    <string name="bookmark_folder_rename_failed">Falha ao renomear pasta</string>
+    <string name="bookmark_folder_moved">Pasta movida</string>
+    <string name="bookmark_folder_move_failed">Falha ao mover pasta</string>
+    <string name="bookmark_folder_deleted">Pasta excluída</string>
+    <string name="bookmark_folder_delete_failed">Falha ao excluir pasta</string>
+    <string name="bookmark_move_success">Favorito movido</string>
+    <string name="bookmark_move_failed">Falha ao mover favorito</string>
+    <string name="bookmark_edit_title_add">Adicionar favorito</string>
+    <string name="bookmark_edit_title_edit">Editar favorito</string>
+    <string name="bookmark_folder_edit_title_add">Nova pasta</string>
+    <string name="bookmark_folder_edit_title_edit">Editar pasta</string>
+    <string name="bookmark_select_folder_title">Selecionar pasta</string>
+    <string name="bookmark_root_directory">Diretório raiz</string>
+    <string name="bookmark_parent_folder">Pasta pai</string>
+    <string name="bookmark_button_save">Salvar</string>
+    <string name="bookmark_button_done">Concluído</string>
+    <string name="bookmark_add_to_shortcuts">Adicionar aos atalhos</string>
+
+    <string name="history_search_hint">Pesquisar histórico</string>
+    <string name="history_clear_search">Limpar pesquisa</string>
+    <string name="history_empty_state">Nenhum histórico</string>
+    <string name="history_item_icon">Ícone de histórico</string>
+    <string name="history_header_today">Hoje</string>
+    <string name="history_header_yesterday">Ontem</string>
+    <string name="history_clear_title">Limpar histórico</string>
+    <string name="history_clear_message">Excluir todo o histórico de navegação?</string>
+    <string name="history_clear_confirm">Limpar</string>
+    <string name="history_cleared">Histórico limpo</string>
+    <string name="history_delete_title">Excluir histórico</string>
+    <string name="history_delete_message">Tem certeza de que deseja excluir este item do histórico?</string>
+    <string name="history_delete_confirm">Excluir</string>
+    <string name="history_deleted">Histórico excluído</string>
+    <string name="history_delete_failed">Falha ao excluir</string>
+    <string name="history_bookmark_added">Adicionado aos favoritos</string>
+    <string name="history_bookmark_failed">Falha ao adicionar favorito</string>
+
+    <string name="home_quick_section_title">Favoritos</string>
+    <string name="home_quick_add">Adicionar</string>
+    <string name="home_quick_remove">Remover</string>
+    <string name="home_quick_cancel">Cancelar</string>
+    <string name="home_quick_remove_confirm">Remover este site rápido?</string>
+    <string name="home_quick_added">Adicionado aos sites rápidos</string>
+    <string name="home_quick_already_exists">Esta URL já está na lista rápida</string>
+
+    <string name="recommended_title">Web Store</string>
+    <string name="recommended_action_close">Fechar</string>
+    <string name="recommended_section_social">Mídia social</string>
+    <string name="recommended_section_video">Vídeo</string>
+    <string name="recommended_section_news">Notícias</string>
+    <string name="recommended_section_tools">Ferramentas</string>
+    <string name="recommended_section_entertainment">Entretenimento</string>
+    <string name="recommended_section_music">Música</string>
+    <string name="recommended_section_shopping">Compras</string>
+    <string name="recommended_section_sport">Esportes</string>
+    <string name="recommended_section_travel">Viagem</string>
+    <string name="recommended_section_healthy">Saúde</string>
+    <string name="recommended_item_add">Adicionar</string>
+    <string name="recommended_item_added">Adicionado</string>
+
+    <string name="news_page_title">Notícias</string>
+    <string name="news_category_general">Geral</string>
+    <string name="news_category_business">Negócios</string>
+    <string name="news_category_entertainment">Entretenimento</string>
+    <string name="news_category_health">Saúde</string>
+    <string name="news_category_science">Ciência</string>
+    <string name="news_category_sports">Esportes</string>
+    <string name="news_category_technology">Tecnologia</string>
+    <string name="news_empty_list">Sem notícias disponíveis</string>
+
+    <string name="search_engine">Mecanismo de busca</string>
+    <string name="default_browser">Navegador padrão</string>
+    <string name="language">Idioma</string>
+    <string name="clear_history">Limpar histórico</string>
+    <string name="feedback">Feedback</string>
+    <string name="about">Sobre</string>
+    <string name="privacy_policy">Política de privacidade</string>
+    <string name="terms_of_service">Termos de serviço</string>
+    <string name="more">Mais</string>
+    <string name="loading">Carregando...</string>
+    <string name="no_data">Sem dados</string>
+
+    <string name="files_download_title">Downloads</string>
+    <string name="files_download_description">Imagens, Vídeos</string>
+    <string name="files_no_permission_title">Conceda permissão de armazenamento para ver arquivos recentes.</string>
+    <string name="files_no_permission_button">Conceder</string>
+    <string name="files_permission_allow">Permitir</string>
+    <string name="file_category_image">Imagens</string>
+    <string name="file_category_video">Vídeos</string>
+    <string name="file_category_document">Docs</string>
+    <string name="file_category_apk">APKs</string>
+    <string name="file_category_audio">Áudio</string>
+    <string name="file_category_zip">ZIPs</string>
+    <string name="files_my_files">Meus arquivos</string>
+    <string name="files_clean">Limpar</string>
+    <string name="files_legend_apps">Apps</string>
+    <string name="files_legend_videos">Vídeos</string>
+    <string name="files_legend_photos">Fotos</string>
+    <string name="files_legend_music">Música</string>
+    <string name="files_recent_files">Arquivos recentes</string>
+
+    <!-- Storage Permission Dialog -->
+    <string name="storage_permission_dialog_title">Ativar permissão de armazenamento</string>
+    <string name="storage_permission_dialog_desc">Para usar este recurso, ative a permissão de armazenamento para o Open Browser nas configurações do seu telefone.</string>
+    <string name="storage_permission_dialog_item">Ativar permissão de armazenamento</string>
+    <string name="storage_permission_dialog_later">Mais tarde</string>
+    <string name="storage_permission_dialog_go_now">Ir agora</string>
+
+    <!-- Time Formatting -->
+    <string name="time_just_now">Agora mesmo</string>
+    <string name="time_seconds_ago">há %d s</string>
+    <string name="time_minutes_ago">há %d m</string>
+    <string name="time_hours_ago">há %d h</string>
+    <string name="time_today">Hoje %s</string>
+    <string name="time_yesterday">Ontem %s</string>
+    <string name="time_day_before_yesterday">Anteontem %s</string>
+    
+    <!-- Limpeza -->
+    <string name="junk_clean_title">Limpeza</string>
+    <string name="clean_success_junk">%s limpos</string>
+    <string name="clean_success_process">%s apps parados</string>
+    <string name="clean_success_other_process_title">Gerenciador de processos</string>
+    <string name="clean_success_other_process_message">Seu telefone está 73% mais lento que o ideal. Escaneie AGORA para evitar danos permanentes.</string>
+    <string name="clean_success_other_process_button">Escanear agora</string>
+    
+    <string name="clean_success_other_clean_title">Seu telefone está lento!</string>
+    <string name="clean_success_other_clean_message">Limpe agora antes que ele fique lento</string>
+    <string name="clean_success_other_clean_button">Limpeza</string>
+    
+    <string name="process_clean_title">Limpar processos</string>
+    <string name="process_clean_buton">Concluído</string>
+    <string name="process_used">RAM usada</string>
+    <string name="process_background_apps">Apps em segundo plano</string>
+    <string name="process_clean_app_item">Fechar</string>
+    
+    <!-- Tipos de arquivo indesejado -->
+    <string name="junk_type_residual_files">Arquivos residuais</string>
+    <string name="junk_type_junk_files">Arquivos indesejados</string>
+    <string name="junk_type_advertisement_files">Arquivos de propaganda</string>
+    <string name="junk_type_obsolete_apk_files">Arquivos APK obsoletos</string>
+    
+    <!-- Resultado da varredura -->
+    <string name="scan_result_title">Resultado da varredura</string>
+    <string name="scan_result_empty">Nenhum resultado</string>
+    <string name="scan_result_copied">Copiado para a área de transferência</string>
+    <string name="scan_result_share_to">Compartilhar</string>
+    <string name="scan_action_open_url">Abrir URL</string>
+    <string name="scan_action_copy">Copiar</string>
+    <string name="scan_action_search">Pesquisar</string>
+    <string name="scan_action_share">Compartilhar</string>
+
+    <string name="download_dialog_title">Baixar?</string>
+    <string name="language_select_title">Selecionar idioma</string>
+    <string name="language_cancel">Cancelar</string>
+    <string name="language_confirm">Confirmar</string>
+    <string name="notice_dialog_title">Dicas</string>
+
+    <!-- Clear Data Dialog -->
+    <string name="clear_data_title">Limpar dados de navegação</string>
+    <string name="clear_option_tabs">Guias abertas</string>
+    <string name="clear_option_history">Histórico de navegação</string>
+    <string name="clear_option_cookies">Cookies</string>
+    <string name="clear_option_cache">Cache</string>
+    <string name="clear_data_confirm">Limpar</string>
+    <string name="clear_data_cancel">Cancelar</string>
+    <string name="clear_data_success">Dados limpos</string>
+    <string name="clear_data_select_one">Selecione pelo menos uma opção</string>
+
+    <!-- Guide Page -->
+    <string name="guide_title_1">Seu assistente de navegação tudo-em-um</string>
+    <string name="guide_title_2">Comece sua jornada aqui para um mundo digital vasto e emocionante.</string>
+    <string name="guide_action_next">Próximo</string>
+    <string name="guide_action_start">Começar</string>
+
+    <!-- File Options -->
+    <string name="file_option_open">Abrir</string>
+    <string name="file_option_open_folder">Abrir pasta local</string>
+    <string name="file_option_share">Compartilhar</string>
+    <string name="file_option_delete">Excluir</string>
+    <string name="file_open_failed">Falha ao abrir arquivo</string>
+    <string name="file_open_folder_failed">Falha ao abrir pasta</string>
+    <string name="file_share_failed">Falha ao compartilhar arquivo</string>
+    <string name="file_delete_success">Arquivo excluído</string>
+    <string name="file_delete_failed">Falha ao excluir arquivo</string>
+    
+    <!-- Video Detection -->
+    <string name="video_list_title">%d vídeos detectados</string>
+    <string name="video_list_title_simple">Lista de downloads</string>
+    <string name="video">Vídeo</string>
+    <string name="download">Baixar</string>
+    <string name="download_count">Baixar (%d)</string>
+    <string name="close">Fechar</string>
+    <string name="select">Selecionar</string>
+    <string name="play">Reproduzir</string>
+    <string name="select_all">Selecionar tudo</string>
+    <string name="deselect_all">Desmarcar tudo</string>
+    <string name="fetching_size">Obtendo...</string>
+    <string name="detecting_videos">Detectando vídeos...</string>
+    <string name="videos_added_to_queue">%d vídeos adicionados à fila de download</string>
+    <string name="removed_from_list">Removido da lista</string>
+
+    <!-- Rating Dialog -->
+    <string name="rating_dialog_title">Obrigado por usar %s</string>
+    <string name="rating_dialog_subtitle">Mostre sua satisfação nos dando 5 estrelas!</string>
+    <string name="rating_dialog_submit">Enviar</string>
+
+    <!-- Default Browser Dialog -->
+    <string name="default_browser_dialog_title">Defina como seu navegador padrão para desfrutar de uma experiência mais fluida!</string>
+    <string name="default_browser_safe_title">Navegação Segura</string>
+    <string name="default_browser_safe_desc">Detecção de sites seguros, garantindo navegação segura</string>
+    <string name="default_browser_download_title">Download Rápido</string>
+    <string name="default_browser_download_desc">Experiência de download mais rápida e estável.</string>
+    <string name="default_browser_light_title">Execução leve</string>
+    <string name="default_browser_light_desc">Navegue rapidamente em sites populares.</string>
+    <string name="default_browser_later">Mais tarde</string>
+    <string name="default_browser_set">Definir como padrão</string>
+
+    <string name="news_loading_text">Carregando notícias em alta...</string>
+
+    <!-- Process Scan Dialog -->
+    <string name="process_scan_dialog_title">Gerenciador de processos</string>
+    <string name="process_scan_result">Encontrados <font color="#F45314">%d</font> aplicativos em execução em segundo plano.</string>
+    <string name="process_scan_button">Escanear agora</string>
+
+    <!-- Process Scanning -->
+    <string name="process_scanning_hint">Procurando processos em execução</string>
+    <string name="process_exit_dialog_title">Dicas</string>
+    <string name="process_exit_dialog_message">%d processos em segundo plano ainda estão em execução. Tem certeza de que deseja sair?</string>
+    <string name="process_exit_dialog_end">Encerrar</string>
+    <string name="process_exit_dialog_continue">Continuar</string>
+    <!-- Página de desinstalação -->
+    <string name="uninstall_title">Se você desinstalar este APP, perderá o acesso aos seguintes recursos:</string>
+    <string name="uninstall_feature_1">Experiência de navegação rápida e otimizada para celular</string>
+    <string name="uninstall_feature_2">Forte proteção de privacidade com o Modo Anônimo</string>
+    <string name="uninstall_feature_3">Feed de notícias integrado</string>
+    <string name="uninstall_feature_4">Gerenciamento inteligente de arquivos integrado</string>
+    <string name="uninstall_btn_stay">Não desinstalar ainda</string>
+    <string name="uninstall_btn_uninstall">Desinstalar</string>
+    <string name="uninstall_shortcut_label">Desinstalar</string>
+    <string name="uninstall_shortcut_short_label">Excluir</string>
+
+    <!-- Confirmar desinstalação -->
+    <string name="uninstall_confirm_title">Por que desinstalar o Open Browser?</string>
+    <string name="uninstall_reason_difficult">Difícil de usar</string>
+    <string name="uninstall_reason_ads">Muitos anúncios</string>
+    <string name="uninstall_reason_cant_find">Não consigo encontrar fotos excluídas</string>
+    <string name="uninstall_reason_not_restore">Não restaura corretamente a imagem desejada</string>
+    <string name="uninstall_reason_recovery">Dificuldade em recuperar outros arquivos</string>
+    <string name="uninstall_reason_others">Outros</string>
+    <string name="uninstall_reason_hint">Por favor, insira o motivo pelo qual você está desinstalando o Open Browser</string>
+
+    <!-- Junk Clean Exit Dialog -->
+    <string name="junk_exit_dialog_title">Limpeza não concluída</string>
+    <string name="junk_exit_dialog_message">Sair agora deixará arquivos inúteis no seu dispositivo. Conclua a limpeza para liberar mais armazenamento.</string>
+
+    <string name="speed">Velocidade</string>
+    <string name="duplicate">Duplicada</string>
+    <string name="similar">Similar</string>
+
+    <!-- Speed Test -->
+    <string name="speed_test_title">Teste de velocidade</string>
+    <string name="speed_start">Iniciar</string>
+    <string name="speed_connecting">Conectando…</string>
+    <string name="speed_selecting_server">Selecionando melhor servidor…</string>
+    <string name="speed_metric_ping">Ping</string>
+    <string name="speed_metric_jitter">Jitter</string>
+    <string name="speed_metric_download">Download</string>
+    <string name="speed_metric_upload">Upload</string>
+    <string name="speed_results_title">Resultados do teste</string>
+    <string name="speed_test_again">Testar novamente</string>
+    <string name="speed_isp_unknown">Desconhecido</string>
+
+    <!-- Photo Clean -->
+    <string name="photo_clean_scanning">Verificando…</string>
+    <string name="photo_clean_scan_complete">Verificação concluída</string>
+    <string name="photo_clean_found_groups">Encontrados %1$d grupos, %2$d fotos</string>
+    <string name="photo_clean_no_duplicates">Nenhuma foto duplicada encontrada</string>
+    <string name="photo_clean_no_similar">Nenhuma foto semelhante encontrada</string>
+    <string name="photo_clean_title_duplicate">Foto Duplicada</string>
+    <string name="photo_clean_title_similar">Foto Semelhante</string>
+    <string name="photo_clean_group_title">%d Fotos</string>
+    <string name="photo_clean_select_all">Selecionar tudo</string>
+    <string name="photo_clean_deselect_all">Desmarcar tudo</string>
+    <string name="photo_clean_delete">Excluir</string>
+    <string name="photo_clean_reminder_title">Lembrete</string>
+    <string name="photo_clean_back_warning">Se você sair agora, os arquivos selecionados serão descartados.</string>
+    <string name="photo_clean_delete_warning">Tem certeza de que deseja excluir %d fotos selecionadas? Esta ação não pode ser desfeita.</string>
+    <string name="photo_clean_confirm">Confirmar</string>
+    <string name="photo_clean_cancel">Cancelar</string>
+    <string name="photo_clean_photos_label">Fotos</string>
+    <string name="photo_clean_delete_success">Excluído com sucesso</string>
+    <string name="photo_clean_continue">Continuar</string>
+    <string name="photo_clean_view_results">Ver resultados</string>
+
+    <!-- Exit Confirm -->
+    <string name="exit_confirm_title">Tem certeza de que deseja sair do aplicativo?</string>
+    <string name="exit_confirm_exit">Confirmar saída</string>
+    <string name="exit_confirm_cancel">Ler notícias</string>
+</resources>
+

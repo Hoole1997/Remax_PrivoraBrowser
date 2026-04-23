@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="315dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog_white_round16"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="24dp">
+
+    <!-- 标题 -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:text="@string/process_exit_dialog_title"
+        android:textColor="#333333"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- 内容 -->
+    <TextView
+        android:id="@+id/tvMessage"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        android:lineSpacingExtra="3dp"
+        android:gravity="center"
+        android:layout_marginTop="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- 按钮区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+        <!-- End按钮 -->
+        <TextView
+            android:id="@+id/btnEnd"
+            android:text="@string/process_exit_dialog_end"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/bg_button_gray_round32"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"/>
+
+        <View
+            android:layout_width="13dp"
+            android:layout_height="1dp"/>
+
+        <!-- Continue按钮 -->
+        <TextView
+            android:id="@+id/btnContinue"
+            android:text="@string/process_exit_dialog_continue"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/bg_button_blue_round32"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+</LinearLayout>

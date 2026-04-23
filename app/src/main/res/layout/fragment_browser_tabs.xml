@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    标签页管理 Fragment 布局 - 仿照书签管理.jpg的UI设计
+    顶部自定义工具栏 + Grid 布局标签页列表
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <FrameLayout
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:title="">
+
+        <com.example.browser.ui.bookmark.SegmentedTabView
+            android:id="@+id/segmented_tabs"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <!-- ViewPager - 分别管理普通标签和无痕标签 -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/ll_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:src="@mipmap/ic_tabs_delete"
+            android:layout_width="51dp"
+            android:layout_height="51dp"/>
+        <Space
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/iv_add"
+            android:src="@mipmap/ic_tabs_add"
+            android:layout_width="51dp"
+            android:layout_height="51dp"/>
+        <Space
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/iv_back"
+            android:src="@mipmap/ic_tabs_back"
+            android:layout_width="51dp"
+            android:layout_height="51dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

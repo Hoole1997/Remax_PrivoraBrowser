@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "292561749278",
+    "project_id": "age803c85ada-a3114-gp",
+    "storage_bucket": "age803c85ada-a3114-gp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292561749278:android:941b4193ce35a9f8d0750f",
+        "android_client_info": {
+          "package_name": "com.browser.web.news.downloader.free"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4gsfarbqbkR77m1gFm5Ei7e-YsXHF2kg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

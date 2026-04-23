@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="160dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- Cloud -->
+    <path
+        android:fillColor="#C0C0C0"
+        android:pathData="M75,45H22c-7.18,0 -13,-5.82 -13,-13c0,-6.22 4.36,-11.42 10.2,-12.71C20.56,11.79 29.08,5 39,5c8.6,0 16.04,5.06 19.48,12.38C59.1,17.14 59.79,17 60.5,17c7.18,0 13,5.82 13,13c0,0.59 -0.04,1.17 -0.12,1.74H75c4.97,0 9,4.03 9,9s-4.03,9 -9,9z"/>
+    <!-- Snowflakes -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="
+        M 25,56 A 4,4 0 1,1 25,64 A 4,4 0 1,1 25,56
+        M 40,66 A 4,4 0 1,1 40,74 A 4,4 0 1,1 40,66
+        M 55,56 A 4,4 0 1,1 55,64 A 4,4 0 1,1 55,56
+        M 70,66 A 4,4 0 1,1 70,74 A 4,4 0 1,1 70,66
+        M 32,77 A 3,3 0 1,1 32,83 A 3,3 0 1,1 32,77
+        M 62,79 A 3,3 0 1,1 62,85 A 3,3 0 1,1 62,79
+        M 47,82 A 3,3 0 1,1 47,88 A 3,3 0 1,1 47,82"/>
+</vector>

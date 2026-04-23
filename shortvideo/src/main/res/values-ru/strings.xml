@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="short_video_module_name">Короткие видео</string>
+    <string name="tab_popular">Популярное</string>
+    <string name="tab_following">Мои лайки</string>
+    <string name="video_loading">Загрузка видео...</string>
+    <string name="no_data">Нет данных...</string>
+    <string name="loading_failed">Ошибка загрузки</string>
+    <string name="loading_failed_desc">Что-то пошло не так. Пожалуйста, попробуйте снова.</string>
+    <string name="retry">Повторить</string>
+</resources>

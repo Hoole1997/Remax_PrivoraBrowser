@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="160dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- Moon (crescent shape) -->
+    <path
+        android:fillColor="#F5F5DC"
+        android:pathData="M55,20c-16.57,0 -30,13.43 -30,30s13.43,30 30,30c4.4,0 8.57,-0.95 12.33,-2.66C58.67,73.52 52.5,63.5 52.5,52c0,-11.5 6.17,-21.52 14.83,-25.34C63.57,20.95 59.4,20 55,20z"/>
+    <!-- Stars -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M78,28a2,2 0,1 1,0 4a2,2 0,1 1,0 -4M88,42a1.5,1.5 0,1 1,0 3a1.5,1.5 0,1 1,0 -3M73,55a1,1 0,1 1,0 2a1,1 0,1 1,0 -2M85,60a1.5,1.5 0,1 1,0 3a1.5,1.5 0,1 1,0 -3"/>
+</vector>

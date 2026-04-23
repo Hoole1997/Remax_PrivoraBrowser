@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToOutline="true"
+    android:background="@drawable/bg_photo_group_card">
+
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:background="#EEEEEE"
+        android:contentDescription="Photo" />
+
+    <!-- 选择圆圈 -->
+    <View
+        android:id="@+id/v_check_circle"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_gravity="start|top"
+        android:layout_margin="6dp"
+        android:background="@drawable/bg_photo_check_circle" />
+
+    <!-- 底部渐变遮罩 + 文件大小 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_gravity="bottom">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_photo_bottom_gradient" />
+
+        <TextView
+            android:id="@+id/tv_file_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+    </FrameLayout>
+
+</FrameLayout>

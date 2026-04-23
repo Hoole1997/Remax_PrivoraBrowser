@@ -1,0 +1,19 @@
+<resources>
+    <string name="weather_high">अधिकतम</string>
+    <string name="weather_low">न्यूनतम</string>
+    <string name="weather_wind_speed">हवा की गति</string>
+    <string name="weather_precipitation">वर्षा</string>
+    <string name="weather_daily_forecast">दैनिक - 5 दिन</string>
+    <string name="weather_more_details">अधिक विवरण</string>
+    <string name="weather_humidity">नमी</string>
+    <string name="weather_uv_index">यूवी सूचकांक</string>
+    <string name="weather_pressure">दबाव</string>
+    <string name="weather_visibility">दृश्यता</string>
+    <string name="weather_sunrise">सूर्योदय</string>
+    <string name="weather_sunset">सूर्यास्त</string>
+    <string name="weather_load_failed">लोड विफल</string>
+    <string name="weather_retry">पुनः प्रयास करें</string>
+    <string name="weather_searching">खोज रहा है...</string>
+    <string name="weather_current_location">वर्तमान स्थान</string>
+    <string name="weather_search_city_hint">शहर खोजें...</string>
+</resources>

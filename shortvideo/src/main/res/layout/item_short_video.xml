@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <!-- YouTube 播放器 (使用 android-youtube-player 源码实现) -->
+    <com.browser.shortvideo.player.WebViewYouTubePlayer
+        android:id="@+id/youtubePlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 封面图 - 高斯模糊效果，视频播放时隐藏 -->
+    <ImageView
+        android:id="@+id/ivCover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="visible" />
+
+    <!-- Loading 转圈 - 视频加载时显示 -->
+    <ProgressBar
+        android:id="@+id/progressLoading"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="#FFFFFF"
+        android:visibility="visible" />
+
+    <!-- 暂停时的黑色覆盖层 - 用于遮挡 YouTube UI 闪烁 -->
+    <View
+        android:id="@+id/blackOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:visibility="gone" />
+
+    <!-- 透明覆盖层，拦截点击事件控制播放/暂停 -->
+    <FrameLayout
+        android:id="@+id/touchInterceptor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <!-- 播放/暂停图标 - 暂停时显示 -->
+        <ImageView
+            android:id="@+id/ivPlayPause"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:src="@drawable/ic_play"
+            android:background="@drawable/bg_circle_dark"
+            android:padding="16dp"
+            app:tint="#FFFFFF" />
+
+    </FrameLayout>
+
+    <!-- 右侧交互按钮 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="80dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!-- 爱心按钮 - 收藏/关注 -->
+        <ImageView
+            android:id="@+id/btnHeart"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="8dp"
+            android:contentDescription="Favorite"
+            android:src="@drawable/ic_heart_outline" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="8dp" />
+
+        <!-- 点赞按钮 -->
+        <ImageView
+            android:id="@+id/btnLike"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="8dp"
+            android:contentDescription="Like"
+            android:src="@drawable/ic_thumb_up" />
+
+        <TextView
+            android:id="@+id/tvLikeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            tools:text="24k" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="12dp" />
+
+    </LinearLayout>
+
+    <!-- 底部信息区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="25dp"
+        android:orientation="vertical">
+        <!-- 频道名称 -->
+        <TextView
+            android:id="@+id/tvChannelName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif"
+            android:maxLines="1"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            tools:text="CBS News World" />
+        <!-- 视频描述 -->
+        <TextView
+            android:id="@+id/tvVideoTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif"
+            android:maxLines="2"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            tools:text="9/26: CBS Evening News" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,187 @@
+[
+  {
+    "id": "push_001",
+    "title": "🚀 Speed Up Your Phone",
+    "desc": "Clean junk files to free up storage instantly.",
+    "buttonText": "Boost",
+    "iconType": 1,
+    "actionType": 1
+  },
+  {
+    "id": "push_012",
+    "title": "📱 Free Up More Space",
+    "desc": "Remove unused apps and cache files easily.",
+    "buttonText": "Clean",
+    "iconType": 1,
+    "actionType": 1
+  },
+  {
+    "id": "push_013",
+    "title": "🧹 Deep Clean Available",
+    "desc": "Advanced cleanup for maximum storage recovery.",
+    "buttonText": "Clean",
+    "iconType": 1,
+    "actionType": 1
+  },
+  {
+    "id": "push_002",
+    "title": "⚡ Optimize Phone Performance",
+    "desc": "Close unused apps to make your device faster.",
+    "buttonText": "Optimize",
+    "iconType": 2,
+    "actionType": 2
+  },
+  {
+    "id": "push_014",
+    "title": "📊 RAM Running High",
+    "desc": "Clear background apps for smoother operation.",
+    "buttonText": "RAM",
+    "iconType": 2,
+    "actionType": 2
+  },
+  {
+    "id": "push_015",
+    "title": "🔧 Performance Boost Ready",
+    "desc": "One-tap optimization for better responsiveness.",
+    "buttonText": "Boost",
+    "iconType": 2,
+    "actionType": 2
+  },
+  {
+    "id": "push_004",
+    "title": "📰 Breaking News Alert",
+    "desc": "Top stories you don't want to miss today.",
+    "buttonText": "Read",
+    "iconType": 3,
+    "actionType": 3
+  },
+  {
+    "id": "push_016",
+    "title": "🌍 World News Update",
+    "desc": "Latest global developments and important events.",
+    "buttonText": "View",
+    "iconType": 3,
+    "actionType": 3,
+    "type": "news"
+  },
+  {
+    "id": "push_017",
+    "title": "🏆 Top Story of the Hour",
+    "desc": "Most important news headline right now.",
+    "buttonText": "Read",
+    "iconType": 3,
+    "actionType": 3
+  },
+  {
+    "id": "push_008",
+    "title": "🎤 Search Hands-Free",
+    "desc": "Use voice search to find anything quickly.",
+    "buttonText": "Try",
+    "iconType": 6,
+    "actionType": 6
+  },
+  {
+    "id": "push_009",
+    "title": "🎯 Your Search Shortcut Awaits",
+    "desc": "Quick access to your favorite search tools.",
+    "buttonText": "Set",
+    "iconType": 6,
+    "actionType": 6
+  },
+  {
+    "id": "push_010",
+    "title": "🌐 Browse With Better Privacy",
+    "desc": "Enable enhanced protection for online searches.",
+    "buttonText": "Secure",
+    "iconType": 6,
+    "actionType": 6
+  },
+  {
+    "id": "push_011",
+    "title": "💡 Search Tip of the Day",
+    "desc": "Learn to find what you need faster.",
+    "buttonText": "Show",
+    "iconType": 6,
+    "actionType": 6
+  },
+  {
+    "id": "push_018",
+    "title": "🔍 Smart Search Activated",
+    "desc": "Your personalized search assistant is ready.",
+    "buttonText": "Start",
+    "iconType": 6,
+    "actionType": 6
+  },
+  {
+    "id": "push_019",
+    "title": "✨ New Features Available",
+    "desc": "Check out the latest search enhancements.",
+    "buttonText": "Explore",
+    "iconType": 6,
+    "actionType": 6
+  },
+  {
+    "id": "push_020",
+    "title": "📈 Search Efficiency Tips",
+    "desc": "Get more accurate results in less time.",
+    "buttonText": "Learn",
+    "iconType": 6,
+    "actionType": 6
+  },
+  {
+    "id": "push_021",
+    "title": "💾 Save Online Videos",
+    "desc": "Download videos from websites easily.",
+    "buttonText": "Download",
+    "iconType": 7,
+    "actionType": 7
+  },
+  {
+    "id": "push_022",
+    "title": "📥 Video Downloader Ready",
+    "desc": "Save your favorite web videos offline.",
+    "buttonText": "Get",
+    "iconType": 7,
+    "actionType": 7
+  },
+  {
+    "id": "push_023",
+    "title": "🎥 Offline Viewing Available",
+    "desc": "Download web videos to watch anytime.",
+    "buttonText": "Save",
+    "iconType": 7,
+    "actionType": 7
+  },
+  {
+    "id": "push_024",
+    "title": "📶 Test Your Internet",
+    "desc": "Check your current network speed and quality.",
+    "buttonText": "Test",
+    "iconType": 9,
+    "actionType": 9
+  },
+  {
+    "id": "push_026",
+    "title": "🖼️ Clean Similar Photos",
+    "desc": "Find and remove nearly identical pictures.",
+    "buttonText": "Clean",
+    "iconType": 10,
+    "actionType": 10
+  },
+  {
+    "id": "push_027",
+    "title": "📸 Remove Duplicates",
+    "desc": "Delete duplicate photos to save storage space.",
+    "buttonText": "Remove",
+    "iconType": 11,
+    "actionType": 11
+  },
+  {
+    "id": "push_025",
+    "title": "🌐 Speed Test Available",
+    "desc": "Measure download and upload speeds instantly.",
+    "buttonText": "Start",
+    "iconType": 9,
+    "actionType": 9
+  }
+]

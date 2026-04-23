@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_title" translatable="false">Open Browser</string>
+
+    <string name="tab_home">Главная</string>
+    <string name="tab_short">Ролики</string>
+    <string name="tab_files">Файлы</string>
+    <string name="tab_tabs">Вкладки</string>
+    <string name="tab_settings">Настройки</string>
+    <string name="home_search_text_hint">Поиск или ввод URL</string>
+    <string name="clean">Очистка</string>
+    <string name="news">Новости</string>
+    <string name="process">Процессы</string>
+    <string name="bookmark">Закладки</string>
+
+    <string name="search_keyword_cancel">Отмена</string>
+    <string name="search_shortcut_www" translatable="false">www.</string>
+    <string name="search_shortcut_m" translatable="false">m.</string>
+    <string name="search_shortcut_wap" translatable="false">wap.</string>
+    <string name="search_shortcut_dot" translatable="false">.</string>
+    <string name="search_shortcut_slash" translatable="false">/</string>
+    <string name="home_quick_remove_title">Удалить ярлык</string>
+    
+    <string name="tabs">Вкладки</string>
+    <string name="normal_tabs">Стандартные</string>
+    <string name="private_tabs">Инкогнито</string>
+    <string name="new_tab">Новая вкладка</string>
+    <string name="close_tab">Закрыть вкладку</string>
+    <string name="close_all_tabs">Закрыть все</string>
+    <string name="tab_icon">Значок вкладки</string>
+    <string name="tab_thumbnail">Миниатюра вкладки</string>
+    <string name="no_tabs">Нет открытых вкладок</string>
+    <string name="tab_count">%d Вкладок</string>
+    <string name="empty_state_incognito">В режиме инкогнито история не сохраняется.</string>
+    <string name="tabs_clear_title">Закрыть все окна</string>
+    <string name="tabs_clear_message">Это закроет все окна в текущем режиме. Продолжить?</string>
+    <string name="tabs_clear_confirm">Закрыть все</string>
+
+    <!-- Загрузки -->
+    <string name="file_icon">Значок файла</string>
+    <string name="action_button">Кнопка действия</string>
+    <string name="cancel_download">Отменить загрузку</string>
+    <string name="download_started">Загрузка началась</string>
+    <string name="download_view">Просмотр</string>
+    <string name="download_complete">Загрузка завершена</string>
+    <string name="download_paused">Приостановлено</string>
+    <string name="download_progress_percent">%1$d%%</string>
+    <string name="download_unknown_file">Неизвестный файл</string>
+    <string name="download_empty_state">Нет загрузок</string>
+    <string name="download_guide_download_video">Как скачать видео?</string>
+
+    <string name="bookmark_root_title">Закладки</string>
+    <string name="bookmark_action_back">Назад</string>
+    <string name="bookmark_tab_bookmarks">Закладки</string>
+    <string name="bookmark_tab_history">История</string>
+    <string name="bookmark_history_placeholder">История скоро появится</string>
+    <string name="bookmark_search_hint">Поиск закладок</string>
+    <string name="bookmark_clear_search">Очистить поиск</string>
+    <string name="bookmark_empty_state">Нет закладок</string>
+    <string name="bookmark_item_icon">Значок закладки</string>
+    <string name="bookmark_action_more">Дополнительно</string>
+    <string name="bookmark_add_folder">Новая папка</string>
+    <string name="bookmark_add_folder_hint">Имя папки</string>
+    <string name="bookmark_add_folder_empty">Имя папки не может быть пустым</string>
+    <string name="bookmark_folder_created">Папка создана</string>
+    <string name="bookmark_dialog_confirm">Подтвердить</string>
+    <string name="bookmark_dialog_cancel">Отмена</string>
+    <string name="bookmark_dialog_title_add">Добавить закладку</string>
+    <string name="bookmark_dialog_title_edit">Редактировать закладку</string>
+    <string name="bookmark_dialog_field_title">Название</string>
+    <string name="bookmark_dialog_field_url">URL</string>
+    <string name="bookmark_dialog_field_folder">Выбрать папку</string>
+    <string name="bookmark_dialog_error_title_empty">Название не может быть пустым</string>
+    <string name="bookmark_dialog_error_url_empty">URL не может быть пустым</string>
+    <string name="bookmark_added">Добавлено в закладки</string>
+    <string name="bookmark_already_exists">Этот URL уже в закладках</string>
+    <string name="bookmark_add_failed">Не удалось добавить закладку</string>
+    <string name="bookmark_updated">Закладка обновлена</string>
+    <string name="bookmark_update_failed">Не удалось обновить закладку</string>
+    <string name="bookmark_deleted">Закладка удалена</string>
+    <string name="bookmark_delete_failed">Не удалось удалить закладку</string>
+    <string name="bookmark_menu_open_bookmarks">Закладки</string>
+    <string name="bookmark_menu_open_history">История</string>
+    <string name="bookmark_menu_share">Поделиться</string>
+    <string name="bookmark_menu_add_bookmark">Добавить в закладки</string>
+    <string name="bookmark_menu_added_state">Уже в закладках</string>
+    <string name="bookmark_menu_cancel">Отмена</string>
+
+    <string name="web_menu_back">Назад</string>
+    <string name="web_menu_forward">Вперед</string>
+    <string name="web_menu_share">Поделиться</string>
+    <string name="web_menu_refresh">Обновить</string>
+    <string name="web_menu_new_tab">Новая вкладка</string>
+    <string name="web_menu_bookmarks">Закладки</string>
+    <string name="web_menu_add">Добавить</string>
+    <string name="web_menu_history">История</string>
+    <string name="web_menu_downloads">Загрузки</string>
+    <string name="web_menu_find_in_page">Найти на странице</string>
+    <string name="web_menu_desktop_site">Полная версия</string>
+    <string name="web_menu_add_to_home">Добавить на главный экран</string>
+    
+    <!-- Веб-ярлык -->
+    <string name="web_shortcut_url_empty">URL пуст</string>
+    <string name="web_shortcut_not_supported">Текущий лаунчер не поддерживает добавление ярлыков</string>
+    <string name="web_shortcut_adding">Добавление на главный экран</string>
+    <string name="web_shortcut_added">Добавлено на главный экран</string>
+    
+    <!-- Поделиться -->
+    <string name="web_share_url_empty">Невозможно поделиться пустым URL</string>
+
+    <string name="bookmark_action_open">Открыть</string>
+    <string name="bookmark_action_edit">Редактировать</string>
+    <string name="bookmark_action_move">Переместить</string>
+    <string name="bookmark_action_delete">Удалить</string>
+    <string name="bookmark_action_rename">Переименовать</string>
+    <string name="bookmark_confirm_delete">Подтвердить удаление</string>
+    <string name="bookmark_confirm_delete_site_message">Вы уверены, что хотите удалить эту закладку?</string>
+    <string name="bookmark_confirm_delete_folder_message">Вы уверены, что хотите удалить эту папку и всё её содержимое?</string>
+    <string name="bookmark_folder_renamed">Папка переименована</string>
+    <string name="bookmark_folder_rename_failed">Не удалось переименовать папку</string>
+    <string name="bookmark_folder_moved">Папка перемещена</string>
+    <string name="bookmark_folder_move_failed">Не удалось переместить папку</string>
+    <string name="bookmark_folder_deleted">Папка удалена</string>
+    <string name="bookmark_folder_delete_failed">Не удалось удалить папку</string>
+    <string name="bookmark_move_success">Закладка перемещена</string>
+    <string name="bookmark_move_failed">Не удалось переместить закладку</string>
+    <string name="bookmark_edit_title_add">Добавить закладку</string>
+    <string name="bookmark_edit_title_edit">Редактировать закладку</string>
+    <string name="bookmark_folder_edit_title_add">Новая папка</string>
+    <string name="bookmark_folder_edit_title_edit">Редактировать папку</string>
+    <string name="bookmark_select_folder_title">Выбрать папку</string>
+    <string name="bookmark_root_directory">Корневой каталог</string>
+    <string name="bookmark_parent_folder">Родительская папка</string>
+    <string name="bookmark_button_save">Сохранить</string>
+    <string name="bookmark_button_done">Готово</string>
+    <string name="bookmark_add_to_shortcuts">Добавить в ярлыки</string>
+
+    <string name="history_search_hint">Поиск в истории</string>
+    <string name="history_clear_search">Очистить поиск</string>
+    <string name="history_empty_state">Нет истории</string>
+    <string name="history_item_icon">Значок истории</string>
+    <string name="history_header_today">Сегодня</string>
+    <string name="history_header_yesterday">Вчера</string>
+    <string name="history_clear_title">Очистить историю</string>
+    <string name="history_clear_message">Удалить всю историю просмотра?</string>
+    <string name="history_clear_confirm">Очистить</string>
+    <string name="history_cleared">История очищена</string>
+    <string name="history_delete_title">Удалить историю</string>
+    <string name="history_delete_message">Вы уверены, что хотите удалить этот элемент истории?</string>
+    <string name="history_delete_confirm">Удалить</string>
+    <string name="history_deleted">История удалена</string>
+    <string name="history_delete_failed">Не удалось удалить</string>
+    <string name="history_bookmark_added">Добавлено в закладки</string>
+    <string name="history_bookmark_failed">Не удалось добавить закладку</string>
+
+    <string name="home_quick_section_title">Избранное</string>
+    <string name="home_quick_add">Добавить</string>
+    <string name="home_quick_remove">Удалить</string>
+    <string name="home_quick_cancel">Отмена</string>
+    <string name="home_quick_remove_confirm">Удалить этот быстрый сайт?</string>
+    <string name="home_quick_added">Добавлено в быстрые сайты</string>
+    <string name="home_quick_already_exists">Этот URL уже в быстром списке</string>
+
+    <string name="recommended_title">Магазин</string>
+    <string name="recommended_action_close">Закрыть</string>
+    <string name="recommended_section_social">Соцсети</string>
+    <string name="recommended_section_video">Видео</string>
+    <string name="recommended_section_news">Новости</string>
+    <string name="recommended_section_tools">Инструменты</string>
+    <string name="recommended_section_entertainment">Развлечения</string>
+    <string name="recommended_section_music">Музыка</string>
+    <string name="recommended_section_shopping">Покупки</string>
+    <string name="recommended_section_sport">Спорт</string>
+    <string name="recommended_section_travel">Путешествия</string>
+    <string name="recommended_section_healthy">Здоровье</string>
+    <string name="recommended_item_add">Добавить</string>
+    <string name="recommended_item_added">Добавлено</string>
+
+    <string name="news_page_title">Новости</string>
+    <string name="news_category_general">Общее</string>
+    <string name="news_category_business">Бизнес</string>
+    <string name="news_category_entertainment">Развлечения</string>
+    <string name="news_category_health">Здоровье</string>
+    <string name="news_category_science">Наука</string>
+    <string name="news_category_sports">Спорт</string>
+    <string name="news_category_technology">Технологии</string>
+    <string name="news_empty_list">Нет новостей</string>
+
+    <string name="search_engine">Поисковая система</string>
+    <string name="default_browser">Браузер по умолчанию</string>
+    <string name="language">Язык</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="feedback">Отзыв</string>
+    <string name="about">О приложении</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="terms_of_service">Условия использования</string>
+    <string name="more">Еще</string>
+    <string name="loading">Загрузка...</string>
+    <string name="no_data">Нет данных</string>
+
+    <string name="files_download_title">Загрузки</string>
+    <string name="files_download_description">Изображения, Видео</string>
+    <string name="files_no_permission_title">Дайте доступ к памяти для просмотра файлов.</string>
+    <string name="files_no_permission_button">Разрешить</string>
+    <string name="files_permission_allow">Разрешить</string>
+    <string name="file_category_image">Фото</string>
+    <string name="file_category_video">Видео</string>
+    <string name="file_category_document">Документы</string>
+    <string name="file_category_apk">APK</string>
+    <string name="file_category_audio">Аудио</string>
+    <string name="file_category_zip">ZIP</string>
+    <string name="files_my_files">Мои файлы</string>
+    <string name="files_clean">Очистить</string>
+    <string name="files_legend_apps">Приложения</string>
+    <string name="files_legend_videos">Видео</string>
+    <string name="files_legend_photos">Фото</string>
+    <string name="files_legend_music">Музыка</string>
+    <string name="files_recent_files">Недавние файлы</string>
+
+    <!-- Storage Permission Dialog -->
+    <string name="storage_permission_dialog_title">Включить разрешение на хранение</string>
+    <string name="storage_permission_dialog_desc">Чтобы использовать эту функцию, включите разрешение на хранение для Open Browser в настройках телефона.</string>
+    <string name="storage_permission_dialog_item">Включить разрешение на хранение</string>
+    <string name="storage_permission_dialog_later">Позже</string>
+    <string name="storage_permission_dialog_go_now">Перейти</string>
+
+    <string name="time_just_now">Только что</string>
+    <string name="time_seconds_ago">%d сек. назад</string>
+    <string name="time_minutes_ago">%d мин. назад</string>
+    <string name="time_hours_ago">%d ч. назад</string>
+    <string name="time_today">Сегодня %s</string>
+    <string name="time_yesterday">Вчера %s</string>
+    <string name="time_day_before_yesterday">Позавчера %s</string>
+    
+    <!-- Очистка -->
+    <string name="junk_clean_title">Очистка</string>
+    <string name="clean_success_junk">Очищено %s</string>
+    <string name="clean_success_process">Остановлено %s прил.</string>
+    <string name="clean_success_other_process_title">Менеджер процессов</string>
+    <string name="clean_success_other_process_message">Ваш телефон работает на 73% медленнее оптимального. Сканируйте СЕЙЧАС, чтобы предотвратить необратимые повреждения.</string>
+    <string name="clean_success_other_process_button">Сканировать сейчас</string>
+    
+    <string name="clean_success_other_clean_title">Ваш телефон тормозит!</string>
+    <string name="clean_success_other_clean_message">Очистите сейчас, пока он не стал медленнее</string>
+    <string name="clean_success_other_clean_button">Очистка</string>
+    
+    <string name="process_clean_title">Очистить процессы</string>
+    <string name="process_clean_buton">Готово</string>
+    <string name="process_used">Занято ОЗУ</string>
+    <string name="process_background_apps">Фоновые прил.</string>
+    <string name="process_clean_app_item">Закрыть</string>
+    
+    <!-- Типы мусорных файлов -->
+    <string name="junk_type_residual_files">Остаточные файлы</string>
+    <string name="junk_type_junk_files">Мусорные файлы</string>
+    <string name="junk_type_advertisement_files">Рекламные файлы</string>
+    <string name="junk_type_obsolete_apk_files">Устаревшие APK-файлы</string>
+    
+    <!-- Результаты сканирования -->
+    <string name="scan_result_title">Результаты сканирования</string>
+    <string name="scan_result_empty">Нет результатов</string>
+    <string name="scan_result_copied">Скопировано в буфер обмена</string>
+    <string name="scan_result_share_to">Поделиться</string>
+    <string name="scan_action_open_url">Открыть URL</string>
+    <string name="scan_action_copy">Копировать</string>
+    <string name="scan_action_search">Поиск</string>
+    <string name="scan_action_share">Поделиться</string>
+
+    <string name="download_dialog_title">Скачать?</string>
+    <string name="language_select_title">Выберите язык</string>
+    <string name="language_cancel">Отмена</string>
+    <string name="language_confirm">OK</string>
+    <string name="notice_dialog_title">Подсказка</string>
+
+    <!-- Clear Data Dialog -->
+    <string name="clear_data_title">Очистить данные</string>
+    <string name="clear_option_tabs">Открытые вкладки</string>
+    <string name="clear_option_history">История просмотров</string>
+    <string name="clear_option_cookies">Файлы cookie</string>
+    <string name="clear_option_cache">Кэш</string>
+    <string name="clear_data_confirm">Очистить</string>
+    <string name="clear_data_cancel">Отмена</string>
+    <string name="clear_data_success">Данные очищены</string>
+    <string name="clear_data_select_one">Выберите хотя бы один пункт</string>
+
+    <!-- Guide Page -->
+    <string name="guide_title_1">Ваш универсальный помощник в браузере</string>
+    <string name="guide_title_2">Начните свое путешествие в огромный и захватывающий цифровой мир здесь.</string>
+    <string name="guide_action_next">Далее</string>
+    <string name="guide_action_start">Начать</string>
+
+    <!-- File Options -->
+    <string name="file_option_open">Открыть</string>
+    <string name="file_option_open_folder">Открыть локальную папку</string>
+    <string name="file_option_share">Поделиться</string>
+    <string name="file_option_delete">Удалить</string>
+    <string name="file_open_failed">Не удалось открыть файл</string>
+    <string name="file_open_folder_failed">Не удалось открыть папку</string>
+    <string name="file_share_failed">Не удалось поделиться файлом</string>
+    <string name="file_delete_success">Файл удален</string>
+    <string name="file_delete_failed">Не удалось удалить файл</string>
+    
+    <!-- Video Detection -->
+    <string name="video_list_title">Обнаружено %d видео</string>
+    <string name="video_list_title_simple">Список загрузок</string>
+    <string name="video">Видео</string>
+    <string name="download">Скачать</string>
+    <string name="download_count">Скачать (%d)</string>
+    <string name="close">Закрыть</string>
+    <string name="select">Выбрать</string>
+    <string name="play">Воспроизвести</string>
+    <string name="select_all">Выбрать все</string>
+    <string name="deselect_all">Снять выбор со всех</string>
+    <string name="fetching_size">Получение...</string>
+    <string name="detecting_videos">Обнаружение видео...</string>
+    <string name="videos_added_to_queue">%d видео добавлено в очередь загрузки</string>
+    <string name="removed_from_list">Удалено из списка</string>
+
+    <!-- Rating Dialog -->
+    <string name="rating_dialog_title">Спасибо за использование %s</string>
+    <string name="rating_dialog_subtitle">Покажите свое удовлетворение, поставив нам 5 звезд!</string>
+    <string name="rating_dialog_submit">Отправить</string>
+
+    <!-- Default Browser Dialog -->
+    <string name="default_browser_dialog_title">Установите как браузер по умолчанию, чтобы наслаждаться более плавной работой!</string>
+    <string name="default_browser_safe_title">Безопасный просмотр</string>
+    <string name="default_browser_safe_desc">Обнаружение безопасных веб-сайтов, обеспечение безопасного просмотра</string>
+    <string name="default_browser_download_title">Быстрая загрузка</string>
+    <string name="default_browser_download_desc">Более быстрая и стабильная загрузка.</string>
+    <string name="default_browser_light_title">Легкая работа</string>
+    <string name="default_browser_light_desc">Быстрый просмотр популярных веб-сайтов.</string>
+    <string name="default_browser_later">Позже</string>
+    <string name="default_browser_set">Установить по умолчанию</string>
+
+    <string name="news_loading_text">Загрузка популярных новостей...</string>
+
+    <!-- Process Scan Dialog -->
+    <string name="process_scan_dialog_title">Диспетчер процессов</string>
+    <string name="process_scan_result">Найдено <font color="#F45314">%d</font> приложений, работающих в фоновом режиме.</string>
+    <string name="process_scan_button">Сканировать сейчас</string>
+
+    <!-- Process Scanning -->
+    <string name="process_scanning_hint">Поиск запущенных процессов</string>
+    <string name="process_exit_dialog_title">Советы</string>
+    <string name="process_exit_dialog_message">%d фоновых процессов все еще работают. Вы уверены, что хотите выйти?</string>
+    <string name="process_exit_dialog_end">Завершить</string>
+    <string name="process_exit_dialog_continue">Продолжить</string>
+    <!-- Страница удаления -->
+    <string name="uninstall_title">Если вы удалите это приложение, вы потеряете доступ к следующим функциям:</string>
+    <string name="uninstall_feature_1">Быстрый, оптимизированный для мобильных устройств просмотр</string>
+    <string name="uninstall_feature_2">Надежная защита конфиденциальности в режиме инкогнито</string>
+    <string name="uninstall_feature_3">Встроенная лента новостей</string>
+    <string name="uninstall_feature_4">Умное управление файлами</string>
+    <string name="uninstall_btn_stay">Не удалять</string>
+    <string name="uninstall_btn_uninstall">Удалить</string>
+    <string name="uninstall_shortcut_label">Удалить</string>
+    <string name="uninstall_shortcut_short_label">Удалить</string>
+
+    <!-- Подтверждение удаления -->
+    <string name="uninstall_confirm_title">Почему вы хотите удалить Open Browser?</string>
+    <string name="uninstall_reason_difficult">Сложно использовать</string>
+    <string name="uninstall_reason_ads">Слишком много рекламы</string>
+    <string name="uninstall_reason_cant_find">Не могу найти удаленные фото</string>
+    <string name="uninstall_reason_not_restore">Изображение восстанавливается некорректно</string>
+    <string name="uninstall_reason_recovery">Сложности с восстановлением других файлов</string>
+    <string name="uninstall_reason_others">Другое</string>
+    <string name="uninstall_reason_hint">Пожалуйста, укажите причину удаления Open Browser</string>
+
+    <!-- Junk Clean Exit Dialog -->
+    <string name="junk_exit_dialog_title">Очистка не завершена</string>
+    <string name="junk_exit_dialog_message">Если вы выйдете сейчас, на вашем устройстве останутся ненужные файлы. Завершите очистку, чтобы освободить больше места.</string>
+
+    <string name="speed">Скорость</string>
+    <string name="duplicate">Дубли</string>
+    <string name="similar">Похожие</string>
+
+    <!-- Speed Test -->
+    <string name="speed_test_title">Тест скорости</string>
+    <string name="speed_start">Старт</string>
+    <string name="speed_connecting">Подключение…</string>
+    <string name="speed_selecting_server">Выбор лучшего сервера…</string>
+    <string name="speed_metric_ping">Пинг</string>
+    <string name="speed_metric_jitter">Джиттер</string>
+    <string name="speed_metric_download">Загрузка</string>
+    <string name="speed_metric_upload">Выгрузка</string>
+    <string name="speed_results_title">Результаты теста</string>
+    <string name="speed_test_again">Повторить тест</string>
+    <string name="speed_isp_unknown">Неизвестно</string>
+
+    <!-- Photo Clean -->
+    <string name="photo_clean_scanning">Сканирование…</string>
+    <string name="photo_clean_scan_complete">Сканирование завершено</string>
+    <string name="photo_clean_found_groups">Найдено %1$d групп, %2$d фото</string>
+    <string name="photo_clean_no_duplicates">Дубликаты фото не найдены</string>
+    <string name="photo_clean_no_similar">Похожие фото не найдены</string>
+    <string name="photo_clean_title_duplicate">Дубликат фото</string>
+    <string name="photo_clean_title_similar">Похожее фото</string>
+    <string name="photo_clean_group_title">%d фото</string>
+    <string name="photo_clean_select_all">Выбрать все</string>
+    <string name="photo_clean_deselect_all">Снять выделение</string>
+    <string name="photo_clean_delete">Удалить</string>
+    <string name="photo_clean_reminder_title">Напоминание</string>
+    <string name="photo_clean_back_warning">Если вы выйдете сейчас, выбранные файлы будут сброшены.</string>
+    <string name="photo_clean_delete_warning">Вы уверены, что хотите удалить %d выбранных фото? Это действие нельзя отменить.</string>
+    <string name="photo_clean_confirm">Подтвердить</string>
+    <string name="photo_clean_cancel">Отмена</string>
+    <string name="photo_clean_photos_label">Фото</string>
+    <string name="photo_clean_delete_success">Успешно удалено</string>
+    <string name="photo_clean_continue">Продолжить</string>
+    <string name="photo_clean_view_results">Посмотреть результаты</string>
+
+    <!-- Exit Confirm -->
+    <string name="exit_confirm_title">Вы уверены, что хотите выйти из приложения?</string>
+    <string name="exit_confirm_exit">Подтвердить выход</string>
+    <string name="exit_confirm_cancel">Читать новости</string>
+</resources>
+

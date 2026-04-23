@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <com.hjq.shape.layout.ShapeLinearLayout
+        android:id="@+id/searchCardView"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:transitionName="search_transition"
+        app:shape_radius="12dp"
+        app:shape_strokeSize="1dp"
+        app:shape_strokeColor="@color/home_search_stroke_color" >
+
+        <ImageView
+            android:id="@+id/iv_search_engine_icon"
+            android:src="@mipmap/ic_search_icon_google"
+            android:layout_width="25dp"
+            android:layout_height="25dp"/>
+
+        <EditText
+            android:id="@+id/et_keyword"
+            android:layout_marginStart="10dp"
+            android:hint="@string/home_search_text_hint"
+            android:textSize="14sp"
+            android:textColor="@color/home_search_text_hint_color"
+            android:singleLine="true"
+            android:background="@null"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/iv_input_clear"
+            android:src="@drawable/ic_search_input_clear"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_search_cancel"
+            android:text="@string/search_keyword_cancel"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:textColor="@color/home_search_guide_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/iv_voice_search"
+            android:src="@mipmap/ic_search_mic"
+            android:padding="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/home_search_text_hint"/>
+
+    </com.hjq.shape.layout.ShapeLinearLayout>
+
+    <FrameLayout
+        android:id="@+id/adContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- AwesomeBar 搜索建议列表 -->
+    <com.example.browser.ui.search.AwesomeBarWrapper
+        android:id="@+id/awesomeBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/ll_keyword_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_keyword_history"
+            tools:listitem="@layout/item_search_history"
+            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+            android:paddingTop="10dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/iv_clear_history"
+            android:src="@drawable/ic_search_history_delete"
+            android:layout_gravity="end"
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <!-- 底部快捷输入栏 -->
+    <LinearLayout
+        android:id="@+id/ll_shortcut_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <TextView
+            android:id="@+id/tv_shortcut1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:text="@string/search_shortcut_www"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/black_333"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/tv_shortcut2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:text="@string/search_shortcut_m"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/black_333"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/tv_shortcut3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:text="@string/search_shortcut_wap"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/black_333"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/tv_shortcut4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:text="@string/search_shortcut_dot"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/black_333"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/tv_shortcut5"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:text="@string/search_shortcut_slash"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/black_333"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_title" translatable="false">Open Browser</string>
+
+    <string name="tab_home">首頁</string>
+    <string name="tab_short">短影片</string>
+    <string name="tab_files">檔案</string>
+    <string name="tab_tabs">標籤</string>
+    <string name="tab_settings">設定</string>
+    <string name="home_search_text_hint">搜尋或輸入網址</string>
+    <string name="clean">清理</string>
+    <string name="news">新聞</string>
+    <string name="process">程序</string>
+    <string name="bookmark">書籤</string>
+
+    <string name="search_keyword_cancel">取消</string>
+    <string name="search_shortcut_www" translatable="false">www.</string>
+    <string name="search_shortcut_m" translatable="false">m.</string>
+    <string name="search_shortcut_wap" translatable="false">wap.</string>
+    <string name="search_shortcut_dot" translatable="false">.</string>
+    <string name="search_shortcut_slash" translatable="false">/</string>
+    <string name="home_quick_remove_title">刪除快捷網站</string>
+    
+    <!-- 標籤頁管理相關 -->
+    <string name="tabs">標籤頁</string>
+    <string name="normal_tabs">普通</string>
+    <string name="private_tabs">無痕</string>
+    <string name="new_tab">新建標籤頁</string>
+    <string name="close_tab">關閉標籤頁</string>
+    <string name="close_all_tabs">關閉所有標籤頁</string>
+    <string name="tab_icon">標籤頁圖示</string>
+    <string name="tab_thumbnail">標籤頁縮圖</string>
+    <string name="no_tabs">沒有打開的標籤頁</string>
+    <string name="tab_count">%d 個標籤頁</string>
+    <string name="empty_state_incognito">無痕模式不會記錄您的瀏覽歷史，但會保存下載的檔案和書籤。</string>
+    <string name="tabs_clear_title">關閉所有視窗</string>
+    <string name="tabs_clear_message">將關閉當前模式下的全部瀏覽器視窗（不會影響下載和書籤）。是否繼續？</string>
+    <string name="tabs_clear_confirm">關閉全部</string>
+
+    <!-- 下載相關 -->
+    <string name="file_icon">檔案圖示</string>
+    <string name="action_button">操作按鈕</string>
+    <string name="cancel_download">取消下載</string>
+    <string name="download_started">下載開始</string>
+    <string name="download_view">查看</string>
+    <string name="download_complete">下載完成</string>
+    <string name="download_paused">已暫停</string>
+    <string name="download_progress_percent">%1$d%%</string>
+    <string name="download_unknown_file">未知檔案</string>
+    <string name="download_empty_state">暫無下載記錄</string>
+    <string name="download_guide_download_video">如何下載影片?</string>
+    
+    <!-- Bookmark -->
+    <string name="bookmark_root_title">書籤</string>
+    <string name="bookmark_action_back">返回</string>
+    <string name="bookmark_tab_bookmarks">書籤</string>
+    <string name="bookmark_tab_history">歷史記錄</string>
+    <string name="bookmark_history_placeholder">歷史記錄功能開發中</string>
+    <string name="bookmark_search_hint">搜尋書籤</string>
+    <string name="bookmark_clear_search">清除搜尋</string>
+    <string name="bookmark_empty_state">暫無書籤內容</string>
+    <string name="bookmark_item_icon">書籤圖示</string>
+    <string name="bookmark_action_more">更多操作</string>
+    <string name="bookmark_add_folder">新建資料夾</string>
+    <string name="bookmark_add_folder_hint">請輸入資料夾名稱</string>
+    <string name="bookmark_add_folder_empty">資料夾名稱不能為空</string>
+    <string name="bookmark_folder_created">資料夾已建立</string>
+    <string name="bookmark_dialog_confirm">確認</string>
+    <string name="bookmark_dialog_cancel">取消</string>
+    <string name="bookmark_dialog_title_add">新增書籤</string>
+    <string name="bookmark_dialog_title_edit">編輯書籤</string>
+    <string name="bookmark_dialog_field_title">標題</string>
+    <string name="bookmark_dialog_field_url">網址</string>
+    <string name="bookmark_dialog_field_folder">選擇資料夾</string>
+    <string name="bookmark_dialog_error_title_empty">標題不能為空</string>
+    <string name="bookmark_dialog_error_url_empty">網址不能為空</string>
+    <string name="bookmark_added">已新增至書籤</string>
+    <string name="bookmark_already_exists">該網址已在書籤中</string>
+    <string name="bookmark_add_failed">新增書籤失敗</string>
+    <string name="bookmark_updated">書籤已更新</string>
+    <string name="bookmark_update_failed">更新書籤失敗</string>
+    <string name="bookmark_deleted">書籤已刪除</string>
+    <string name="bookmark_delete_failed">刪除書籤失敗</string>
+    <string name="bookmark_menu_open_bookmarks">書籤</string>
+    <string name="bookmark_menu_open_history">歷史記錄</string>
+    <string name="bookmark_menu_share">分享</string>
+    <string name="bookmark_menu_add_bookmark">加入書籤</string>
+    <string name="bookmark_menu_added_state">已在書籤中</string>
+    <string name="bookmark_menu_cancel">取消</string>
+    
+    <!-- Web Menu -->
+    <string name="web_menu_back">後退</string>
+    <string name="web_menu_forward">前進</string>
+    <string name="web_menu_share">分享</string>
+    <string name="web_menu_refresh">重新整理</string>
+    <string name="web_menu_new_tab">新建標籤頁</string>
+    <string name="web_menu_bookmarks">書籤</string>
+    <string name="web_menu_add">新增</string>
+    <string name="web_menu_history">歷史</string>
+    <string name="web_menu_downloads">下載</string>
+    <string name="web_menu_find_in_page">在頁面中尋找</string>
+    <string name="web_menu_desktop_site">桌面版網站</string>
+    <string name="web_menu_add_to_home">新增至主畫面</string>
+    
+    <!-- Web Shortcuts -->
+    <string name="web_shortcut_url_empty">網址為空</string>
+    <string name="web_shortcut_not_supported">目前啟動器不支援新增捷徑</string>
+    <string name="web_shortcut_adding">正在新增至主畫面</string>
+    <string name="web_shortcut_added">已新增至主畫面</string>
+    
+    <!-- Web Share -->
+    <string name="web_share_url_empty">無法分享空網址</string>
+    <string name="bookmark_action_open">開啟</string>
+    <string name="bookmark_action_edit">編輯</string>
+    <string name="bookmark_action_move">移動</string>
+    <string name="bookmark_action_delete">刪除</string>
+    <string name="bookmark_action_rename">重新命名</string>
+    <string name="bookmark_confirm_delete">確認刪除</string>
+    <string name="bookmark_confirm_delete_site_message">確定刪除該書籤嗎？</string>
+    <string name="bookmark_confirm_delete_folder_message">確定刪除該資料夾及其中的所有內容嗎？</string>
+    <string name="bookmark_folder_renamed">資料夾已重新命名</string>
+    <string name="bookmark_folder_rename_failed">重新命名資料夾失敗</string>
+    <string name="bookmark_folder_moved">資料夾已移動</string>
+    <string name="bookmark_folder_move_failed">移動資料夾失敗</string>
+    <string name="bookmark_folder_deleted">資料夾已刪除</string>
+    <string name="bookmark_folder_delete_failed">刪除資料夾失敗</string>
+    <string name="bookmark_move_success">書籤已移動</string>
+    <string name="bookmark_move_failed">移動書籤失敗</string>
+    <string name="bookmark_edit_title_add">新增書籤</string>
+    <string name="bookmark_edit_title_edit">編輯書籤</string>
+    <string name="bookmark_folder_edit_title_add">新建資料夾</string>
+    <string name="bookmark_folder_edit_title_edit">編輯資料夾</string>
+    <string name="bookmark_select_folder_title">選擇資料夾</string>
+    <string name="bookmark_root_directory">根目錄</string>
+    <string name="bookmark_parent_folder">上級資料夾</string>
+    <string name="bookmark_button_save">儲存</string>
+    <string name="bookmark_button_done">完成</string>
+    <string name="bookmark_add_to_shortcuts">新增至捷徑</string>
+
+    <!-- History -->
+    <string name="history_search_hint">搜尋歷史</string>
+    <string name="history_clear_search">清除搜尋</string>
+    <string name="history_empty_state">暫無歷史記錄</string>
+    <string name="history_item_icon">歷史圖示</string>
+    <string name="history_header_today">今天</string>
+    <string name="history_header_yesterday">昨天</string>
+    <string name="history_clear_title">清除歷史記錄</string>
+    <string name="history_clear_message">確定要刪除所有瀏覽歷史嗎？</string>
+    <string name="history_clear_confirm">清除</string>
+    <string name="history_cleared">歷史記錄已清除</string>
+    <string name="history_delete_title">刪除歷史記錄</string>
+    <string name="history_delete_message">確定要刪除這條歷史記錄嗎？</string>
+    <string name="history_delete_confirm">刪除</string>
+    <string name="history_deleted">歷史記錄已刪除</string>
+    <string name="history_delete_failed">刪除失敗</string>
+    <string name="history_bookmark_added">已新增至書籤</string>
+    <string name="history_bookmark_failed">新增書籤失敗</string>
+
+    <!-- Home quick websites -->
+    <string name="home_quick_section_title">常用網址</string>
+    <string name="home_quick_add">新增</string>
+    <string name="home_quick_remove_confirm">是否移除該常用網址？</string>
+    <string name="home_quick_remove">移除</string>
+    <string name="home_quick_cancel">取消</string>
+    <string name="home_quick_added">已新增至常用網址</string>
+    <string name="home_quick_already_exists">該網址已在常用列表</string>
+
+    <!-- Recommended websites -->
+    <string name="recommended_title">網頁應用商店</string>
+    <string name="recommended_action_close">關閉</string>
+    <string name="recommended_section_social">社交通訊</string>
+    <string name="recommended_section_video">影片</string>
+    <string name="recommended_section_news">新聞資訊</string>
+    <string name="recommended_section_tools">工具效率</string>
+    <string name="recommended_section_entertainment">娛樂</string>
+    <string name="recommended_section_music">音樂</string>
+    <string name="recommended_section_shopping">購物</string>
+    <string name="recommended_section_sport">體育</string>
+    <string name="recommended_section_travel">旅行</string>
+    <string name="recommended_section_healthy">健康生活</string>
+    <string name="recommended_item_add">新增常用</string>
+    <string name="recommended_item_added">已新增</string>
+
+    <string name="news_page_title">新聞</string>
+    <string name="news_category_general">綜合</string>
+    <string name="news_category_business">商業</string>
+    <string name="news_category_entertainment">娛樂</string>
+    <string name="news_category_health">健康</string>
+    <string name="news_category_science">科學</string>
+    <string name="news_category_sports">體育</string>
+    <string name="news_category_technology">科技</string>
+    <string name="news_empty_list">暫無相關新聞</string>
+
+    <!-- Settings -->
+    <string name="search_engine">搜尋引擎</string>
+    <string name="default_browser">預設瀏覽器</string>
+    <string name="language">語言</string>
+    <string name="clear_history">清除歷史記錄</string>
+    <string name="feedback">意見回饋</string>
+    <string name="about">關於</string>
+    <string name="privacy_policy">隱私權政策</string>
+    <string name="terms_of_service">服務條款</string>
+    <string name="more">更多</string>
+    <string name="loading">載入中...</string>
+    <string name="no_data">暫無資料</string>
+
+    <!-- Files -->
+    <string name="files_download_title">下載</string>
+    <string name="files_download_description">高清圖片、影片</string>
+    <string name="files_no_permission_title">要使用【最近檔案】功能，請授予檔案權限。</string>
+    <string name="files_no_permission_button">授予權限</string>
+    <string name="files_permission_allow">允許</string>
+    <string name="file_category_image">圖片</string>
+    <string name="file_category_video">影片</string>
+    <string name="file_category_document">文件</string>
+    <string name="file_category_apk">APK 檔案</string>
+    <string name="file_category_audio">音樂</string>
+    <string name="file_category_zip">ZIP 檔案</string>
+    <string name="files_my_files">我的檔案</string>
+    <string name="files_clean">清理</string>
+    <string name="files_legend_apps">應用程式</string>
+    <string name="files_legend_videos">影片</string>
+    <string name="files_legend_photos">照片</string>
+    <string name="files_legend_music">音樂</string>
+    <string name="files_recent_files">最近檔案</string>
+
+    <!-- Storage Permission Dialog -->
+    <string name="storage_permission_dialog_title">啟用儲存權限</string>
+    <string name="storage_permission_dialog_desc">要使用此功能，請在手機設定中為 Open Browser 啟用儲存權限。</string>
+    <string name="storage_permission_dialog_item">啟用儲存權限</string>
+    <string name="storage_permission_dialog_later">稍後</string>
+    <string name="storage_permission_dialog_go_now">立即前往</string>
+
+    <!-- Time Formatting -->
+    <string name="time_just_now">剛剛</string>
+    <string name="time_seconds_ago">%d秒前</string>
+    <string name="time_minutes_ago">%d分鐘前</string>
+    <string name="time_hours_ago">%d小時前</string>
+    <string name="time_today">今天 %s</string>
+    <string name="time_yesterday">昨天 %s</string>
+    <string name="time_day_before_yesterday">前天 %s</string>
+
+    <!-- Junk Clean -->
+    <string name="junk_clean_title">垃圾清理</string>
+    <string name="clean_success_junk">已成功清除 %s</string>
+    <string name="clean_success_process">已成功停止 %s 背景程序</string>
+    <string name="clean_success_other_process_title">程序管理</string>
+    <string name="clean_success_other_process_message">您的手機比最佳狀態慢 73%。立即掃描以防止永久性損壞。</string>
+    <string name="clean_success_other_process_button">立刻掃描</string>
+
+    <string name="clean_success_other_clean_title">您的手機運行緩慢！</string>
+    <string name="clean_success_other_clean_message">在手機變慢之前立即清理</string>
+    <string name="clean_success_other_clean_button">清理</string>
+
+    <string name="process_clean_title">程序清理</string>
+    <string name="process_clean_buton">完成</string>
+    <string name="process_used">已用記憶體</string>
+    <string name="process_background_apps">背景程序</string>
+    <string name="process_clean_app_item">停止</string>
+
+    <!-- Junk Clean Types -->
+    <string name="junk_type_residual_files">殘留檔案</string>
+    <string name="junk_type_junk_files">垃圾檔案</string>
+    <string name="junk_type_advertisement_files">廣告檔案</string>
+    <string name="junk_type_obsolete_apk_files">過期APK檔案</string>
+
+    <!-- Scan Result -->
+    <string name="scan_result_title">掃描結果</string>
+    <string name="scan_result_empty">掃描結果為空</string>
+    <string name="scan_result_copied">已複製到剪貼簿</string>
+    <string name="scan_result_share_to">分享到</string>
+    <string name="scan_action_open_url">開啟網頁</string>
+    <string name="scan_action_copy">複製</string>
+    <string name="scan_action_search">搜尋</string>
+    <string name="scan_action_share">分享</string>
+
+    <!-- Download Dialog -->
+    <string name="download_dialog_title">是否下載?</string>
+
+    <!-- Language Selection -->
+    <string name="language_select_title">選擇語言</string>
+    <string name="language_cancel">取消</string>
+    <string name="language_confirm">確認</string>
+
+    <string name="notice_dialog_title">提示</string>
+
+    <!-- Clear Data Dialog -->
+    <string name="clear_data_title">清除瀏覽資料</string>
+    <string name="clear_option_tabs">開啟的標籤頁</string>
+    <string name="clear_option_history">瀏覽歷史</string>
+    <string name="clear_option_cookies">Cookies 和網站資料</string>
+    <string name="clear_option_cache">快取的圖片和檔案</string>
+    <string name="clear_data_confirm">清除</string>
+    <string name="clear_data_cancel">取消</string>
+    <string name="clear_data_success">資料已清除</string>
+    <string name="clear_data_select_one">請至少選擇一項</string>
+
+    <!-- Guide Page -->
+    <string name="guide_title_1">您的全能瀏覽助手</string>
+    <string name="guide_title_2">從這裡開啟您的數位世界探索之旅。</string>
+    <string name="guide_action_next">下一步</string>
+    <string name="guide_action_start">開始體驗</string>
+
+    <!-- File Options -->
+    <string name="file_option_open">開啟</string>
+    <string name="file_option_open_folder">開啟本機資料夾</string>
+    <string name="file_option_share">分享</string>
+    <string name="file_option_delete">刪除</string>
+    <string name="file_open_failed">開啟檔案失敗</string>
+    <string name="file_open_folder_failed">開啟資料夾失敗</string>
+    <string name="file_share_failed">分享檔案失敗</string>
+    <string name="file_delete_success">檔案已刪除</string>
+    <string name="file_delete_failed">刪除檔案失敗</string>
+    
+    <!-- Video Detection -->
+    <string name="video_list_title">偵測到 %d 個影片</string>
+    <string name="video_list_title_simple">下載列表</string>
+    <string name="video">影片</string>
+    <string name="download">下載</string>
+    <string name="download_count">下載 (%d)</string>
+    <string name="close">關閉</string>
+    <string name="select">選擇</string>
+    <string name="play">播放</string>
+    <string name="select_all">全選</string>
+    <string name="deselect_all">取消全選</string>
+    <string name="fetching_size">取得中...</string>
+    <string name="detecting_videos">正在偵測影片...</string>
+    <string name="videos_added_to_queue">已新增 %d 個影片到下載佇列</string>
+    <string name="removed_from_list">已從列表中刪除</string>
+
+    <!-- Rating Dialog -->
+    <string name="rating_dialog_title">感謝使用 %s</string>
+    <string name="rating_dialog_subtitle">請給我們 5 星好評以示鼓勵！</string>
+    <string name="rating_dialog_submit">提交</string>
+
+    <!-- Default Browser Dialog -->
+    <string name="default_browser_dialog_title">設定為預設瀏覽器以享受更流暢的體驗！</string>
+    <string name="default_browser_safe_title">安全瀏覽</string>
+    <string name="default_browser_safe_desc">安全網站偵測，確保瀏覽安全</string>
+    <string name="default_browser_download_title">快速下載</string>
+    <string name="default_browser_download_desc">更快更穩定的下載體驗。</string>
+    <string name="default_browser_light_title">輕量運行</string>
+    <string name="default_browser_light_desc">快速瀏覽熱門網站。</string>
+    <string name="default_browser_later">稍後</string>
+    <string name="default_browser_set">設為預設</string>
+
+    <string name="news_loading_text">正在載入熱門新聞...</string>
+
+    <!-- Process Scanning -->
+    <string name="process_scanning_hint">正在掃描執行中的程序</string>
+    <string name="process_exit_dialog_title">提示</string>
+    <string name="process_exit_dialog_message">%d 個背景程序仍在執行。確定要離開嗎？</string>
+    <string name="process_exit_dialog_end">結束</string>
+    <string name="process_exit_dialog_continue">繼續</string>
+
+    <!-- Process Scan Dialog -->
+    <string name="process_scan_dialog_title">程序管理</string>
+    <string name="process_scan_result">發現 &lt;font color="#F45314"&gt;%d&lt;/font&gt; 個背景應用程式。</string>
+    <string name="process_scan_button">立即掃描</string>
+    <!-- 解除安裝頁面 -->
+    <string name="uninstall_title">如果您解除安裝此應用程式，您將失去以下功能：</string>
+    <string name="uninstall_feature_1">快速、行動裝置最佳化的瀏覽體驗</string>
+    <string name="uninstall_feature_2">無痕模式強力隱私保護</string>
+    <string name="uninstall_feature_3">整合新聞資訊流</string>
+    <string name="uninstall_feature_4">內建智慧檔案管理</string>
+    <string name="uninstall_btn_stay">暫不解除安裝</string>
+    <string name="uninstall_btn_uninstall">解除安裝</string>
+    <string name="uninstall_shortcut_label">解除安裝</string>
+    <string name="uninstall_shortcut_short_label">解除安裝</string>
+
+    <!-- 確認解除安裝 -->
+    <string name="uninstall_confirm_title">為什麼要解除安裝 Open Browser？</string>
+    <string name="uninstall_reason_difficult">難以使用</string>
+    <string name="uninstall_reason_ads">廣告太多</string>
+    <string name="uninstall_reason_cant_find">找不到刪除的照片</string>
+    <string name="uninstall_reason_not_restore">無法正確恢復想要的圖片</string>
+    <string name="uninstall_reason_recovery">恢復其他檔案困難</string>
+    <string name="uninstall_reason_others">其他</string>
+    <string name="uninstall_reason_hint">請輸入您解除安裝 Open Browser 的原因</string>
+
+    <!-- Junk Clean Exit Dialog -->
+    <string name="junk_exit_dialog_title">清理未完成</string>
+    <string name="junk_exit_dialog_message">現在退出將在您的裝置上留下垃圾檔案。完成清理以釋放更多儲存空間。</string>
+
+    <string name="speed">測速</string>
+    <string name="duplicate">重複照片</string>
+    <string name="similar">相似照片</string>
+
+    <!-- Speed Test -->
+    <string name="speed_test_title">網速測試</string>
+    <string name="speed_start">開始</string>
+    <string name="speed_connecting">連接中…</string>
+    <string name="speed_selecting_server">正在選擇最佳伺服器…</string>
+    <string name="speed_metric_ping">延遲</string>
+    <string name="speed_metric_jitter">抖動</string>
+    <string name="speed_metric_download">下載</string>
+    <string name="speed_metric_upload">上傳</string>
+    <string name="speed_results_title">測速結果</string>
+    <string name="speed_test_again">重新測試</string>
+    <string name="speed_isp_unknown">未知</string>
+
+    <!-- Photo Clean -->
+    <string name="photo_clean_scanning">掃描中…</string>
+    <string name="photo_clean_scan_complete">掃描完成</string>
+    <string name="photo_clean_found_groups">發現 %1$d 組，%2$d 張照片</string>
+    <string name="photo_clean_no_duplicates">未發現重複照片</string>
+    <string name="photo_clean_no_similar">未發現相似照片</string>
+    <string name="photo_clean_title_duplicate">重複照片</string>
+    <string name="photo_clean_title_similar">相似照片</string>
+    <string name="photo_clean_group_title">%d 張照片</string>
+    <string name="photo_clean_select_all">全選</string>
+    <string name="photo_clean_deselect_all">取消全選</string>
+    <string name="photo_clean_delete">刪除</string>
+    <string name="photo_clean_reminder_title">溫馨提示</string>
+    <string name="photo_clean_back_warning">如果現在退出，已選擇的檔案將被丟棄。</string>
+    <string name="photo_clean_delete_warning">確定要刪除 %d 張已選照片嗎？此操作無法撤銷。</string>
+    <string name="photo_clean_confirm">確認</string>
+    <string name="photo_clean_cancel">取消</string>
+    <string name="photo_clean_photos_label">張照片</string>
+    <string name="photo_clean_delete_success">刪除成功</string>
+    <string name="photo_clean_continue">繼續</string>
+    <string name="photo_clean_view_results">查看結果</string>
+
+    <!-- Exit Confirm -->
+    <string name="exit_confirm_title">確定要退出應用嗎？</string>
+    <string name="exit_confirm_exit">確認退出</string>
+    <string name="exit_confirm_cancel">看新聞</string>
+</resources>

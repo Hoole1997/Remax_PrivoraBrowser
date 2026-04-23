@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 选中：按钮色半透明；未选中：自定义灰色轨道，贴近原型图 -->
+    <item android:state_checked="true" android:color="@color/switch_track_checked" />
+    <item android:color="@color/switch_track_unchecked" />
+</selector>
+
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="short_video_module_name">Videos Cortos</string>
+    <string name="tab_popular">Popular</string>
+    <string name="tab_following">Mis Me gusta</string>
+    <string name="video_loading">Cargando video...</string>
+    <string name="no_data">Sin datos...</string>
+    <string name="loading_failed">Error de carga</string>
+    <string name="loading_failed_desc">Algo salió mal. Por favor, inténtalo de nuevo.</string>
+    <string name="retry">Reintentar</string>
+</resources>

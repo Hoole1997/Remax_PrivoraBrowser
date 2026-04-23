@@ -1,0 +1,19 @@
+<resources>
+    <string name="weather_high">Tggi</string>
+    <string name="weather_low">Rndh</string>
+    <string name="weather_wind_speed">Kecepatan Angin</string>
+    <string name="weather_precipitation">Curah Hujan</string>
+    <string name="weather_daily_forecast">Harian - 5 Hari</string>
+    <string name="weather_more_details">Detail Lebih Lanjut</string>
+    <string name="weather_humidity">Kelembaban</string>
+    <string name="weather_uv_index">Indeks UV</string>
+    <string name="weather_pressure">Tekanan</string>
+    <string name="weather_visibility">Visibilitas</string>
+    <string name="weather_sunrise">Matahari Terbit</string>
+    <string name="weather_sunset">Matahari Terbenam</string>
+    <string name="weather_load_failed">Gagal memuat</string>
+    <string name="weather_retry">Coba lagi</string>
+    <string name="weather_searching">Mencari...</string>
+    <string name="weather_current_location">Lokasi Saat Ini</string>
+    <string name="weather_search_city_hint">Cari kota...</string>
+</resources>

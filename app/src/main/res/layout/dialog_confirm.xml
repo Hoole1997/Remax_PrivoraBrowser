@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:shape_radius="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <View
+        android:id="@+id/top_line"
+        app:layout_constraintTop_toTopOf="@id/iv_notice_dialog"
+        app:layout_constraintBottom_toBottomOf="@id/iv_notice_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"/>
+
+    <com.hjq.shape.layout.ShapeFrameLayout
+        android:id="@+id/top_diver"
+        app:layout_constraintTop_toTopOf="@id/top_line"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:shape_solidColor="@color/white"
+        app:shape_radius="16dp"
+        android:paddingBottom="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <com.hjq.shape.view.ShapeView
+            app:shape_solidGradientStartColor="#D3DDFF"
+            app:shape_solidGradientEndColor="#FFFFFF"
+            app:shape_solidGradientType="linear"
+            app:shape_solidGradientOrientation="topToBottom"
+            app:shape_radius="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"/>
+
+    </com.hjq.shape.layout.ShapeFrameLayout>
+
+    <ImageView
+        android:id="@+id/iv_notice_dialog"
+        android:src="@mipmap/ic_notice_dialog_top"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="72dp"
+        android:layout_height="99dp"/>
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:src="@mipmap/ic_close_black"
+        app:layout_constraintTop_toTopOf="@id/top_diver"
+        app:layout_constraintEnd_toEndOf="@id/top_diver"
+        android:padding="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_notice_dialog_title"
+        app:layout_constraintTop_toBottomOf="@id/iv_notice_dialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        tools:text="@string/notice_dialog_title"
+        android:textColor="@color/black_333"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_notice_dialog_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_notice_dialog_title"
+        app:layout_constraintStart_toStartOf="@id/top_diver"
+        app:layout_constraintEnd_toEndOf="@id/top_diver"
+        android:gravity="center"
+        android:layout_marginTop="18dp"
+        tools:text="@string/bookmark_confirm_delete_site_message"
+        android:textSize="14sp"
+        android:textColor="@color/black_333"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_notice_dialog_confirm"
+        app:layout_constraintTop_toBottomOf="@id/tv_notice_dialog_content"
+        app:layout_constraintBottom_toBottomOf="@id/top_diver"
+        app:layout_constraintStart_toStartOf="@id/top_diver"
+        app:layout_constraintEnd_toEndOf="@id/top_diver"
+        android:backgroundTint="@color/main_nav_check_color"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="24dp"
+        android:textColor="@color/white"
+        app:cornerRadius="20dp"
+        tools:text="@string/bookmark_dialog_confirm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+</com.hjq.shape.layout.ShapeConstraintLayout>

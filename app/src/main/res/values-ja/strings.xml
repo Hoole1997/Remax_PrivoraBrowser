@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_title" translatable="false">Open Browser</string>
+
+    <string name="tab_home">ホーム</string>
+    <string name="tab_short">ショート</string>
+    <string name="tab_files">ファイル</string>
+    <string name="tab_tabs">タブ</string>
+    <string name="tab_settings">設定</string>
+    <string name="home_search_text_hint">検索またはURLを入力</string>
+    <string name="clean">クリーン</string>
+    <string name="news">ニュース</string>
+    <string name="process">プロセス</string>
+    <string name="bookmark">ブックマーク</string>
+
+    <string name="search_keyword_cancel">キャンセル</string>
+    <string name="search_shortcut_www" translatable="false">www.</string>
+    <string name="search_shortcut_m" translatable="false">m.</string>
+    <string name="search_shortcut_wap" translatable="false">wap.</string>
+    <string name="search_shortcut_dot" translatable="false">.</string>
+    <string name="search_shortcut_slash" translatable="false">/</string>
+    <string name="home_quick_remove_title">ショートカットを削除</string>
+    
+    <string name="tabs">タブ</string>
+    <string name="normal_tabs">通常</string>
+    <string name="private_tabs">シークレット</string>
+    <string name="new_tab">新しいタブ</string>
+    <string name="close_tab">タブを閉じる</string>
+    <string name="close_all_tabs">すべて閉じる</string>
+    <string name="tab_icon">タブアイコン</string>
+    <string name="tab_thumbnail">タブサムネイル</string>
+    <string name="no_tabs">開いているタブはありません</string>
+    <string name="tab_count">%d タブ</string>
+    <string name="empty_state_incognito">シークレットモードでは閲覧履歴は保存されません。</string>
+    <string name="tabs_clear_title">すべてのウィンドウを閉じる</string>
+    <string name="tabs_clear_message">現在のモードのすべてのウィンドウを閉じます。続行しますか？</string>
+    <string name="tabs_clear_confirm">すべて閉じる</string>
+
+    <!-- ダウンロード -->
+    <string name="file_icon">ファイルアイコン</string>
+    <string name="action_button">アクションボタン</string>
+    <string name="cancel_download">ダウンロードをキャンセル</string>
+    <string name="download_started">ダウンロード開始</string>
+    <string name="download_view">表示</string>
+    <string name="download_complete">ダウンロード完了</string>
+    <string name="download_paused">一時停止</string>
+    <string name="download_progress_percent">%1$d%%</string>
+    <string name="download_unknown_file">不明なファイル</string>
+    <string name="download_empty_state">ダウンロードなし</string>
+    <string name="download_guide_download_video">動画をダウンロードする方法？</string>
+
+    <string name="bookmark_root_title">ブックマーク</string>
+    <string name="bookmark_action_back">戻る</string>
+    <string name="bookmark_tab_bookmarks">ブックマーク</string>
+    <string name="bookmark_tab_history">履歴</string>
+    <string name="bookmark_history_placeholder">履歴機能は近日公開</string>
+    <string name="bookmark_search_hint">ブックマークを検索</string>
+    <string name="bookmark_clear_search">検索をクリア</string>
+    <string name="bookmark_empty_state">ブックマークなし</string>
+    <string name="bookmark_item_icon">ブックマークアイコン</string>
+    <string name="bookmark_action_more">その他のオプション</string>
+    <string name="bookmark_add_folder">新しいフォルダ</string>
+    <string name="bookmark_add_folder_hint">フォルダ名</string>
+    <string name="bookmark_add_folder_empty">フォルダ名は空にできません</string>
+    <string name="bookmark_folder_created">フォルダを作成しました</string>
+    <string name="bookmark_dialog_confirm">確認</string>
+    <string name="bookmark_dialog_cancel">キャンセル</string>
+    <string name="bookmark_dialog_title_add">ブックマークを追加</string>
+    <string name="bookmark_dialog_title_edit">ブックマークを編集</string>
+    <string name="bookmark_dialog_field_title">タイトル</string>
+    <string name="bookmark_dialog_field_url">URL</string>
+    <string name="bookmark_dialog_field_folder">フォルダを選択</string>
+    <string name="bookmark_dialog_error_title_empty">タイトルは空にできません</string>
+    <string name="bookmark_dialog_error_url_empty">URLは空にできません</string>
+    <string name="bookmark_added">ブックマークに追加しました</string>
+    <string name="bookmark_already_exists">このURLは既にブックマークにあります</string>
+    <string name="bookmark_add_failed">ブックマークの追加に失敗しました</string>
+    <string name="bookmark_updated">ブックマークを更新しました</string>
+    <string name="bookmark_update_failed">ブックマークの更新に失敗しました</string>
+    <string name="bookmark_deleted">ブックマークを削除しました</string>
+    <string name="bookmark_delete_failed">ブックマークの削除に失敗しました</string>
+    <string name="bookmark_menu_open_bookmarks">ブックマーク</string>
+    <string name="bookmark_menu_open_history">履歴</string>
+    <string name="bookmark_menu_share">共有</string>
+    <string name="bookmark_menu_add_bookmark">ブックマークに追加</string>
+    <string name="bookmark_menu_added_state">既にブックマークにあります</string>
+    <string name="bookmark_menu_cancel">キャンセル</string>
+
+    <string name="web_menu_back">戻る</string>
+    <string name="web_menu_forward">進む</string>
+    <string name="web_menu_share">共有</string>
+    <string name="web_menu_refresh">更新</string>
+    <string name="web_menu_new_tab">新しいタブ</string>
+    <string name="web_menu_bookmarks">ブックマーク</string>
+    <string name="web_menu_add">追加</string>
+    <string name="web_menu_history">履歴</string>
+    <string name="web_menu_downloads">ダウンロード</string>
+    <string name="web_menu_find_in_page">ページ内で検索</string>
+    <string name="web_menu_desktop_site">PC版サイト</string>
+    <string name="web_menu_add_to_home">ホーム画面に追加</string>
+    
+    <!-- ウェブショートカット -->
+    <string name="web_shortcut_url_empty">URLが空です</string>
+    <string name="web_shortcut_not_supported">現在のランチャーはショートカットの追加をサポートしていません</string>
+    <string name="web_shortcut_adding">ホーム画面に追加中</string>
+    <string name="web_shortcut_added">ホーム画面に追加しました</string>
+    
+    <!-- ウェブ共有 -->
+    <string name="web_share_url_empty">空のURLを共有できません</string>
+
+    <string name="bookmark_action_open">開く</string>
+    <string name="bookmark_action_edit">編集</string>
+    <string name="bookmark_action_move">移動</string>
+    <string name="bookmark_action_delete">削除</string>
+    <string name="bookmark_action_rename">名前を変更</string>
+    <string name="bookmark_confirm_delete">削除を確認</string>
+    <string name="bookmark_confirm_delete_site_message">このブックマークを削除してもよろしいですか？</string>
+    <string name="bookmark_confirm_delete_folder_message">このフォルダとその中身をすべて削除してもよろしいですか？</string>
+    <string name="bookmark_folder_renamed">フォルダ名を変更しました</string>
+    <string name="bookmark_folder_rename_failed">フォルダ名の変更に失敗しました</string>
+    <string name="bookmark_folder_moved">フォルダを移動しました</string>
+    <string name="bookmark_folder_move_failed">フォルダの移動に失敗しました</string>
+    <string name="bookmark_folder_deleted">フォルダを削除しました</string>
+    <string name="bookmark_folder_delete_failed">フォルダの削除に失敗しました</string>
+    <string name="bookmark_move_success">ブックマークを移動しました</string>
+    <string name="bookmark_move_failed">ブックマークの移動に失敗しました</string>
+    <string name="bookmark_edit_title_add">ブックマークを追加</string>
+    <string name="bookmark_edit_title_edit">ブックマークを編集</string>
+    <string name="bookmark_folder_edit_title_add">新しいフォルダ</string>
+    <string name="bookmark_folder_edit_title_edit">フォルダを編集</string>
+    <string name="bookmark_select_folder_title">フォルダを選択</string>
+    <string name="bookmark_root_directory">ルートディレクトリ</string>
+    <string name="bookmark_parent_folder">親フォルダ</string>
+    <string name="bookmark_button_save">保存</string>
+    <string name="bookmark_button_done">完了</string>
+    <string name="bookmark_add_to_shortcuts">ショートカットに追加</string>
+
+    <string name="history_search_hint">履歴を検索</string>
+    <string name="history_clear_search">検索をクリア</string>
+    <string name="history_empty_state">履歴なし</string>
+    <string name="history_item_icon">履歴アイコン</string>
+    <string name="history_header_today">今日</string>
+    <string name="history_header_yesterday">昨日</string>
+    <string name="history_clear_title">履歴を削除</string>
+    <string name="history_clear_message">すべての閲覧履歴を削除しますか？</string>
+    <string name="history_clear_confirm">削除</string>
+    <string name="history_cleared">履歴を削除しました</string>
+    <string name="history_delete_title">履歴を削除</string>
+    <string name="history_delete_message">この履歴項目を削除してもよろしいですか？</string>
+    <string name="history_delete_confirm">削除</string>
+    <string name="history_deleted">履歴を削除しました</string>
+    <string name="history_delete_failed">削除に失敗しました</string>
+    <string name="history_bookmark_added">ブックマークに追加しました</string>
+    <string name="history_bookmark_failed">ブックマークの追加に失敗しました</string>
+
+    <string name="home_quick_section_title">お気に入り</string>
+    <string name="home_quick_add">追加</string>
+    <string name="home_quick_remove">削除</string>
+    <string name="home_quick_cancel">キャンセル</string>
+    <string name="home_quick_remove_confirm">このクイックサイトを削除しますか？</string>
+    <string name="home_quick_added">クイックサイトに追加しました</string>
+    <string name="home_quick_already_exists">このURLは既にクイックリストにあります</string>
+
+    <string name="recommended_title">ウェブストア</string>
+    <string name="recommended_action_close">閉じる</string>
+    <string name="recommended_section_social">ソーシャルメディア</string>
+    <string name="recommended_section_video">動画</string>
+    <string name="recommended_section_news">ニュース</string>
+    <string name="recommended_section_tools">ツール</string>
+    <string name="recommended_section_entertainment">エンタメ</string>
+    <string name="recommended_section_music">音楽</string>
+    <string name="recommended_section_shopping">ショッピング</string>
+    <string name="recommended_section_sport">スポーツ</string>
+    <string name="recommended_section_travel">旅行</string>
+    <string name="recommended_section_healthy">健康</string>
+    <string name="recommended_item_add">追加</string>
+    <string name="recommended_item_added">追加済</string>
+
+    <string name="news_page_title">ニュース</string>
+    <string name="news_category_general">一般</string>
+    <string name="news_category_business">ビジネス</string>
+    <string name="news_category_entertainment">エンタメ</string>
+    <string name="news_category_health">健康</string>
+    <string name="news_category_science">科学</string>
+    <string name="news_category_sports">スポーツ</string>
+    <string name="news_category_technology">テクノロジー</string>
+    <string name="news_empty_list">ニュースはありません</string>
+
+    <string name="search_engine">検索エンジン</string>
+    <string name="default_browser">デフォルトのブラウザ</string>
+    <string name="language">言語</string>
+    <string name="clear_history">履歴を削除</string>
+    <string name="feedback">フィードバック</string>
+    <string name="about">アプリについて</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="terms_of_service">利用規約</string>
+    <string name="more">その他</string>
+    <string name="loading">読み込み中...</string>
+    <string name="no_data">データなし</string>
+
+    <string name="files_download_title">ダウンロード</string>
+    <string name="files_download_description">画像、動画</string>
+    <string name="files_no_permission_title">最近のファイルを表示するにはストレージ権限を許可してください。</string>
+    <string name="files_no_permission_button">許可</string>
+    <string name="files_permission_allow">許可</string>
+    <string name="file_category_image">画像</string>
+    <string name="file_category_video">動画</string>
+    <string name="file_category_document">ドキュメント</string>
+    <string name="file_category_apk">APK</string>
+    <string name="file_category_audio">音声</string>
+    <string name="file_category_zip">ZIP</string>
+    <string name="files_my_files">マイファイル</string>
+    <string name="files_clean">クリーン</string>
+    <string name="files_legend_apps">アプリ</string>
+    <string name="files_legend_videos">動画</string>
+    <string name="files_legend_photos">写真</string>
+    <string name="files_legend_music">音楽</string>
+    <string name="files_recent_files">最近のファイル</string>
+
+    <!-- Storage Permission Dialog -->
+    <string name="storage_permission_dialog_title">ストレージ権限を有効にする</string>
+    <string name="storage_permission_dialog_desc">この機能を使用するには、スマートフォンの設定でOpen Browserのストレージ権限を有効にしてください。</string>
+    <string name="storage_permission_dialog_item">ストレージ権限を有効にする</string>
+    <string name="storage_permission_dialog_later">後で</string>
+    <string name="storage_permission_dialog_go_now">今すぐ設定</string>
+
+    <string name="time_just_now">たった今</string>
+    <string name="time_seconds_ago">%d 秒前</string>
+    <string name="time_minutes_ago">%d 分前</string>
+    <string name="time_hours_ago">%d 時間前</string>
+    <string name="time_today">今日 %s</string>
+    <string name="time_yesterday">昨日 %s</string>
+    <string name="time_day_before_yesterday">一昨日 %s</string>
+    
+    <!-- クリーンアップ -->
+    <string name="junk_clean_title">クリーンアップ</string>
+    <string name="clean_success_junk">%s を削除しました</string>
+    <string name="clean_success_process">%s 個のアプリを停止しました</string>
+    <string name="clean_success_other_process_title">プロセスマネージャー</string>
+    <string name="clean_success_other_process_message">スマホの動作が最適より73%遅くなっています。永久的な損傷を防ぐために今すぐスキャンしてください。</string>
+    <string name="clean_success_other_process_button">今すぐスキャン</string>
+    
+    <string name="clean_success_other_clean_title">スマホの動作が遅いです！</string>
+    <string name="clean_success_other_clean_message">スマホが遅くなる前に今すぐクリーニング</string>
+    <string name="clean_success_other_clean_button">クリーンアップ</string>
+    
+    <string name="process_clean_title">プロセスをクリーン</string>
+    <string name="process_clean_buton">完了</string>
+    <string name="process_used">使用メモリ</string>
+    <string name="process_background_apps">バックグラウンドアプリ</string>
+    <string name="process_clean_app_item">閉じる</string>
+    
+    <!-- ジャンクファイルタイプ -->
+    <string name="junk_type_residual_files">残留ファイル</string>
+    <string name="junk_type_junk_files">ジャンクファイル</string>
+    <string name="junk_type_advertisement_files">広告ファイル</string>
+    <string name="junk_type_obsolete_apk_files">古いAPKファイル</string>
+    
+    <!-- スキャン結果 -->
+    <string name="scan_result_title">スキャン結果</string>
+    <string name="scan_result_empty">結果なし</string>
+    <string name="scan_result_copied">クリップボードにコピーしました</string>
+    <string name="scan_result_share_to">共有</string>
+    <string name="scan_action_open_url">URLを開く</string>
+    <string name="scan_action_copy">コピー</string>
+    <string name="scan_action_search">検索</string>
+    <string name="scan_action_share">共有</string>
+
+    <string name="download_dialog_title">ダウンロードしますか？</string>
+    <string name="language_select_title">言語を選択</string>
+    <string name="language_cancel">キャンセル</string>
+    <string name="language_confirm">確認</string>
+    <string name="notice_dialog_title">ヒント</string>
+
+    <!-- Clear Data Dialog -->
+    <string name="clear_data_title">閲覧データを削除</string>
+    <string name="clear_option_tabs">開いているタブ</string>
+    <string name="clear_option_history">閲覧履歴</string>
+    <string name="clear_option_cookies">Cookie</string>
+    <string name="clear_option_cache">キャッシュ</string>
+    <string name="clear_data_confirm">削除</string>
+    <string name="clear_data_cancel">キャンセル</string>
+    <string name="clear_data_success">データを削除しました</string>
+    <string name="clear_data_select_one">少なくとも1つ選択してください</string>
+
+    <!-- Guide Page -->
+    <string name="guide_title_1">オールインワンのブラウジングアシスタント</string>
+    <string name="guide_title_2">ここから広大でエキサイティングなデジタル世界への旅を始めましょう。</string>
+    <string name="guide_action_next">次へ</string>
+    <string name="guide_action_start">開始</string>
+
+    <!-- File Options -->
+    <string name="file_option_open">開く</string>
+    <string name="file_option_open_folder">ローカルフォルダを開く</string>
+    <string name="file_option_share">共有</string>
+    <string name="file_option_delete">削除</string>
+    <string name="file_open_failed">ファイルを開けませんでした</string>
+    <string name="file_open_folder_failed">フォルダを開けませんでした</string>
+    <string name="file_share_failed">ファイルを共有できませんでした</string>
+    <string name="file_delete_success">ファイルを削除しました</string>
+    <string name="file_delete_failed">ファイルを削除できませんでした</string>
+    
+    <!-- Video Detection -->
+    <string name="video_list_title">%d個の動画を検出しました</string>
+    <string name="video_list_title_simple">ダウンロードリスト</string>
+    <string name="video">動画</string>
+    <string name="download">ダウンロード</string>
+    <string name="download_count">ダウンロード (%d)</string>
+    <string name="close">閉じる</string>
+    <string name="select">選択</string>
+    <string name="play">再生</string>
+    <string name="select_all">すべて選択</string>
+    <string name="deselect_all">すべて選択解除</string>
+    <string name="fetching_size">取得中...</string>
+    <string name="detecting_videos">動画を検出中...</string>
+    <string name="videos_added_to_queue">%d個の動画をダウンロードキューに追加しました</string>
+    <string name="removed_from_list">リストから削除されました</string>
+
+    <!-- Rating Dialog -->
+    <string name="rating_dialog_title">%s をご利用いただきありがとうございます</string>
+    <string name="rating_dialog_subtitle">5つ星評価で満足度をお知らせください！</string>
+    <string name="rating_dialog_submit">送信</string>
+
+    <!-- Default Browser Dialog -->
+    <string name="default_browser_dialog_title">デフォルトのブラウザに設定して、よりスムーズな体験をお楽しみください！</string>
+    <string name="default_browser_safe_title">セーフブラウジング</string>
+    <string name="default_browser_safe_desc">安全なウェブサイトの検出、安全なブラウジングを保証</string>
+    <string name="default_browser_download_title">高速ダウンロード</string>
+    <string name="default_browser_download_desc">より高速で安定したダウンロード体験。</string>
+    <string name="default_browser_light_title">軽量動作</string>
+    <string name="default_browser_light_desc">人気のウェブサイトを素早く閲覧。</string>
+    <string name="default_browser_later">後で</string>
+    <string name="default_browser_set">デフォルトに設定</string>
+
+    <string name="news_loading_text">トレンドニュースを読み込んでいます...</string>
+
+    <!-- Process Scan Dialog -->
+    <string name="process_scan_dialog_title">プロセスマネージャー</string>
+    <string name="process_scan_result">バックグラウンドで実行中の<font color="#F45314">%d</font>個のアプリが見つかりました。</string>
+    <string name="process_scan_button">今すぐスキャン</string>
+
+    <!-- Process Scanning -->
+    <string name="process_scanning_hint">実行中のプロセスをスキャンしています</string>
+    <string name="process_exit_dialog_title">ヒント</string>
+    <string name="process_exit_dialog_message">%d個のバックグラウンドプロセスがまだ実行中です。本当に終了しますか？</string>
+    <string name="process_exit_dialog_end">終了</string>
+    <string name="process_exit_dialog_continue">続ける</string>
+    <!-- Uninstall Page -->
+    <string name="uninstall_title">このアプリをアンインストールすると、以下の機能が利用できなくなります：</string>
+    <string name="uninstall_feature_1">高速でモバイルに最適化されたブラウジング体験</string>
+    <string name="uninstall_feature_2">シークレットモードによる強力なプライバシー保護</string>
+    <string name="uninstall_feature_3">統合されたニュースフィード</string>
+    <string name="uninstall_feature_4">組み込みのスマートファイル管理</string>
+    <string name="uninstall_btn_stay">まだアンインストールしない</string>
+    <string name="uninstall_btn_uninstall">アンインストール</string>
+    <string name="uninstall_shortcut_label">アンインストール</string>
+    <string name="uninstall_shortcut_short_label">削除</string>
+
+    <!-- Uninstall Confirm Page -->
+    <string name="uninstall_confirm_title">Open Browserをアンインストールする理由は何ですか？</string>
+    <string name="uninstall_reason_difficult">使いにくい</string>
+    <string name="uninstall_reason_ads">広告が多すぎる</string>
+    <string name="uninstall_reason_cant_find">削除された写真が見つからない</string>
+    <string name="uninstall_reason_not_restore">希望の画像が正しく復元されない</string>
+    <string name="uninstall_reason_recovery">他のファイルの復元が難しい</string>
+    <string name="uninstall_reason_others">その他</string>
+    <string name="uninstall_reason_hint">Open Browserをアンインストールする理由を入力してください</string>
+
+    <!-- Junk Clean Exit Dialog -->
+    <string name="junk_exit_dialog_title">クリーンアップが完了していません</string>
+    <string name="junk_exit_dialog_message">今終了すると、デバイスにジャンクファイルが残ります。クリーンアップを完了して、より多くのストレージを解放してください。</string>
+
+    <string name="speed">速度</string>
+    <string name="duplicate">重複</string>
+    <string name="similar">類似</string>
+
+    <!-- Speed Test -->
+    <string name="speed_test_title">速度テスト</string>
+    <string name="speed_start">開始</string>
+    <string name="speed_connecting">接続中…</string>
+    <string name="speed_selecting_server">最適なサーバーを選択中…</string>
+    <string name="speed_metric_ping">Ping</string>
+    <string name="speed_metric_jitter">ジッター</string>
+    <string name="speed_metric_download">ダウンロード</string>
+    <string name="speed_metric_upload">アップロード</string>
+    <string name="speed_results_title">速度テスト結果</string>
+    <string name="speed_test_again">再テスト</string>
+    <string name="speed_isp_unknown">不明</string>
+
+    <!-- Photo Clean -->
+    <string name="photo_clean_scanning">スキャン中…</string>
+    <string name="photo_clean_scan_complete">スキャン完了</string>
+    <string name="photo_clean_found_groups">%1$dグループ、%2$d枚の写真が見つかりました</string>
+    <string name="photo_clean_no_duplicates">重複写真は見つかりませんでした</string>
+    <string name="photo_clean_no_similar">類似写真は見つかりませんでした</string>
+    <string name="photo_clean_title_duplicate">重複写真</string>
+    <string name="photo_clean_title_similar">類似写真</string>
+    <string name="photo_clean_group_title">%d枚の写真</string>
+    <string name="photo_clean_select_all">すべて選択</string>
+    <string name="photo_clean_deselect_all">すべて解除</string>
+    <string name="photo_clean_delete">削除</string>
+    <string name="photo_clean_reminder_title">リマインダー</string>
+    <string name="photo_clean_back_warning">今終了すると、選択したファイルは破棄されます。</string>
+    <string name="photo_clean_delete_warning">選択した%d枚の写真を削除してもよろしいですか？この操作は元に戻せません。</string>
+    <string name="photo_clean_confirm">確認</string>
+    <string name="photo_clean_cancel">キャンセル</string>
+    <string name="photo_clean_photos_label">写真</string>
+    <string name="photo_clean_delete_success">削除しました</string>
+    <string name="photo_clean_continue">続行</string>
+    <string name="photo_clean_view_results">結果を見る</string>
+
+    <!-- Exit Confirm -->
+    <string name="exit_confirm_title">アプリを終了してもよろしいですか？</string>
+    <string name="exit_confirm_exit">終了する</string>
+    <string name="exit_confirm_cancel">ニュースを読む</string>
+</resources>
+

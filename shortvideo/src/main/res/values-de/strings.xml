@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="short_video_module_name">Kurzvideos</string>
+    <string name="tab_popular">Beliebt</string>
+    <string name="tab_following">Meine Likes</string>
+    <string name="video_loading">Video wird geladen...</string>
+    <string name="no_data">Keine Daten...</string>
+    <string name="loading_failed">Laden fehlgeschlagen</string>
+    <string name="loading_failed_desc">Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.</string>
+    <string name="retry">Wiederholen</string>
+</resources>

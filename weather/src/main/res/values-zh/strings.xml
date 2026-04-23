@@ -1,0 +1,19 @@
+<resources>
+    <string name="weather_high">最高</string>
+    <string name="weather_low">最低</string>
+    <string name="weather_wind_speed">风速</string>
+    <string name="weather_precipitation">降水概率</string>
+    <string name="weather_daily_forecast">5天预报</string>
+    <string name="weather_more_details">更多详情</string>
+    <string name="weather_humidity">湿度</string>
+    <string name="weather_uv_index">紫外线指数</string>
+    <string name="weather_pressure">气压</string>
+    <string name="weather_visibility">能见度</string>
+    <string name="weather_sunrise">日出</string>
+    <string name="weather_sunset">日落</string>
+    <string name="weather_load_failed">加载失败</string>
+    <string name="weather_retry">重试</string>
+    <string name="weather_searching">搜索中...</string>
+    <string name="weather_current_location">当前位置</string>
+    <string name="weather_search_city_hint">搜索城市...</string>
+</resources>

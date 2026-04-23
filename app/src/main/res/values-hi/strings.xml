@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_title" translatable="false">Open Browser</string>
+
+    <string name="tab_home">होम</string>
+    <string name="tab_short">शॉर्ट</string>
+    <string name="tab_files">फाइलें</string>
+    <string name="tab_tabs">टैब</string>
+    <string name="tab_settings">सेटिंग्स</string>
+    <string name="home_search_text_hint">खोजें या URL दर्ज करें</string>
+    <string name="clean">साफ करें</string>
+    <string name="news">समाचार</string>
+    <string name="process">प्रोसेस</string>
+    <string name="bookmark">बुकमार्क</string>
+
+    <string name="search_keyword_cancel">रद्द करें</string>
+    <string name="search_shortcut_www" translatable="false">www.</string>
+    <string name="search_shortcut_m" translatable="false">m.</string>
+    <string name="search_shortcut_wap" translatable="false">wap.</string>
+    <string name="search_shortcut_dot" translatable="false">.</string>
+    <string name="search_shortcut_slash" translatable="false">/</string>
+    <string name="home_quick_remove_title">शॉर्टकट हटाएं</string>
+    
+    <string name="tabs">टैब</string>
+    <string name="normal_tabs">सामान्य</string>
+    <string name="private_tabs">गुप्त</string>
+    <string name="new_tab">नया टैब</string>
+    <string name="close_tab">टैब बंद करें</string>
+    <string name="close_all_tabs">सभी बंद करें</string>
+    <string name="tab_icon">टैब आइकॉन</string>
+    <string name="tab_thumbnail">टैब थंबनेल</string>
+    <string name="no_tabs">कोई खुला टैब नहीं</string>
+    <string name="tab_count">%d टैब</string>
+    <string name="empty_state_incognito">गुप्त मोड आपका ब्राउज़िंग इतिहास सुरक्षित नहीं करेगा।</string>
+    <string name="tabs_clear_title">सभी विंडो बंद करें</string>
+    <string name="tabs_clear_message">यह वर्तमान मोड में सभी विंडो बंद कर देगा। जारी रखें?</string>
+    <string name="tabs_clear_confirm">सभी बंद करें</string>
+
+    <!-- डाउनलोड -->
+    <string name="file_icon">फ़ाइल आइकॉन</string>
+    <string name="action_button">एक्शन बटन</string>
+    <string name="cancel_download">डाउनलोड रद्द करें</string>
+    <string name="download_started">डाउनलोड शुरू हुआ</string>
+    <string name="download_view">देखें</string>
+    <string name="download_complete">डाउनलोड पूर्ण</string>
+    <string name="download_paused">रोका गया</string>
+    <string name="download_progress_percent">%1$d%%</string>
+    <string name="download_unknown_file">अज्ञात फ़ाइल</string>
+    <string name="download_empty_state">कोई डाउनलोड नहीं</string>
+    <string name="download_guide_download_video">वीडियो कैसे डाउनलोड करें?</string>
+
+    <string name="bookmark_root_title">बुकमार्क</string>
+    <string name="bookmark_action_back">वापस</string>
+    <string name="bookmark_tab_bookmarks">बुकमार्क</string>
+    <string name="bookmark_tab_history">इतिहास</string>
+    <string name="bookmark_history_placeholder">इतिहास सुविधा जल्द आ रही है</string>
+    <string name="bookmark_search_hint">बुकमार्क खोजें</string>
+    <string name="bookmark_clear_search">खोज साफ़ करें</string>
+    <string name="bookmark_empty_state">कोई बुकमार्क नहीं</string>
+    <string name="bookmark_item_icon">बुकमार्क आइकॉन</string>
+    <string name="bookmark_action_more">अधिक विकल्प</string>
+    <string name="bookmark_add_folder">नया फ़ोल्डर</string>
+    <string name="bookmark_add_folder_hint">फ़ोल्डर नाम</string>
+    <string name="bookmark_add_folder_empty">फ़ोल्डर नाम खाली नहीं हो सकता</string>
+    <string name="bookmark_folder_created">फ़ोल्डर बनाया गया</string>
+    <string name="bookmark_dialog_confirm">पुष्टि करें</string>
+    <string name="bookmark_dialog_cancel">रद्द करें</string>
+    <string name="bookmark_dialog_title_add">बुकमार्क जोड़ें</string>
+    <string name="bookmark_dialog_title_edit">बुकमार्क संपादित करें</string>
+    <string name="bookmark_dialog_field_title">शीर्षक</string>
+    <string name="bookmark_dialog_field_url">URL</string>
+    <string name="bookmark_dialog_field_folder">फ़ोल्डर चुनें</string>
+    <string name="bookmark_dialog_error_title_empty">शीर्षक खाली नहीं हो सकता</string>
+    <string name="bookmark_dialog_error_url_empty">URL खाली नहीं हो सकता</string>
+    <string name="bookmark_added">बुकमार्क में जोड़ा गया</string>
+    <string name="bookmark_already_exists">यह URL पहले से बुकमार्क में है</string>
+    <string name="bookmark_add_failed">बुकमार्क जोड़ना विफल</string>
+    <string name="bookmark_updated">बुकमार्क अपडेट किया गया</string>
+    <string name="bookmark_update_failed">बुकमार्क अपडेट विफल</string>
+    <string name="bookmark_deleted">बुकमार्क हटाया गया</string>
+    <string name="bookmark_delete_failed">बुकमार्क हटाना विफल</string>
+    <string name="bookmark_menu_open_bookmarks">बुकमार्क</string>
+    <string name="bookmark_menu_open_history">इतिहास</string>
+    <string name="bookmark_menu_share">साझा करें</string>
+    <string name="bookmark_menu_add_bookmark">बुकमार्क में जोड़ें</string>
+    <string name="bookmark_menu_added_state">पहले से बुकमार्क में है</string>
+    <string name="bookmark_menu_cancel">रद्द करें</string>
+
+    <string name="web_menu_back">वापस</string>
+    <string name="web_menu_forward">आगे</string>
+    <string name="web_menu_share">साझा करें</string>
+    <string name="web_menu_refresh">रिफ्रेश</string>
+    <string name="web_menu_new_tab">नया टैब</string>
+    <string name="web_menu_bookmarks">बुकमार्क</string>
+    <string name="web_menu_add">जोड़ें</string>
+    <string name="web_menu_history">इतिहास</string>
+    <string name="web_menu_downloads">डाउनलोड</string>
+    <string name="web_menu_find_in_page">पेज पर खोजें</string>
+    <string name="web_menu_desktop_site">डेस्कटॉप साइट</string>
+    <string name="web_menu_add_to_home">होम स्क्रीन पर जोड़ें</string>
+    
+    <!-- वेब शॉर्टकट -->
+    <string name="web_shortcut_url_empty">URL खाली है</string>
+    <string name="web_shortcut_not_supported">वर्तमान लॉन्चर शॉर्टकट जोड़ने का समर्थन नहीं करता</string>
+    <string name="web_shortcut_adding">होम स्क्रीन पर जोड़ रहा है</string>
+    <string name="web_shortcut_added">होम स्क्रीन पर जोड़ा गया</string>
+    
+    <!-- वेब शेयर -->
+    <string name="web_share_url_empty">खाली URL शेयर नहीं कर सकते</string>
+
+    <string name="bookmark_action_open">खोलें</string>
+    <string name="bookmark_action_edit">संपादित करें</string>
+    <string name="bookmark_action_move">स्थानांतरित करें</string>
+    <string name="bookmark_action_delete">हटाएं</string>
+    <string name="bookmark_action_rename">नाम बदलें</string>
+    <string name="bookmark_confirm_delete">हटाने की पुष्टि करें</string>
+    <string name="bookmark_confirm_delete_site_message">क्या आप वाकई इस बुकमार्क को हटाना चाहते हैं?</string>
+    <string name="bookmark_confirm_delete_folder_message">क्या आप वाकई इस फ़ोल्डर और इसकी सभी सामग्री को हटाना चाहते हैं?</string>
+    <string name="bookmark_folder_renamed">फ़ोल्डर का नाम बदला गया</string>
+    <string name="bookmark_folder_rename_failed">फ़ोल्डर का नाम बदलना विफल</string>
+    <string name="bookmark_folder_moved">फ़ोल्डर स्थानांतरित</string>
+    <string name="bookmark_folder_move_failed">फ़ोल्डर स्थानांतरित करना विफल</string>
+    <string name="bookmark_folder_deleted">फ़ोल्डर हटाया गया</string>
+    <string name="bookmark_folder_delete_failed">फ़ोल्डर हटाना विफल</string>
+    <string name="bookmark_move_success">बुकमार्क स्थानांतरित</string>
+    <string name="bookmark_move_failed">बुकमार्क स्थानांतरित करना विफल</string>
+    <string name="bookmark_edit_title_add">बुकमार्क जोड़ें</string>
+    <string name="bookmark_edit_title_edit">बुकमार्क संपादित करें</string>
+    <string name="bookmark_folder_edit_title_add">नया फ़ोल्डर</string>
+    <string name="bookmark_folder_edit_title_edit">फ़ोल्डर संपादित करें</string>
+    <string name="bookmark_select_folder_title">फ़ोल्डर चुनें</string>
+    <string name="bookmark_root_directory">मूल निर्देशिका</string>
+    <string name="bookmark_parent_folder">पैरेंट फ़ोल्डर</string>
+    <string name="bookmark_button_save">सेव करें</string>
+    <string name="bookmark_button_done">पूर्ण</string>
+    <string name="bookmark_add_to_shortcuts">शॉर्टकट में जोड़ें</string>
+
+    <string name="history_search_hint">इतिहास खोजें</string>
+    <string name="history_clear_search">खोज साफ करें</string>
+    <string name="history_empty_state">कोई इतिहास नहीं</string>
+    <string name="history_item_icon">इतिहास आइकॉन</string>
+    <string name="history_header_today">आज</string>
+    <string name="history_header_yesterday">कल</string>
+    <string name="history_clear_title">इतिहास साफ करें</string>
+    <string name="history_clear_message">क्या सभी ब्राउज़िंग इतिहास हटाना है?</string>
+    <string name="history_clear_confirm">साफ़ करें</string>
+    <string name="history_cleared">इतिहास साफ़ किया गया</string>
+    <string name="history_delete_title">इतिहास हटाएं</string>
+    <string name="history_delete_message">क्या आप वाकई इस इतिहास आइटम को हटाना चाहते हैं?</string>
+    <string name="history_delete_confirm">हटाएं</string>
+    <string name="history_deleted">इतिहास हटाया गया</string>
+    <string name="history_delete_failed">हटाना विफल</string>
+    <string name="history_bookmark_added">बुकमार्क में जोड़ा गया</string>
+    <string name="history_bookmark_failed">बुकमार्क जोड़ना विफल</string>
+
+    <string name="home_quick_section_title">पसंदीदा</string>
+    <string name="home_quick_add">जोड़ें</string>
+    <string name="home_quick_remove">हटाएं</string>
+    <string name="home_quick_cancel">रद्द करें</string>
+    <string name="home_quick_remove_confirm">इस त्वरित साइट को हटाएं?</string>
+    <string name="home_quick_added">त्वरित साइटों में जोड़ा गया</string>
+    <string name="home_quick_already_exists">यह URL पहले से त्वरित सूची में है</string>
+
+    <string name="recommended_title">वेब स्टोर</string>
+    <string name="recommended_action_close">बंद करें</string>
+    <string name="recommended_section_social">सोशल मीडिया</string>
+    <string name="recommended_section_video">वीडियो</string>
+    <string name="recommended_section_news">समाचार</string>
+    <string name="recommended_section_tools">उपकरण</string>
+    <string name="recommended_section_entertainment">मनोरंजन</string>
+    <string name="recommended_section_music">संगीत</string>
+    <string name="recommended_section_shopping">शॉपिंग</string>
+    <string name="recommended_section_sport">खेल</string>
+    <string name="recommended_section_travel">यात्रा</string>
+    <string name="recommended_section_healthy">स्वास्थ्य</string>
+    <string name="recommended_item_add">जोड़ें</string>
+    <string name="recommended_item_added">जोड़ा गया</string>
+
+    <string name="news_page_title">समाचार</string>
+    <string name="news_category_general">सामान्य</string>
+    <string name="news_category_business">व्यापार</string>
+    <string name="news_category_entertainment">मनोरंजन</string>
+    <string name="news_category_health">स्वास्थ्य</string>
+    <string name="news_category_science">विज्ञान</string>
+    <string name="news_category_sports">खेल</string>
+    <string name="news_category_technology">तकनीक</string>
+    <string name="news_empty_list">कोई समाचार उपलब्ध नहीं</string>
+
+    <string name="search_engine">खोज इंजन</string>
+    <string name="default_browser">डिफ़ॉल्ट ब्राउज़र</string>
+    <string name="language">भाषा</string>
+    <string name="clear_history">इतिहास साफ करें</string>
+    <string name="feedback">प्रतिक्रिया</string>
+    <string name="about">बारे में</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="terms_of_service">सेवा की शर्तें</string>
+    <string name="more">अधिक</string>
+    <string name="loading">लोड हो रहा है...</string>
+    <string name="no_data">कोई डेटा नहीं</string>
+
+    <string name="files_download_title">डाउनलोड</string>
+    <string name="files_download_description">चित्र, वीडियो</string>
+    <string name="files_no_permission_title">हाल की फाइलें देखने के लिए स्टोरेज अनुमति दें।</string>
+    <string name="files_no_permission_button">अनुमति दें</string>
+    <string name="files_permission_allow">अनुमति दें</string>
+    <string name="file_category_image">चित्र</string>
+    <string name="file_category_video">वीडियो</string>
+    <string name="file_category_document">दस्तावेज़</string>
+    <string name="file_category_apk">APK</string>
+    <string name="file_category_audio">ऑडियो</string>
+    <string name="file_category_zip">ZIP</string>
+    <string name="files_my_files">मेरी फाइलें</string>
+    <string name="files_clean">साफ़ करें</string>
+    <string name="files_legend_apps">ऐप्स</string>
+    <string name="files_legend_videos">वीडियो</string>
+    <string name="files_legend_photos">तस्वीरें</string>
+    <string name="files_legend_music">संगीत</string>
+    <string name="files_recent_files">हाल की फाइलें</string>
+
+    <!-- Storage Permission Dialog -->
+    <string name="storage_permission_dialog_title">स्टोरेज अनुमति सक्षम करें</string>
+    <string name="storage_permission_dialog_desc">इस सुविधा का उपयोग करने के लिए, कृपया अपनी फ़ोन सेटिंग में Open Browser के लिए स्टोरेज अनुमति सक्षम करें।</string>
+    <string name="storage_permission_dialog_item">स्टोरेज अनुमति सक्षम करें</string>
+    <string name="storage_permission_dialog_later">बाद में</string>
+    <string name="storage_permission_dialog_go_now">अभी जाएं</string>
+
+    <string name="time_just_now">अभी</string>
+    <string name="time_seconds_ago">%d सेकंड पहले</string>
+    <string name="time_minutes_ago">%d मिनट पहले</string>
+    <string name="time_hours_ago">%d घंटे पहले</string>
+    <string name="time_today">आज %s</string>
+    <string name="time_yesterday">कल %s</string>
+    <string name="time_day_before_yesterday">परसों %s</string>
+    
+    <!-- साफ़-सफाई -->
+    <string name="junk_clean_title">साफ़-सफाई</string>
+    <string name="clean_success_junk">%s साफ किया गया</string>
+    <string name="clean_success_process">%s ऐप्स रोके गए</string>
+    <string name="clean_success_other_process_title">प्रोसेस मैनेजर</string>
+    <string name="clean_success_other_process_message">आपका फ़ोन इष्टतम से 73% धीमा है। स्थायी क्षति को रोकने के लिए अभी स्कैन करें।</string>
+    <string name="clean_success_other_process_button">अभी स्कैन करें</string>
+    
+    <string name="clean_success_other_clean_title">आपका फ़ोन धीमा है!</string>
+    <string name="clean_success_other_clean_message">फ़ोन धीमा होने से पहले अभी साफ़ करें</string>
+    <string name="clean_success_other_clean_button">सफ़ाई</string>
+    
+    <string name="process_clean_title">प्रोसेस साफ़ करें</string>
+    <string name="process_clean_buton">हो गया</string>
+    <string name="process_used">RAM उपयोग</string>
+    <string name="process_background_apps">बैकग्राउंड ऐप्स</string>
+    <string name="process_clean_app_item">बंद करें</string>
+    
+    <!-- जंक फ़ाइल प्रकार -->
+    <string name="junk_type_residual_files">शेष फ़ाइलें</string>
+    <string name="junk_type_junk_files">जंक फ़ाइलें</string>
+    <string name="junk_type_advertisement_files">विज्ञापन फ़ाइलें</string>
+    <string name="junk_type_obsolete_apk_files">पुरानी APK फ़ाइलें</string>
+    
+    <!-- स्कैन परिणाम -->
+    <string name="scan_result_title">स्कैन परिणाम</string>
+    <string name="scan_result_empty">कोई परिणाम नहीं</string>
+    <string name="scan_result_copied">क्लिपबोर्ड में कॉपी किया गया</string>
+    <string name="scan_result_share_to">शेयर करें</string>
+    <string name="scan_action_open_url">URL खोलें</string>
+    <string name="scan_action_copy">कॉपी करें</string>
+    <string name="scan_action_search">खोजें</string>
+    <string name="scan_action_share">साझा करें</string>
+
+    <string name="download_dialog_title">डाउनलोड करें?</string>
+    <string name="language_select_title">भाषा चुनें</string>
+    <string name="language_cancel">रद्द करें</string>
+    <string name="language_confirm">पुष्टि करें</string>
+    <string name="notice_dialog_title">टिप</string>
+
+    <!-- Clear Data Dialog -->
+    <string name="clear_data_title">ब्राउज़िंग डेटा साफ़ करें</string>
+    <string name="clear_option_tabs">खुले टैब</string>
+    <string name="clear_option_history">ब्राउज़िंग इतिहास</string>
+    <string name="clear_option_cookies">कुकीज़</string>
+    <string name="clear_option_cache">कैश</string>
+    <string name="clear_data_confirm">साफ़ करें</string>
+    <string name="clear_data_cancel">रद्द करें</string>
+    <string name="clear_data_success">डेटा साफ़ किया गया</string>
+    <string name="clear_data_select_one">कृपया कम से कम एक विकल्प चुनें</string>
+
+    <!-- Guide Page -->
+    <string name="guide_title_1">आपका ऑल-इन-वन ब्राउज़िंग सहायक</string>
+    <string name="guide_title_2">एक विशाल और रोमांचक डिजिटल दुनिया की अपनी यात्रा यहाँ शुरू करें।</string>
+    <string name="guide_action_next">अगला</string>
+    <string name="guide_action_start">शुरू करें</string>
+
+    <!-- File Options -->
+    <string name="file_option_open">खोलें</string>
+    <string name="file_option_open_folder">स्थानीय फ़ोल्डर खोलें</string>
+    <string name="file_option_share">साझा करें</string>
+    <string name="file_option_delete">हटाएं</string>
+    <string name="file_open_failed">फ़ाइल खोलने में विफल</string>
+    <string name="file_open_folder_failed">फ़ोल्डर खोलने में विफल</string>
+    <string name="file_share_failed">फ़ाइल साझा करने में विफल</string>
+    <string name="file_delete_success">फ़ाइल हटाई गई</string>
+    <string name="file_delete_failed">फ़ाइल हटाने में विफल</string>
+
+    <!-- Video Detection -->
+    <string name="video_list_title">%d वीडियो मिले</string>
+    <string name="video_list_title_simple">डाउनलोड सूची</string>
+    <string name="video">वीडियो</string>
+    <string name="download">डाउनलोड</string>
+    <string name="download_count">डाउनलोड (%d)</string>
+    <string name="close">बंद करें</string>
+    <string name="select">चुनें</string>
+    <string name="play">चलाएं</string>
+    <string name="select_all">सभी चुनें</string>
+    <string name="deselect_all">सभी अचयनित करें</string>
+    <string name="fetching_size">प्राप्त कर रहे हैं...</string>
+    <string name="detecting_videos">वीडियो का पता लगा रहे हैं...</string>
+    <string name="videos_added_to_queue">%d वीडियो डाउनलोड कतार में जोड़े गए</string>
+    <string name="removed_from_list">सूची से हटा दिया गया</string>
+
+    <!-- Rating Dialog -->
+    <string name="rating_dialog_title">%s का उपयोग करने के लिए धन्यवाद</string>
+    <string name="rating_dialog_subtitle">हमें 5 स्टार देकर अपनी संतुष्टि दिखाएं!</string>
+    <string name="rating_dialog_submit">सबमिट करें</string>
+
+    <!-- Default Browser Dialog -->
+    <string name="default_browser_dialog_title">एक सहज अनुभव का आनंद लेने के लिए अपने डिफ़ॉल्ट ब्राउज़र के रूप में सेट करें!</string>
+    <string name="default_browser_safe_title">सुरक्षित ब्राउज़िंग</string>
+    <string name="default_browser_safe_desc">सुरक्षित वेबसाइट का पता लगाना, सुरक्षित ब्राउज़िंग सुनिश्चित करना</string>
+    <string name="default_browser_download_title">तेज़ डाउनलोड</string>
+    <string name="default_browser_download_desc">तेज़ और अधिक स्थिर डाउनलोड अनुभव।</string>
+    <string name="default_browser_light_title">हल्का संचालन</string>
+    <string name="default_browser_light_desc">लोकप्रिय वेबसाइटों को तेज़ी से ब्राउज़ करें।</string>
+    <string name="default_browser_later">बाद में</string>
+    <string name="default_browser_set">डिफ़ॉल्ट के रूप में सेट करें</string>
+
+    <string name="news_loading_text">ट्रेंडिंग समाचार लोड हो रहे हैं...</string>
+
+    <!-- Process Scan Dialog -->
+    <string name="process_scan_dialog_title">प्रक्रिया प्रबंधक</string>
+    <string name="process_scan_result">पृष्ठभूमि में चल रहे <font color="#F45314">%d</font> ऐप्स मिले।</string>
+    <string name="process_scan_button">अभी स्कैन करें</string>
+
+    <!-- Process Scanning -->
+    <string name="process_scanning_hint">चल रही प्रक्रियाओं को स्कैन कर रहे हैं</string>
+    <string name="process_exit_dialog_title">सुझाव</string>
+    <string name="process_exit_dialog_message">%d पृष्ठभूमि प्रक्रियाएं अभी भी चल रही हैं। क्या आप वाकई छोड़ना चाहते हैं?</string>
+    <string name="process_exit_dialog_end">समाप्त करें</string>
+    <string name="process_exit_dialog_continue">जारी रखें</string>
+    <!-- Uninstall Page -->
+    <string name="uninstall_title">यदि आप इस APP को अनइंस्टॉल करते हैं, तो आप निम्नलिखित सुविधाओं तक पहुँच खो देंगे:</string>
+    <string name="uninstall_feature_1">तेज़, मोबाइल-अनुकूलित ब्राउज़िंग अनुभव</string>
+    <string name="uninstall_feature_2">इग्नोटेनिटो मोड के साथ मजबूत गोपनीयता सुरक्षा</string>
+    <string name="uninstall_feature_3">एकीकृत समाचार फ़ीड</string>
+    <string name="uninstall_feature_4">स्मार्ट फ़ाइल प्रबंधन सीधे निर्मित</string>
+    <string name="uninstall_btn_stay">हटाएं नहीं</string>
+    <string name="uninstall_btn_uninstall">अनइंस्टॉल करें</string>
+    <string name="uninstall_shortcut_label">अनइंस्टॉल करें</string>
+    <string name="uninstall_shortcut_short_label">अनइंस्टॉल</string>
+
+    <!-- Uninstall Confirm Page -->
+    <string name="uninstall_confirm_title">Open Browser को क्यों अनइंस्टॉल करें?</string>
+    <string name="uninstall_reason_difficult">उपयोग करने में कठिन</string>
+    <string name="uninstall_reason_ads">बहुत अधिक विज्ञापन</string>
+    <string name="uninstall_reason_cant_find">हटाए गए फ़ोटो नहीं मिल रहे</string>
+    <string name="uninstall_reason_not_restore">वांछित छवि को सही ढंग से पुनर्स्थापित नहीं करता</string>
+    <string name="uninstall_reason_recovery">अन्य फ़ाइलों को पुनर्प्राप्त करने में कठिनाई</string>
+    <string name="uninstall_reason_others">अन्य</string>
+    <string name="uninstall_reason_hint">कृपया Open Browser को अनइंस्टॉल करने का कारण बताएं</string>
+
+    <!-- Junk Clean Exit Dialog -->
+    <string name="junk_exit_dialog_title">सफाई पूरी नहीं हुई</string>
+    <string name="junk_exit_dialog_message">अभी बाहर निकलने से आपके डिवाइस पर जंक फ़ाइलें रह जाएंगी। अधिक स्टोरेज खाली करने के लिए सफाई पूरी करें।</string>
+
+    <string name="speed">स्पीड</string>
+    <string name="duplicate">डुप्लीकेट</string>
+    <string name="similar">समान</string>
+
+    <!-- Speed Test -->
+    <string name="speed_test_title">स्पीड टेस्ट</string>
+    <string name="speed_start">शुरू करें</string>
+    <string name="speed_connecting">कनेक्ट हो रहा है…</string>
+    <string name="speed_selecting_server">सर्वश्रेष्ठ सर्वर चुन रहे हैं…</string>
+    <string name="speed_metric_ping">पिंग</string>
+    <string name="speed_metric_jitter">जिटर</string>
+    <string name="speed_metric_download">डाउनलोड</string>
+    <string name="speed_metric_upload">अपलोड</string>
+    <string name="speed_results_title">आपके स्पीड टेस्ट के परिणाम</string>
+    <string name="speed_test_again">फिर से टेस्ट करें</string>
+    <string name="speed_isp_unknown">अज्ञात</string>
+
+    <!-- Photo Clean -->
+    <string name="photo_clean_scanning">स्कैन हो रहा है…</string>
+    <string name="photo_clean_scan_complete">स्कैन पूरा हुआ</string>
+    <string name="photo_clean_found_groups">%1$d समूह, %2$d फ़ोटो मिलीं</string>
+    <string name="photo_clean_no_duplicates">कोई डुप्लिकेट फ़ोटो नहीं मिली</string>
+    <string name="photo_clean_no_similar">कोई समान फ़ोटो नहीं मिली</string>
+    <string name="photo_clean_title_duplicate">डुप्लिकेट फ़ोटो</string>
+    <string name="photo_clean_title_similar">समान फ़ोटो</string>
+    <string name="photo_clean_group_title">%d फ़ोटो</string>
+    <string name="photo_clean_select_all">सभी चुनें</string>
+    <string name="photo_clean_deselect_all">सभी अचयनित करें</string>
+    <string name="photo_clean_delete">हटाएं</string>
+    <string name="photo_clean_reminder_title">अनुकूल अनुस्मारक</string>
+    <string name="photo_clean_back_warning">अगर आप अभी बाहर जाते हैं, तो आपकी चयनित फ़ाइलें हटा दी जाएंगी।</string>
+    <string name="photo_clean_delete_warning">क्या आप वाकई %d चयनित फ़ोटो हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।</string>
+    <string name="photo_clean_confirm">पुष्टि करें</string>
+    <string name="photo_clean_cancel">रद्द करें</string>
+    <string name="photo_clean_photos_label">फ़ोटो</string>
+    <string name="photo_clean_delete_success">सफलतापूर्वक हटाया गया</string>
+    <string name="photo_clean_continue">जारी रखें</string>
+    <string name="photo_clean_view_results">परिणाम देखें</string>
+
+    <!-- Exit Confirm -->
+    <string name="exit_confirm_title">क्या आप वाकई ऐप से बाहर निकलना चाहते हैं?</string>
+    <string name="exit_confirm_exit">बाहर निकलें</string>
+    <string name="exit_confirm_cancel">समाचार पढ़ें</string>
+</resources>
+

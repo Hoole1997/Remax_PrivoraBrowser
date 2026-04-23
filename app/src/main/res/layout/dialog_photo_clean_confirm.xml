@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B3000000"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <FrameLayout
+        android:layout_width="269dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <!-- 白色卡片内容 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bg_photo_scan_dialog"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="44dp"
+            android:paddingBottom="16dp"
+            android:paddingHorizontal="16dp">
+
+            <!-- 标题 -->
+            <TextView
+                android:id="@+id/tv_dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/photo_clean_reminder_title"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- 消息内容 -->
+            <TextView
+                android:id="@+id/tv_dialog_message"
+                android:layout_width="238dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:textColor="#666666"
+                android:textSize="14sp" />
+
+            <!-- 按钮区域 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- 取消按钮 -->
+                <TextView
+                    android:id="@+id/btn_dialog_cancel"
+                    android:layout_width="114dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_photo_clean_btn_gray"
+                    android:gravity="center"
+                    android:text="@string/photo_clean_cancel"
+                    android:textColor="#666666"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="9dp"
+                    android:layout_height="0dp" />
+
+                <!-- 确认按钮 -->
+                <TextView
+                    android:id="@+id/btn_dialog_confirm"
+                    android:layout_width="114dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_photo_confirm_btn"
+                    android:gravity="center"
+                    android:text="@string/photo_clean_confirm"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 顶部图标（浮在卡片上方） -->
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center_horizontal|top"
+            android:src="@mipmap/ic_photo_clean_dialog_tip"
+            android:contentDescription="Reminder" />
+
+    </FrameLayout>
+
+</FrameLayout>

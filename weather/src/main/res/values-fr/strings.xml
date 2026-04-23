@@ -1,0 +1,19 @@
+<resources>
+    <string name="weather_high">Max</string>
+    <string name="weather_low">Min</string>
+    <string name="weather_wind_speed">Vent</string>
+    <string name="weather_precipitation">Précipitations</string>
+    <string name="weather_daily_forecast">Quotidien - 5 Jours</string>
+    <string name="weather_more_details">Plus de Détails</string>
+    <string name="weather_humidity">Humidité</string>
+    <string name="weather_uv_index">Indice UV</string>
+    <string name="weather_pressure">Pression</string>
+    <string name="weather_visibility">Visibilité</string>
+    <string name="weather_sunrise">Lever du soleil</string>
+    <string name="weather_sunset">Coucher du soleil</string>
+    <string name="weather_load_failed">Échec du chargement</string>
+    <string name="weather_retry">Réessayer</string>
+    <string name="weather_searching">Recherche...</string>
+    <string name="weather_current_location">Localisation Actuelle</string>
+    <string name="weather_search_city_hint">Rechercher une ville...</string>
+</resources>

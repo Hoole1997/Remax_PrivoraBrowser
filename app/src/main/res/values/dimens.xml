@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 标签页卡片边框宽度 -->
+    <dimen name="tab_stroke_width_normal">1dp</dimen>
+    <dimen name="tab_stroke_width_selected">3dp</dimen>
+
+    <!-- 书签顶部 Tab 样式 -->
+    <dimen name="bookmark_tab_item_horizontal_padding">11dp</dimen>
+    <dimen name="bookmark_tab_item_vertical_padding">7dp</dimen>
+    <dimen name="bookmark_tab_item_margin_horizontal">2dp</dimen>
+    <dimen name="bookmark_tab_item_margin_vertical">2dp</dimen>
+    <dimen name="bookmark_tab_text_size">15sp</dimen>
+    <dimen name="bookmark_tab_text_extra_width">1dp</dimen>
+    <dimen name="bookmark_dialog_content_padding">20dp</dimen>
+    <dimen name="bookmark_popup_elevation">8dp</dimen>
+
+    <dimen name="recommended_chip_icon_size">18dp</dimen>
+    <dimen name="default_toolbar_padding">12dp</dimen>
+    <dimen name="bookmark_tab_height">40dp</dimen>
+
+    <!-- Process Scan Dialog -->
+    <dimen name="process_scan_icon_size">42dp</dimen>
+    <dimen name="process_scan_icon_size_large">56dp</dimen>
+    <dimen name="process_scan_icon_margin">16dp</dimen>
+
+    <!-- Tab elevation -->
+    <dimen name="tab_elevation">8dp</dimen>
+</resources>

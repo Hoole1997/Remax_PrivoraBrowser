@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+    <!-- 白色描边爱心 - 未关注状态 -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M16,28.47l-1.93,-1.76C6.53,20.48 2.67,16.89 2.67,12.67 2.67,8.56 5.89,5.33 10,5.33c2.32,0 4.55,1.08 6,2.79 1.45,-1.71 3.68,-2.79 6,-2.79 4.11,0 7.33,3.23 7.33,7.33 0,4.23 -3.87,7.81 -11.4,14.05L16,28.47z"/>
+</vector>

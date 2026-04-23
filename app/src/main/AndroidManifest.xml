@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 安装 APK 权限 (Android 8.0+) -->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- 存储权限 (Android 12及以下) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:replace="android:maxSdkVersion"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="AllFilesAccessPolicy,ScopedStorage" />
+    <!-- 前台服务权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    
+    <!-- 媒体控制权限 (可选，用于锁屏控制) -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    
+    <!-- 通知权限 (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    
+    <!-- 摄像头和麦克风权限 (网页视频通话、拍照等功能需要) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    
+    <!-- 位置权限 (网页定位功能需要) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Android 11+ 声明需要查询的应用和 Intent -->
+    <queries>
+        <!-- 通用配置：允许浏览器查询所有可以处理 VIEW Intent 的应用 -->
+        <!-- 这样可以支持任何第三方应用的 scheme 协议，无需逐个列举 -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+    <application
+        android:name=".BrowserApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_logo_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Browser"
+        android:usesCleartextTraffic="false"
+        android:requestLegacyExternalStorage="true">
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="io.docview.push.ACTION_OPEN_APP" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+
+        <activity
+            android:name=".ui.uninstall.UninstallActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ui.uninstall.UninstallConfirmActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:exported="true">
+            
+            <!-- 处理 HTTP/HTTPS 链接，使应用可以被设置为默认浏览器 -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.search.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.web.WebActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboard|keyboardHidden|mcc|mnc|orientation|screenSize|locale|layoutDirection|smallestScreenSize|screenLayout"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.tabs.BrowserTabsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.scan.ScanResultActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.file.FileListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.download.DownloadActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.bookmark.BookmarkActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.bookmark.BookmarkEditActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.bookmark.BookmarkFolderEditActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.bookmark.BookmarkFolderPickerActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.website.RecommendedWebsitesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.news.NewsMoreActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.file.ImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.junk.JunkScanActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.junk.JunkCleanActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.junk.JunkCleaningActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.junk.CleanSuccessActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.junk.ProcessCleanActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.setting.AboutActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.guide.GuideActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.news.NewsDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.speed.SpeedTestActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.photoclean.PhotoCleanActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.photoclean.PhotoDeleteProgressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <!-- 下载服务 -->
+        <service
+            android:name=".service.DownloadService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
+
+        <!-- 媒体服务：用于后台播放音视频并显示媒体通知 -->
+        <service
+            android:name=".service.MediaService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
+        <!-- Web 通知服务：用于显示网页推送通知 -->
+        <service
+            android:name=".service.WebNotificationService"
+            android:exported="false" />
+
+        <!-- FileProvider 用于分享文件 (Android 7.0+) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- 从 Play 商店安装时自动将扫描器模块下载到设备 -->
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="barcode_ui"/>
+        <!-- 告知 XXPermissions 当前项目已经适配了分区存储特性 -->
+        <meta-data
+            android:name="ScopedStorage"
+            android:value="true" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${ADMOB_APPLICATION_ID}" />
+    </application>
+
+</manifest>

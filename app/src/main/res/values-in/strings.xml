@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_title" translatable="false">Open Browser</string>
+
+    <string name="tab_home">Beranda</string>
+    <string name="tab_short">Singkat</string>
+    <string name="tab_files">Berkas</string>
+    <string name="tab_tabs">Tab</string>
+    <string name="tab_settings">Pengaturan</string>
+    <string name="home_search_text_hint">Cari atau masukkan URL</string>
+    <string name="clean">Bersihkan</string>
+    <string name="news">Berita</string>
+    <string name="process">Proses</string>
+    <string name="bookmark">Markah</string>
+
+    <string name="search_keyword_cancel">Batal</string>
+    <string name="search_shortcut_www" translatable="false">www.</string>
+    <string name="search_shortcut_m" translatable="false">m.</string>
+    <string name="search_shortcut_wap" translatable="false">wap.</string>
+    <string name="search_shortcut_dot" translatable="false">.</string>
+    <string name="search_shortcut_slash" translatable="false">/</string>
+    <string name="home_quick_remove_title">Hapus Pintasan</string>
+    
+    <string name="tabs">Tab</string>
+    <string name="normal_tabs">Standar</string>
+    <string name="private_tabs">Penyamaran</string>
+    <string name="new_tab">Tab Baru</string>
+    <string name="close_tab">Tutup Tab</string>
+    <string name="close_all_tabs">Tutup Semua</string>
+    <string name="tab_icon">Ikon tab</string>
+    <string name="tab_thumbnail">Thumbnail tab</string>
+    <string name="no_tabs">Tidak ada tab terbuka</string>
+    <string name="tab_count">%d Tab</string>
+    <string name="empty_state_incognito">Mode penyamaran tidak akan menyimpan riwayat penjelajahan Anda.</string>
+    <string name="tabs_clear_title">Tutup Semua Jendela</string>
+    <string name="tabs_clear_message">Ini akan menutup semua jendela dalam mode saat ini. Lanjutkan?</string>
+    <string name="tabs_clear_confirm">Tutup Semua</string>
+
+    <string name="cancel_download">Batalkan unduhan</string>
+    <string name="download_started">Unduhan dimulai</string>
+    <string name="download_view">Lihat</string>
+    <string name="download_complete">Unduhan selesai</string>
+    <string name="download_paused">Dijeda</string>
+    <string name="download_progress_percent">%1$d%%</string>
+    <string name="download_unknown_file">Berkas tidak dikenal</string>
+    <string name="download_empty_state">Tidak ada unduhan</string>
+    <string name="download_guide_download_video">Cara mengunduh video?</string>
+
+    <string name="file_icon">Ikon berkas</string>
+    <string name="action_button">Tombol aksi</string>
+
+    <string name="bookmark_root_title">Markah</string>
+    <string name="bookmark_action_back">Kembali</string>
+    <string name="bookmark_tab_bookmarks">Markah</string>
+    <string name="bookmark_tab_history">Riwayat</string>
+    <string name="bookmark_history_placeholder">Fitur riwayat segera hadir</string>
+    <string name="bookmark_search_hint">Cari markah</string>
+    <string name="bookmark_clear_search">Hapus pencarian</string>
+    <string name="bookmark_empty_state">Tidak ada markah</string>
+    <string name="bookmark_item_icon">Ikon markah</string>
+    <string name="bookmark_action_more">Opsi lainnya</string>
+    <string name="bookmark_add_folder">Folder Baru</string>
+    <string name="bookmark_add_folder_hint">Nama folder</string>
+    <string name="bookmark_add_folder_empty">Nama folder tidak boleh kosong</string>
+    <string name="bookmark_folder_created">Folder dibuat</string>
+    <string name="bookmark_dialog_confirm">Konfirmasi</string>
+    <string name="bookmark_dialog_cancel">Batal</string>
+    <string name="bookmark_dialog_title_add">Tambah Markah</string>
+    <string name="bookmark_dialog_title_edit">Edit Markah</string>
+    <string name="bookmark_dialog_field_title">Judul</string>
+    <string name="bookmark_dialog_field_url">URL</string>
+    <string name="bookmark_dialog_field_folder">Pilih folder</string>
+    <string name="bookmark_dialog_error_title_empty">Judul tidak boleh kosong</string>
+    <string name="bookmark_dialog_error_url_empty">URL tidak boleh kosong</string>
+    <string name="bookmark_added">Ditambahkan ke markah</string>
+    <string name="bookmark_already_exists">URL ini sudah ada di markah</string>
+    <string name="bookmark_add_failed">Gagal menambahkan markah</string>
+    <string name="bookmark_updated">Markah diperbarui</string>
+    <string name="bookmark_update_failed">Gagal memperbarui markah</string>
+    <string name="bookmark_deleted">Markah dihapus</string>
+    <string name="bookmark_delete_failed">Gagal menghapus markah</string>
+    <string name="bookmark_menu_open_bookmarks">Markah</string>
+    <string name="bookmark_menu_open_history">Riwayat</string>
+    <string name="bookmark_menu_share">Bagikan</string>
+    <string name="bookmark_menu_add_bookmark">Tambah ke Markah</string>
+    <string name="bookmark_menu_added_state">Sudah ada di markah</string>
+    <string name="bookmark_menu_cancel">Batal</string>
+
+    <string name="web_menu_back">Kembali</string>
+    <string name="web_menu_forward">Maju</string>
+    <string name="web_menu_share">Bagikan</string>
+    <string name="web_menu_refresh">Segarkan</string>
+    <string name="web_menu_new_tab">Tab Baru</string>
+    <string name="web_menu_bookmarks">Markah</string>
+    <string name="web_menu_add">Tambah</string>
+    <string name="web_menu_history">Riwayat</string>
+    <string name="web_menu_downloads">Unduhan</string>
+    <string name="web_menu_find_in_page">Cari di halaman</string>
+    <string name="web_menu_desktop_site">Situs Desktop</string>
+    <string name="web_menu_add_to_home">Tambah ke Layar Utama</string>
+    
+    <!-- Pintasan web -->
+    <string name="web_shortcut_url_empty">URL kosong</string>
+    <string name="web_shortcut_not_supported">Peluncur saat ini tidak mendukung penambahan pintasan</string>
+    <string name="web_shortcut_adding">Menambahkan ke layar utama</string>
+    <string name="web_shortcut_added">Ditambahkan ke layar utama</string>
+    
+    <!-- Bagikan web -->
+    <string name="web_share_url_empty">Tidak dapat membagikan URL kosong</string>
+
+    <string name="bookmark_action_open">Buka</string>
+    <string name="bookmark_action_edit">Edit</string>
+    <string name="bookmark_action_move">Pindahkan</string>
+    <string name="bookmark_action_delete">Hapus</string>
+    <string name="bookmark_action_rename">Ubah nama</string>
+    <string name="bookmark_confirm_delete">Konfirmasi hapus</string>
+    <string name="bookmark_confirm_delete_site_message">Yakin ingin menghapus markah ini?</string>
+    <string name="bookmark_confirm_delete_folder_message">Yakin ingin menghapus folder ini dan semua isinya?</string>
+    <string name="bookmark_folder_renamed">Folder diubah namanya</string>
+    <string name="bookmark_folder_rename_failed">Gagal mengubah nama folder</string>
+    <string name="bookmark_folder_moved">Folder dipindahkan</string>
+    <string name="bookmark_folder_move_failed">Gagal memindahkan folder</string>
+    <string name="bookmark_folder_deleted">Folder dihapus</string>
+    <string name="bookmark_folder_delete_failed">Gagal menghapus folder</string>
+    <string name="bookmark_move_success">Markah dipindahkan</string>
+    <string name="bookmark_move_failed">Gagal memindahkan markah</string>
+    <string name="bookmark_edit_title_add">Tambah markah</string>
+    <string name="bookmark_edit_title_edit">Edit markah</string>
+    <string name="bookmark_folder_edit_title_add">Folder baru</string>
+    <string name="bookmark_folder_edit_title_edit">Edit folder</string>
+    <string name="bookmark_select_folder_title">Pilih folder</string>
+    <string name="bookmark_root_directory">Direktori root</string>
+    <string name="bookmark_parent_folder">Folder induk</string>
+    <string name="bookmark_button_save">Simpan</string>
+    <string name="bookmark_button_done">Selesai</string>
+    <string name="bookmark_add_to_shortcuts">Tambah ke pintasan</string>
+
+    <string name="history_search_hint">Cari riwayat</string>
+    <string name="history_clear_search">Hapus pencarian</string>
+    <string name="history_empty_state">Tidak ada riwayat</string>
+    <string name="history_item_icon">Ikon riwayat</string>
+    <string name="history_header_today">Hari ini</string>
+    <string name="history_header_yesterday">Kemarin</string>
+    <string name="history_clear_title">Hapus Riwayat</string>
+    <string name="history_clear_message">Hapus semua riwayat penjelajahan?</string>
+    <string name="history_clear_confirm">Hapus</string>
+    <string name="history_cleared">Riwayat dihapus</string>
+    <string name="history_delete_title">Hapus riwayat</string>
+    <string name="history_delete_message">Yakin ingin menghapus item riwayat ini?</string>
+    <string name="history_delete_confirm">Hapus</string>
+    <string name="history_deleted">Riwayat dihapus</string>
+    <string name="history_delete_failed">Gagal menghapus</string>
+    <string name="history_bookmark_added">Ditambahkan ke markah</string>
+    <string name="history_bookmark_failed">Gagal menambahkan markah</string>
+
+    <string name="home_quick_section_title">Favorit</string>
+    <string name="home_quick_add">Tambah</string>
+    <string name="home_quick_remove">Hapus</string>
+    <string name="home_quick_cancel">Batal</string>
+    <string name="home_quick_remove_confirm">Hapus situs cepat ini?</string>
+    <string name="home_quick_added">Ditambahkan ke situs cepat</string>
+    <string name="home_quick_already_exists">URL ini sudah ada di daftar cepat</string>
+
+    <string name="recommended_title">Toko Web</string>
+    <string name="recommended_action_close">Tutup</string>
+    <string name="recommended_section_social">Media sosial</string>
+    <string name="recommended_section_video">Video</string>
+    <string name="recommended_section_news">Berita</string>
+    <string name="recommended_section_tools">Alat</string>
+    <string name="recommended_section_entertainment">Hiburan</string>
+    <string name="recommended_section_music">Musik</string>
+    <string name="recommended_section_shopping">Belanja</string>
+    <string name="recommended_section_sport">Olahraga</string>
+    <string name="recommended_section_travel">Perjalanan</string>
+    <string name="recommended_section_healthy">Kesehatan</string>
+    <string name="recommended_item_add">Tambah</string>
+    <string name="recommended_item_added">Ditambahkan</string>
+
+    <string name="news_page_title">Berita</string>
+    <string name="news_category_general">Umum</string>
+    <string name="news_category_business">Bisnis</string>
+    <string name="news_category_entertainment">Hiburan</string>
+    <string name="news_category_health">Kesehatan</string>
+    <string name="news_category_science">Sains</string>
+    <string name="news_category_sports">Olahraga</string>
+    <string name="news_category_technology">Teknologi</string>
+    <string name="news_empty_list">Tidak ada berita</string>
+
+    <string name="search_engine">Mesin Pencari</string>
+    <string name="default_browser">Peramban Default</string>
+    <string name="language">Bahasa</string>
+    <string name="clear_history">Hapus Riwayat</string>
+    <string name="feedback">Umpan Balik</string>
+    <string name="about">Tentang</string>
+    <string name="privacy_policy">Kebijakan Privasi</string>
+    <string name="terms_of_service">Ketentuan Layanan</string>
+    <string name="more">Lainnya</string>
+    <string name="loading">Memuat...</string>
+    <string name="no_data">Tidak ada data</string>
+
+    <string name="files_download_title">Unduhan</string>
+    <string name="files_download_description">Gambar, Video</string>
+    <string name="files_no_permission_title">Berikan izin penyimpanan untuk melihat file terbaru.</string>
+    <string name="files_no_permission_button">Izinkan</string>
+    <string name="files_permission_allow">Izinkan</string>
+    <string name="file_category_image">Gambar</string>
+    <string name="file_category_video">Video</string>
+    <string name="file_category_document">Dokumen</string>
+    <string name="file_category_apk">APK</string>
+    <string name="file_category_audio">Audio</string>
+    <string name="file_category_zip">ZIP</string>
+    <string name="files_my_files">File Saya</string>
+    <string name="files_clean">Bersihkan</string>
+    <string name="files_legend_apps">Aplikasi</string>
+    <string name="files_legend_videos">Video</string>
+    <string name="files_legend_photos">Foto</string>
+    <string name="files_legend_music">Musik</string>
+    <string name="files_recent_files">File Terbaru</string>
+
+    <!-- Storage Permission Dialog -->
+    <string name="storage_permission_dialog_title">Aktifkan izin penyimpanan</string>
+    <string name="storage_permission_dialog_desc">Untuk menggunakan fitur ini, aktifkan izin penyimpanan untuk Open Browser di pengaturan ponsel Anda.</string>
+    <string name="storage_permission_dialog_item">Aktifkan izin penyimpanan</string>
+    <string name="storage_permission_dialog_later">Nanti</string>
+    <string name="storage_permission_dialog_go_now">Pergi Sekarang</string>
+
+    <!-- Time Formatting -->
+    <string name="time_just_now">Baru saja</string>
+    <string name="time_seconds_ago">%d d yang lalu</string>
+    <string name="time_minutes_ago">%d m yang lalu</string>
+    <string name="time_hours_ago">%d j yang lalu</string>
+    <string name="time_today">Hari ini %s</string>
+    <string name="time_yesterday">Kemarin %s</string>
+    <string name="time_day_before_yesterday">Lusa %s</string>
+    
+    <!-- Pembersihan -->
+    <string name="junk_clean_title">Pembersihan</string>
+    <string name="clean_success_junk">%s dibersihkan</string>
+    <string name="clean_success_process">%s apl dihentikan</string>
+    <string name="clean_success_other_process_title">Manajer Proses</string>
+    <string name="clean_success_other_process_message">Ponsel Anda 73% lebih lambat dari optimal. Pindai SEKARANG untuk mencegah kerusakan permanen.</string>
+    <string name="clean_success_other_process_button">Pindai Sekarang</string>
+    
+    <string name="clean_success_other_clean_title">Ponsel Anda Lambat!</string>
+    <string name="clean_success_other_clean_message">Bersihkan sekarang sebelum ponsel melambat</string>
+    <string name="clean_success_other_clean_button">Bersihkan</string>
+    
+    <string name="process_clean_title">Bersihkan Proses</string>
+    <string name="process_clean_buton">Selesai</string>
+    <string name="process_used">RAM Terpakai</string>
+    <string name="process_background_apps">Aplikasi Latar Belakang</string>
+    <string name="process_clean_app_item">Tutup</string>
+    
+    <!-- Jenis berkas sampah -->
+    <string name="junk_type_residual_files">Berkas sisa</string>
+    <string name="junk_type_junk_files">Berkas sampah</string>
+    <string name="junk_type_advertisement_files">Berkas iklan</string>
+    <string name="junk_type_obsolete_apk_files">Berkas APK usang</string>
+    
+    <!-- Hasil pindai -->
+    <string name="scan_result_title">Hasil Pindai</string>
+    <string name="scan_result_empty">Tidak ada hasil</string>
+    <string name="scan_result_copied">Disalin ke clipboard</string>
+    <string name="scan_result_share_to">Bagikan</string>
+    <string name="scan_action_open_url">Buka URL</string>
+    <string name="scan_action_copy">Salin</string>
+    <string name="scan_action_search">Cari</string>
+    <string name="scan_action_share">Bagikan</string>
+
+    <string name="download_dialog_title">Unduh?</string>
+    <string name="language_select_title">Pilih Bahasa</string>
+    <string name="language_cancel">Batal</string>
+    <string name="language_confirm">Konfirmasi</string>
+    <string name="notice_dialog_title">Tips</string>
+
+    <!-- Clear Data Dialog -->
+    <string name="clear_data_title">Hapus Data Penjelajahan</string>
+    <string name="clear_option_tabs">Tab Terbuka</string>
+    <string name="clear_option_history">Riwayat Penjelajahan</string>
+    <string name="clear_option_cookies">Cookie</string>
+    <string name="clear_option_cache">Cache</string>
+    <string name="clear_data_confirm">Hapus</string>
+    <string name="clear_data_cancel">Batal</string>
+    <string name="clear_data_success">Data dihapus</string>
+    <string name="clear_data_select_one">Pilih setidaknya satu opsi</string>
+
+    <!-- Guide Page -->
+    <string name="guide_title_1">Asisten Penjelajahan All-in-One Anda</string>
+    <string name="guide_title_2">Mulai perjalanan Anda di sini ke dunia digital yang luas dan menarik.</string>
+    <string name="guide_action_next">Berikutnya</string>
+    <string name="guide_action_start">Mulai</string>
+
+    <!-- File Options -->
+    <string name="file_option_open">Buka</string>
+    <string name="file_option_open_folder">Buka Folder Lokal</string>
+    <string name="file_option_share">Bagikan</string>
+    <string name="file_option_delete">Hapus</string>
+    <string name="file_open_failed">Gagal membuka file</string>
+    <string name="file_open_folder_failed">Gagal membuka folder</string>
+    <string name="file_share_failed">Gagal membagikan file</string>
+    <string name="file_delete_success">File dihapus</string>
+    <string name="file_delete_failed">Gagal menghapus file</string>
+    
+    <!-- Video Detection -->
+    <string name="video_list_title">%d video terdeteksi</string>
+    <string name="video_list_title_simple">Daftar unduhan</string>
+    <string name="video">Video</string>
+    <string name="download">Unduh</string>
+    <string name="download_count">Unduh (%d)</string>
+    <string name="close">Tutup</string>
+    <string name="select">Pilih</string>
+    <string name="play">Putar</string>
+    <string name="select_all">Pilih semua</string>
+    <string name="deselect_all">Batalkan pilihan semua</string>
+    <string name="fetching_size">Mengambil...</string>
+    <string name="detecting_videos">Mendeteksi video...</string>
+    <string name="videos_added_to_queue">%d video ditambahkan ke antrian unduhan</string>
+    <string name="removed_from_list">Dihapus dari daftar</string>
+
+    <!-- Rating Dialog -->
+    <string name="rating_dialog_title">Terima kasih telah menggunakan %s</string>
+    <string name="rating_dialog_subtitle">Tunjukkan kepuasan Anda dengan memberi kami 5 bintang!</string>
+    <string name="rating_dialog_submit">Kirim</string>
+
+    <!-- Default Browser Dialog -->
+    <string name="default_browser_dialog_title">Atur sebagai peramban default untuk menikmati pengalaman yang lebih lancar!</string>
+    <string name="default_browser_safe_title">Penjelajahan Aman</string>
+    <string name="default_browser_safe_desc">Deteksi situs web aman, memastikan penjelajahan yang aman</string>
+    <string name="default_browser_download_title">Unduhan Cepat</string>
+    <string name="default_browser_download_desc">Pengalaman mengunduh yang lebih cepat dan stabil.</string>
+    <string name="default_browser_light_title">Jalan ringan</string>
+    <string name="default_browser_light_desc">Jelajahi situs web populer dengan cepat.</string>
+    <string name="default_browser_later">Nanti</string>
+    <string name="default_browser_set">Atur sebagai default</string>
+
+    <string name="news_loading_text">Memuat berita trending...</string>
+
+    <!-- Process Scan Dialog -->
+    <string name="process_scan_dialog_title">Pengelola proses</string>
+    <string name="process_scan_result">Ditemukan <font color="#F45314">%d</font> aplikasi yang berjalan di latar belakang.</string>
+    <string name="process_scan_button">Pindai sekarang</string>
+
+    <!-- Process Scanning -->
+    <string name="process_scanning_hint">Memindai proses yang berjalan</string>
+    <string name="process_exit_dialog_title">Tips</string>
+    <string name="process_exit_dialog_message">%d proses latar belakang masih berjalan. Apakah Anda yakin ingin keluar?</string>
+    <string name="process_exit_dialog_end">Akhiri</string>
+    <string name="process_exit_dialog_continue">Lanjutkan</string>
+    <!-- Halaman Uninstall -->
+    <string name="uninstall_title">Jika Anda menghapus APP ini, Anda akan kehilangan akses ke fitur berikut:</string>
+    <string name="uninstall_feature_1">Pengalaman browsing cepat dan dioptimalkan untuk seluler</string>
+    <string name="uninstall_feature_2">Perlindungan privasi kuat dengan Mode Samaran</string>
+    <string name="uninstall_feature_3">Umpan berita terintegrasi</string>
+    <string name="uninstall_feature_4">Manajemen file cerdas bawaan</string>
+    <string name="uninstall_btn_stay">Jangan hapus dulu</string>
+    <string name="uninstall_btn_uninstall">Copot Pemasangan</string>
+    <string name="uninstall_shortcut_label">Copot Pemasangan</string>
+    <string name="uninstall_shortcut_short_label">Hapus</string>
+
+    <!-- Konfirmasi Uninstall -->
+    <string name="uninstall_confirm_title">Mengapa menghapus Open Browser?</string>
+    <string name="uninstall_reason_difficult">Sulit digunakan</string>
+    <string name="uninstall_reason_ads">Terlalu banyak iklan</string>
+    <string name="uninstall_reason_cant_find">Tidak dapat menemukan foto yang dihapus</string>
+    <string name="uninstall_reason_not_restore">Tidak memulihkan gambar yang diinginkan dengan benar</string>
+    <string name="uninstall_reason_recovery">Kesulitan memulihkan file lain</string>
+    <string name="uninstall_reason_others">Lainnya</string>
+    <string name="uninstall_reason_hint">Harap masukkan alasan Anda menghapus Open Browser</string>
+
+    <!-- Junk Clean Exit Dialog -->
+    <string name="junk_exit_dialog_title">Pembersihan Belum Selesai</string>
+    <string name="junk_exit_dialog_message">Keluar sekarang akan meninggalkan file sampah di perangkat Anda. Selesaikan pembersihan untuk membebaskan lebih banyak penyimpanan.</string>
+
+    <string name="speed">Kecepatan</string>
+    <string name="duplicate">Duplikat</string>
+    <string name="similar">Mirip</string>
+
+    <!-- Speed Test -->
+    <string name="speed_test_title">Tes Kecepatan</string>
+    <string name="speed_start">Mulai</string>
+    <string name="speed_connecting">Menghubungkan…</string>
+    <string name="speed_selecting_server">Memilih server terbaik…</string>
+    <string name="speed_metric_ping">Ping</string>
+    <string name="speed_metric_jitter">Jitter</string>
+    <string name="speed_metric_download">Unduh</string>
+    <string name="speed_metric_upload">Unggah</string>
+    <string name="speed_results_title">Hasil Tes Kecepatan Anda</string>
+    <string name="speed_test_again">Tes Lagi</string>
+    <string name="speed_isp_unknown">Tidak dikenal</string>
+
+    <!-- Photo Clean -->
+    <string name="photo_clean_scanning">Memindai…</string>
+    <string name="photo_clean_scan_complete">Pemindaian selesai</string>
+    <string name="photo_clean_found_groups">Ditemukan %1$d grup, %2$d foto</string>
+    <string name="photo_clean_no_duplicates">Tidak ditemukan foto duplikat</string>
+    <string name="photo_clean_no_similar">Tidak ditemukan foto serupa</string>
+    <string name="photo_clean_title_duplicate">Foto Duplikat</string>
+    <string name="photo_clean_title_similar">Foto Serupa</string>
+    <string name="photo_clean_group_title">%d Foto</string>
+    <string name="photo_clean_select_all">Pilih Semua</string>
+    <string name="photo_clean_deselect_all">Batalkan Semua</string>
+    <string name="photo_clean_delete">Hapus</string>
+    <string name="photo_clean_reminder_title">Pengingat</string>
+    <string name="photo_clean_back_warning">Jika Anda keluar sekarang, file yang dipilih akan dibuang.</string>
+    <string name="photo_clean_delete_warning">Apakah Anda yakin ingin menghapus %d foto yang dipilih? Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="photo_clean_confirm">Konfirmasi</string>
+    <string name="photo_clean_cancel">Batal</string>
+    <string name="photo_clean_photos_label">Foto</string>
+    <string name="photo_clean_delete_success">Berhasil dihapus</string>
+    <string name="photo_clean_continue">Lanjutkan</string>
+    <string name="photo_clean_view_results">Lihat Hasil</string>
+
+    <!-- Exit Confirm -->
+    <string name="exit_confirm_title">Apakah Anda yakin ingin keluar dari aplikasi?</string>
+    <string name="exit_confirm_exit">Konfirmasi Keluar</string>
+    <string name="exit_confirm_cancel">Baca Berita</string>
+</resources>
+

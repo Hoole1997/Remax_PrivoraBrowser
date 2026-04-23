@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3845FF">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <TextView
+            android:id="@+id/tvToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/speed_test_title"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- ViewFlipper for 4 states -->
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/ispContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- State 0: Idle - Start Button -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/stateIdle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivStartOuter"
+                android:layout_width="230dp"
+                android:layout_height="230dp"
+                android:src="@drawable/ic_speed_start_outer"
+                android:scaleType="fitCenter"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
+
+            <ImageView
+                android:id="@+id/ivStartInner"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:background="@drawable/bg_speed_start_circle"
+                app:layout_constraintTop_toTopOf="@id/ivStartOuter"
+                app:layout_constraintBottom_toBottomOf="@id/ivStartOuter"
+                app:layout_constraintStart_toStartOf="@id/ivStartOuter"
+                app:layout_constraintEnd_toEndOf="@id/ivStartOuter" />
+
+            <TextView
+                android:id="@+id/tvStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed_start"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-medium"
+                app:layout_constraintTop_toTopOf="@id/ivStartInner"
+                app:layout_constraintBottom_toBottomOf="@id/ivStartInner"
+                app:layout_constraintStart_toStartOf="@id/ivStartInner"
+                app:layout_constraintEnd_toEndOf="@id/ivStartInner" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- State 1: Connecting -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/stateConnecting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivConnectOuter"
+                android:layout_width="230dp"
+                android:layout_height="230dp"
+                android:src="@drawable/ic_speed_start_outer_blue"
+                android:scaleType="fitCenter"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
+
+            <ImageView
+                android:id="@+id/ivConnectInner"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:background="@drawable/bg_speed_start_circle"
+                app:layout_constraintTop_toTopOf="@id/ivConnectOuter"
+                app:layout_constraintBottom_toBottomOf="@id/ivConnectOuter"
+                app:layout_constraintStart_toStartOf="@id/ivConnectOuter"
+                app:layout_constraintEnd_toEndOf="@id/ivConnectOuter" />
+
+            <TextView
+                android:id="@+id/tvConnecting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed_connecting"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-medium"
+                app:layout_constraintTop_toTopOf="@id/ivConnectInner"
+                app:layout_constraintBottom_toBottomOf="@id/ivConnectInner"
+                app:layout_constraintStart_toStartOf="@id/ivConnectInner"
+                app:layout_constraintEnd_toEndOf="@id/ivConnectInner" />
+
+            <TextView
+                android:id="@+id/tvSelectingServer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed_selecting_server"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@id/ivConnectOuter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- State 2: Testing -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/stateTesting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp">
+
+                <!-- Gauge Area -->
+                <FrameLayout
+                    android:id="@+id/gaugeContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.example.browser.ui.speed.SpeedGaugeView
+                        android:id="@+id/speedGauge"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </FrameLayout>
+
+                <!-- Current Speed Display -->
+                <LinearLayout
+                    android:id="@+id/speedDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@id/gaugeContainer"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/tvCurrentSpeed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textSize="32sp"
+                        android:fontFamily="sans-serif-medium"
+                        tools:text="10.49" />
+
+                    <TextView
+                        android:id="@+id/tvSpeedUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/speed_unit_mbps"
+                        android:textColor="#CEE6FF"
+                        android:textSize="14sp"
+                        android:layout_marginTop="2dp" />
+
+                </LinearLayout>
+
+                <!-- Progress Bar Background (track) -->
+                <View
+                    android:id="@+id/progressTrack"
+                    android:layout_width="224dp"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_speed_progress_track"
+                    app:layout_constraintTop_toBottomOf="@id/speedDisplay"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Progress Bar (actual progress) -->
+                <View
+                    android:id="@+id/progressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="4dp"
+                    android:background="@drawable/bg_speed_progress"
+                    app:layout_constraintTop_toTopOf="@id/progressTrack"
+                    app:layout_constraintStart_toStartOf="@id/progressTrack" />
+
+                <!-- Metrics Grid -->
+                <include
+                    layout="@layout/include_speed_metrics"
+                    android:id="@+id/metricsContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/progressTrack"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <!-- State 3: Completed -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/stateCompleted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp">
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/tvResultTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/speed_results_title"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Completed Metrics Grid -->
+                <include
+                    layout="@layout/include_speed_metrics"
+                    android:id="@+id/completedMetrics"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="42dp"
+                    app:layout_constraintTop_toBottomOf="@id/tvResultTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Test Again Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnTestAgain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="@string/speed_test_again"
+                    android:textColor="#0881FE"
+                    android:textSize="16sp"
+                    android:textAllCaps="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingHorizontal="80dp"
+                    app:backgroundTint="@android:color/white"
+                    app:cornerRadius="24dp"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintTop_toBottomOf="@id/completedMetrics"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- AD Container (placeholder) -->
+                <FrameLayout
+                    android:id="@+id/adContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:minHeight="276dp"
+                    app:layout_constraintTop_toBottomOf="@id/btnTestAgain"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </ViewFlipper>
+
+    <!-- Bottom ISP Info (shared across idle/connecting/testing states) -->
+    <LinearLayout
+        android:id="@+id/ispContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/ivIspIcon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_speed_wifi" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp">
+
+            <TextView
+                android:id="@+id/tvIspName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium"
+                tools:text="AS20473 The Constant Company, LLC" />
+
+            <TextView
+                android:id="@+id/tvIspIp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:layout_marginTop="10dp"
+                tools:text="149.28.167.168" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

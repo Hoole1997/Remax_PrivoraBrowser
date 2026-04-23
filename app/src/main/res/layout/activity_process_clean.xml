@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/top_view"
+        android:src="@mipmap/bg_process_clean_top"
+        android:background="#3F8DF7"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="262dp"/>
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="@id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/process_clean_title"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <ProgressBar
+        android:id="@+id/pb_process_used"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:progressDrawable="@drawable/progress_junk_scan"
+        app:layout_constraintBottom_toBottomOf="@id/top_view"
+        android:layout_marginBottom="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_used_progress"
+        app:layout_constraintStart_toStartOf="@id/pb_process_used"
+        app:layout_constraintBottom_toTopOf="@id/pb_process_used"
+        android:layout_marginBottom="16dp"
+        tools:text="52.9%"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="@string/process_used"
+        android:textColor="#D1E1FF"
+        android:textSize="12sp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintStart_toStartOf="@id/tv_used_progress"
+        app:layout_constraintBottom_toTopOf="@id/tv_used_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_used_size"
+        tools:text="5.9GB/11.2GB"
+        android:textColor="#D1E1FF"
+        android:textSize="14sp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_used_progress"
+        app:layout_constraintEnd_toEndOf="@id/pb_process_used"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/adContainer"
+        app:layout_constraintTop_toBottomOf="@id/top_view">
+
+        <TextView
+            android:text="@string/process_background_apps"
+            android:textColor="@color/black_333"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_apps"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_process_app"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clean"
+            android:text="@string/process_clean_buton"
+            android:backgroundTint="#0881FE"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/adContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- 扫描覆盖层 -->
+    <FrameLayout
+        android:id="@+id/scanningOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3F8DF7"
+        android:visibility="visible"
+        android:clickable="true"
+        android:focusable="true">
+
+        <!-- 顶部工具栏区域 -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/scanToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+            <TextView
+                android:text="@string/process_clean_title"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <!-- 中心内容区域 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <!-- Lottie动画 - 尺寸300x230，圆球中心在(147.5, 152) -->
+            <FrameLayout
+                android:layout_width="300dp"
+                android:layout_height="230dp">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottieAnimation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:lottie_rawRes="@raw/process_animation"
+                    app:lottie_autoPlay="false"
+                    app:lottie_loop="false"/>
+
+                <!-- 百分比文字覆盖在圆球中心 - 圆球中心Y=152/230≈66%，需要向下偏移 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="120dp">
+
+                    <TextView
+                        android:id="@+id/tvScanPercent"
+                        android:text="0"
+                        android:textColor="#3F8DF7"
+                        android:textSize="48sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="%"
+                        android:textColor="#3F8DF7"
+                        android:textSize="20sp"
+                        android:layout_marginStart="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <!-- 扫描提示文字 -->
+            <TextView
+                android:id="@+id/tvScanningHint"
+                android:text="@string/process_scanning_hint"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

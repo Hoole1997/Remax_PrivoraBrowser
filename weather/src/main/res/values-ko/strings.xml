@@ -1,0 +1,19 @@
+<resources>
+    <string name="weather_high">최고</string>
+    <string name="weather_low">최저</string>
+    <string name="weather_wind_speed">풍속</string>
+    <string name="weather_precipitation">강수량</string>
+    <string name="weather_daily_forecast">5일 예보</string>
+    <string name="weather_more_details">세부 정보</string>
+    <string name="weather_humidity">습도</string>
+    <string name="weather_uv_index">자외선 지수</string>
+    <string name="weather_pressure">기압</string>
+    <string name="weather_visibility">가시거리</string>
+    <string name="weather_sunrise">일출</string>
+    <string name="weather_sunset">일몰</string>
+    <string name="weather_load_failed">로드 실패</string>
+    <string name="weather_retry">재시도</string>
+    <string name="weather_searching">검색 중...</string>
+    <string name="weather_current_location">현재 위치</string>
+    <string name="weather_search_city_hint">도시 검색...</string>
+</resources>

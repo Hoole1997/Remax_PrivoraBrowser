@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M4,5h6l2,2h8a1,1 0,0 1,1 1v10a2,2 0,0 1,-2 2H5a2,2 0,0 1,-2 -2V7a2,2 0,0 1,2 -2z"
+        android:strokeWidth="1.6"
+        android:strokeColor="@color/bookmark_icon_tint"
+        android:strokeLineJoin="round"
+        android:strokeLineCap="round" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M15,12v4"
+        android:strokeWidth="1.6"
+        android:strokeColor="@color/bookmark_icon_tint"
+        android:strokeLineCap="round" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M13,14h4"
+        android:strokeWidth="1.6"
+        android:strokeColor="@color/bookmark_icon_tint"
+        android:strokeLineCap="round" />
+</vector>

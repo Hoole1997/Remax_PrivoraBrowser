@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab_container"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:background="@drawable/bg_tab_toggle_unselected"
+    android:paddingLeft="@dimen/bookmark_tab_item_horizontal_padding"
+    android:paddingRight="@dimen/bookmark_tab_item_horizontal_padding"
+    android:paddingTop="@dimen/bookmark_tab_item_vertical_padding"
+    android:paddingBottom="@dimen/bookmark_tab_item_vertical_padding"
+    android:foregroundGravity="center"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tv_tab_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/bookmark_tab_text_size"
+        tools:text="历史记录"
+        android:textColor="@color/bookmark_tab_text_selected" />
+</FrameLayout>

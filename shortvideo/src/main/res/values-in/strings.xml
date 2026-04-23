@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="short_video_module_name">Video Pendek</string>
+    <string name="tab_popular">Populer</string>
+    <string name="tab_following">Suka Saya</string>
+    <string name="video_loading">Memuat video...</string>
+    <string name="no_data">Tidak ada data...</string>
+    <string name="loading_failed">Gagal memuat</string>
+    <string name="loading_failed_desc">Terjadi kesalahan. Silakan coba lagi.</string>
+    <string name="retry">Coba lagi</string>
+</resources>

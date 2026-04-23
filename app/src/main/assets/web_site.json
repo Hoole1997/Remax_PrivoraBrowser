@@ -1,0 +1,230 @@
+{
+  "social": [
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com",
+      "icon": "web_instagram.webp"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com",
+      "icon": "web_facebook.webp"
+    },
+    {
+      "name": "Reddit",
+      "url": "https://www.reddit.com",
+      "icon": "web_reddit.webp"
+    },
+    {
+      "name": "Pinterest",
+      "url": "https://www.pinterest.com",
+      "icon": "web_pinterest.webp"
+    },
+    {
+      "name": "WhatsApp",
+      "url": "https://www.whatsapp.com",
+      "icon": "web_whatsapp.webp"
+    },
+    {
+      "name": "Twitter (X)",
+      "url": "https://www.x.com",
+      "icon": "web_x.webp"
+    },
+    {
+      "name": "Snapchat",
+      "url": "https://www.snapchat.com",
+      "icon": "web_snapchat.webp"
+    }
+  ],
+  "video": [
+    {
+      "name": "Netflix",
+      "url": "https://www.netflix.com",
+      "icon": "web_netflix.webp"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://www.youtube.com",
+      "icon": "web_youtube.webp"
+    },
+    {
+      "name": "Vimeo",
+      "url": "https://www.vimeo.com",
+      "icon": "web_vimeo.webp"
+    },
+    {
+      "name": "Dailymotion",
+      "url": "https://www.dailymotion.com",
+      "icon": "web_dailymotion.webp"
+    }
+  ],
+  "music": [
+    {
+      "name": "Vevo",
+      "url": "https://www.vevo.com",
+      "icon": "web_vevo.webp"
+    },
+    {
+      "name": "Spotify",
+      "url": "https://www.spotify.com",
+      "icon": "web_spotify.webp"
+    }
+  ],
+  "news": [
+    {
+      "name": "CNN",
+      "url": "https://www.cnn.com",
+      "icon": "web_cnn.webp"
+    },
+    {
+      "name": "Fox News",
+      "url": "https://www.foxnews.com",
+      "icon": "web_foxnews.webp"
+    },
+    {
+      "name": "NYTimes",
+      "url": "https://www.nytimes.com",
+      "icon": "web_nytimes.webp"
+    },
+    {
+      "name": "NBC News",
+      "url": "https://www.nbcnews.com",
+      "icon": "web_nbcnews.webp"
+    },
+    {
+      "name": "CBC Sports",
+      "url": "https://www.cbc.ca/sports",
+      "icon": "web_cbcsports.webp"
+    },
+    {
+      "name": "ESPN",
+      "url": "https://www.espn.com",
+      "icon": "web_espn.webp"
+    },
+    {
+      "name": "Marca",
+      "url": "https://www.marca.com",
+      "icon": "web_marca.webp"
+    }
+  ],
+  "tools": [
+    {
+      "name": "ChatGPT",
+      "url": "https://chat.openai.com",
+      "icon": "web_chatgpt.webp"
+    },
+    {
+      "name": "Bing",
+      "url": "https://www.bing.com",
+      "icon": "web_bing.webp"
+    },
+    {
+      "name": "Wikipedia",
+      "url": "https://www.wikipedia.org",
+      "icon": "web_wikipedia.webp"
+    },
+    {
+      "name": "Yahoo",
+      "url": "https://www.yahoo.com",
+      "icon": "web_yahoo.webp"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "icon": "web_linkedin.webp"
+    }
+  ],
+  "entertainment": [
+    {
+      "name": "Hulu",
+      "url": "https://www.hulu.com",
+      "icon": "web_hulu.webp"
+    },
+    {
+      "name": "Twitch",
+      "url": "https://www.twitch.tv",
+      "icon": "web_twitch.webp"
+    },
+    {
+      "name": "Tumblr",
+      "url": "https://www.tumblr.com",
+      "icon": "web_tumblr.webp"
+    },
+    {
+      "name": "TikTok",
+      "url": "https://www.tiktok.com",
+      "icon": "web_tiktok.webp"
+    }
+  ],
+  "shopping": [
+    {
+      "name": "Amazon",
+      "url": "https://www.amazon.com",
+      "icon": "web_amazon.webp"
+    },
+    {
+      "name": "eBay",
+      "url": "https://www.ebay.com",
+      "icon": "web_ebay.webp"
+    },
+    {
+      "name": "Shopee",
+      "url": "https://www.shopee.com",
+      "icon": "web_shopee.webp"
+    },
+    {
+      "name": "Lazada",
+      "url": "https://www.lazada.com",
+      "icon": "web_lazada.webp"
+    }
+  ],
+  "sport": [
+    {
+      "name": "Cricbuzz",
+      "url": "https://www.cricbuzz.com",
+      "icon": "web_cricbuzz.webp"
+    },
+    {
+      "name": "Flashscore",
+      "url": "https://www.flashscore.com",
+      "icon": "web_flashscore.webp"
+    },
+    {
+      "name": "Fantasy Premier League",
+      "url": "https://fantasy.premierleague.com",
+      "icon": "web_fantasy-premier-league.webp"
+    },
+    {
+      "name": "GOAL",
+      "url": "https://www.goal.com",
+      "icon": "web_goal.webp"
+    },
+    {
+      "name": "Yahoo Sports",
+      "url": "https://sports.yahoo.com",
+      "icon": "web_yahoo-sports.webp"
+    },
+    {
+      "name": "WWE",
+      "url": "https://www.wwe.com",
+      "icon": "web_wwe.webp"
+    }
+  ],
+  "travel": [
+    {
+      "name": "Airbnb",
+      "url": "https://www.airbnb.com",
+      "icon": "web_airbnb.webp"
+    },
+    {
+      "name": "Hotels",
+      "url": "https://www.hotels.com",
+      "icon": "web_hotels.webp"
+    },
+    {
+      "name": "Tripadvisor",
+      "url": "https://www.tripadvisor.com",
+      "icon": "web_tripadvisor.webp"
+    }
+  ]
+}

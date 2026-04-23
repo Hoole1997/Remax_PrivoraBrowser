@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    标签页管理 Activity 布局
+    使用 Fragment 架构，Activity 只负责容器
+    去除Toolbar，工具栏由Fragment自己管理
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragmentContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" />

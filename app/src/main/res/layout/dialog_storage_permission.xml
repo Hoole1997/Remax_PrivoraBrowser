@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog_white_top_radius"
+    android:paddingBottom="32dp">
+
+    <!-- 顶部指示器 -->
+    <View
+        android:layout_width="66dp"
+        android:layout_height="8dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_dialog_indicator" />
+
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="@string/storage_permission_dialog_title"
+        android:textColor="#333333"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- 描述 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:text="@string/storage_permission_dialog_desc"
+        android:textColor="#333333"
+        android:textSize="14sp" />
+
+    <!-- 权限项卡片 -->
+    <com.hjq.shape.layout.ShapeLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:shape_radius="12dp"
+        app:shape_solidColor="@color/white"
+        app:shape_shadowColor="#1A000000"
+        app:shape_shadowSize="4dp">
+
+        <!-- 权限图标 -->
+        <ImageView
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:src="@mipmap/ic_storage_permission"
+            android:contentDescription="@null" />
+
+        <!-- 权限文字 -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@string/storage_permission_dialog_item"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- 开关图标 -->
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="28dp"
+            android:src="@mipmap/ic_switch_on"
+            android:contentDescription="@null" />
+
+    </com.hjq.shape.layout.ShapeLinearLayout>
+
+    <!-- 按钮区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <!-- Later 按钮 -->
+        <com.hjq.shape.view.ShapeButton
+            android:id="@+id/btn_later"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="@string/storage_permission_dialog_later"
+            android:textColor="#666666"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:shape_radius="24dp"
+            app:shape_solidColor="#F3F3F3" />
+
+        <View
+            android:layout_width="13dp"
+            android:layout_height="0dp" />
+
+        <!-- Go Now 按钮 -->
+        <com.hjq.shape.view.ShapeButton
+            android:id="@+id/btn_go_now"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="@string/storage_permission_dialog_go_now"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:shape_radius="24dp"
+            app:shape_solidColor="#0881FE" />
+
+    </LinearLayout>
+
+</LinearLayout>
