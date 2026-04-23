@@ -2,7 +2,6 @@ package com.example.browser.ad
 
 import com.android.common.bill.BillConfig
 import com.android.common.bill.ui.NativeAdStyle
-import com.android.common.bill.ui.max.MaxNativeAdStyle
 import com.android.common.bill.ui.pangle.PangleNativeAdStyle
 import com.android.common.bill.ui.topon.ToponNativeAdStyle
 import com.example.browser.BuildConfig
@@ -57,20 +56,6 @@ object AdConfig {
                 "large",
                 146
             )
-        )
-    }
-
-    fun maxConfig() : BillConfig.MaxConfig {
-        return BillConfig.MaxConfig(
-            sdkKey = BuildConfig.MAX_SDK_KEY,
-            splashId = BuildConfig.MAX_SPLASH_ID,
-            bannerId = BuildConfig.MAX_BANNER_ID,
-            interstitialId = BuildConfig.MAX_INTERSTITIAL_ID,
-            nativeId = BuildConfig.MAX_NATIVE_ID,
-            fullNativeId = BuildConfig.MAX_FULL_NATIVE_ID,
-            rewardedId = BuildConfig.MAX_REWARDED_ID,
-            nativeStyleStandard = MaxNativeAdStyle(R.layout.layout_max_native_ads),
-            nativeStyleLarge = MaxNativeAdStyle(R.layout.layout_max_native_ads_large)
         )
     }
 }

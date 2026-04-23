@@ -53,7 +53,7 @@ fun FragmentActivity.loadInterstitial(condition: () -> Boolean = { true }, call:
                 return@launch
             }
 
-            when (val result = AdShowExt.showInterstitialAd(this@loadInterstitial)) {
+            when (val result = AdShowExt.showInterstitialAd(this@loadInterstitial,ignoreFullNative = true)) {
                 is AdResult.Success -> {
                     call.invoke(true)
                 }

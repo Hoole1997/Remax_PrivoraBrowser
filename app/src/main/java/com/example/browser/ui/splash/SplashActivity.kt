@@ -23,8 +23,6 @@ import com.example.browser.ad.AdConfig
 import com.example.browser.ad.BrowserAdLoadingDialogRenderer
 import com.example.browser.ad.BrowserAdmobFullScreenNativeAdRenderer
 import com.example.browser.ad.BrowserAdmobNativeAdRenderer
-import com.example.browser.ad.BrowserMaxFullScreenNativeAdRenderer
-import com.example.browser.ad.BrowserMaxNativeAdRenderer
 import com.example.browser.ad.BrowserPangleFullScreenNativeAdRenderer
 import com.example.browser.ad.BrowserPangleNativeAdRenderer
 import com.example.browser.ad.BrowserToponFullScreenNativeAdRenderer
@@ -185,13 +183,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
                 admob = AdConfig.admobConfig()
                 pangle = AdConfig.pangleConfig()
                 topon = AdConfig.toponConfig()
-                max = AdConfig.maxConfig()
 
                 // ===== 渲染器 =====
                 admobNativeRenderer = BrowserAdmobNativeAdRenderer()
                 admobFullScreenNativeRenderer = BrowserAdmobFullScreenNativeAdRenderer()
-                maxNativeRenderer = BrowserMaxNativeAdRenderer()
-                maxFullScreenNativeRenderer = BrowserMaxFullScreenNativeAdRenderer()
                 pangleNativeRenderer = BrowserPangleNativeAdRenderer()
                 pangleFullScreenNativeRenderer = BrowserPangleFullScreenNativeAdRenderer()
                 toponNativeRenderer = BrowserToponNativeAdRenderer()
