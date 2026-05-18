@@ -1,7 +1,6 @@
 package com.example.browser.ui.setting
 
 import android.graphics.Bitmap
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,14 +16,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -57,116 +53,115 @@ fun SettingScreen(
     onFeedbackClick: () -> Unit,
     onAdSourceClick: () -> Unit,
 ) {
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF9F9FA)),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        item("toolbar") {
-            Box(
-                modifier = Modifier
-                    .statusBarsPadding()
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .background(Color.White),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = stringResource(R.string.tab_settings),
-                    color = Color(0xFF333333),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+        // Toolbar 独立于 LazyColumn，不受 contentPadding 影响
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .height(50.dp)
+                .background(Color.White),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = stringResource(R.string.tab_settings),
+                color = Color(0xFF333333),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+            )
+        }
+
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            item("search_engine") {
+                SettingsActionRow(
+                    icon = {
+                        if (searchEngineIcon != null) {
+                            Image(
+                                painter = BitmapPainter(searchEngineIcon.asImageBitmap()),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                            )
+                        } else {
+                            Image(
+                                painter = painterResource(R.mipmap.ic_search_icon_google),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                            )
+                        }
+                    },
+                    title = stringResource(R.string.search_engine),
+                    value = searchEngineName,
+                    onClick = onSearchEngineClick,
                 )
             }
-        }
 
-        item("spacer") {
-            Spacer(modifier = Modifier.height(4.dp))
-        }
+            item("default_browser") {
+                SettingsSwitchRow(
+                    iconRes = R.mipmap.ic_setting_default_browser,
+                    title = stringResource(R.string.default_browser),
+                    checked = isDefaultBrowser,
+                    onCheckedChange = onDefaultBrowserCheckedChange,
+                )
+            }
 
-        item("search_engine") {
-            SettingsActionRow(
-                icon = {
-                    if (searchEngineIcon != null) {
-                        Image(
-                            painter = BitmapPainter(searchEngineIcon.asImageBitmap()),
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp),
-                        )
-                    } else {
-                        Image(
-                            painter = painterResource(R.mipmap.ic_search_icon_google),
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp),
-                        )
-                    }
-                },
-                title = stringResource(R.string.search_engine),
-                value = searchEngineName,
-                onClick = onSearchEngineClick,
-            )
-        }
-
-        item("default_browser") {
-            SettingsSwitchRow(
-                iconRes = R.mipmap.ic_setting_default_browser,
-                title = stringResource(R.string.default_browser),
-                checked = isDefaultBrowser,
-                onCheckedChange = onDefaultBrowserCheckedChange,
-            )
-        }
-
-        item("language") {
-            SettingsActionRow(
-                icon = {
-                    Image(
-                        painter = painterResource(R.mipmap.ic_setting_language),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp),
-                    )
-                },
-                title = stringResource(R.string.language),
-                value = languageName,
-                onClick = onLanguageClick,
-            )
-        }
-
-        item("clear_history") {
-            SettingsSimpleRow(
-                iconRes = R.mipmap.ic_setting_clear_history,
-                title = stringResource(R.string.clear_history),
-                onClick = onClearHistoryClick,
-            )
-        }
-
-        item("about") {
-            SettingsSimpleRow(
-                iconRes = R.mipmap.ic_setting_about,
-                title = stringResource(R.string.about),
-                onClick = onAboutClick,
-            )
-        }
-
-        if (showDebugAdSource) {
-            item("ad_source") {
+            item("language") {
                 SettingsActionRow(
                     icon = {
                         Image(
-                            painter = painterResource(R.drawable.ic_ads),
+                            painter = painterResource(R.mipmap.ic_setting_language),
                             contentDescription = null,
                             modifier = Modifier.size(24.dp),
                         )
                     },
-                    title = "[Debug] 广告源",
-                    value = adSourceName,
-                    containerColor = Color(0xFFFFF3E0),
-                    titleColor = Color(0xFFFF9800),
-                    valueColor = Color(0xFFFF9800),
-                    arrowTint = Color(0xFFFF9800),
-                    onClick = onAdSourceClick,
+                    title = stringResource(R.string.language),
+                    value = languageName,
+                    onClick = onLanguageClick,
                 )
+            }
+
+            item("clear_history") {
+                SettingsSimpleRow(
+                    iconRes = R.mipmap.ic_setting_clear_history,
+                    title = stringResource(R.string.clear_history),
+                    onClick = onClearHistoryClick,
+                )
+            }
+
+            item("about") {
+                SettingsSimpleRow(
+                    iconRes = R.mipmap.ic_setting_about,
+                    title = stringResource(R.string.about),
+                    onClick = onAboutClick,
+                )
+            }
+
+            if (showDebugAdSource) {
+                item("ad_source") {
+                    SettingsActionRow(
+                        icon = {
+                            Image(
+                                painter = painterResource(R.drawable.ic_ads),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                            )
+                        },
+                        title = "[Debug] 广告源",
+                        value = adSourceName,
+                        containerColor = Color(0xFFFFF3E0),
+                        titleColor = Color(0xFFFF9800),
+                        valueColor = Color(0xFFFF9800),
+                        arrowTint = Color(0xFFFF9800),
+                        onClick = onAdSourceClick,
+                    )
+                }
             }
         }
     }
