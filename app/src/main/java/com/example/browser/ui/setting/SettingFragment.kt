@@ -20,7 +20,6 @@ import com.example.browser.data.language.SupportedLanguages
 import com.example.browser.databinding.FragmentSettingsBinding
 import com.example.browser.utils.DefaultBrowserHelper
 import com.example.browser.utils.LanguageUtils
-import com.example.browser.view.ChooseSearchEngineDialog
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -60,7 +59,7 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding, SettingsModel>() {
                     isDefaultBrowser = isDefaultBrowser,
                     showDebugAdSource = BuildConfig.DEBUG,
                     adSourceName = adSourceName,
-                    onSearchEngineClick = { ChooseSearchEngineDialog.show(childFragmentManager) },
+                    onSearchEngineClick = { SearchEngineBottomDialog.show(childFragmentManager) },
                     onDefaultBrowserCheckedChange = ::handleDefaultBrowserToggle,
                     onLanguageClick = { LanguageBottomDialog.show(childFragmentManager) },
                     onClearHistoryClick = { ClearDataBottomDialog.show(childFragmentManager) },

@@ -13,25 +13,34 @@
     android:paddingBottom="12dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:background="@drawable/bg_language_item">
+    android:background="@drawable/bg_search_engine_item">
 
-    <!-- 语言名称 -->
+    <!-- 搜索引擎图标 -->
+    <ImageView
+        android:id="@+id/iv_engine_icon"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:src="@mipmap/ic_search_icon_google"
+        android:contentDescription="@string/search_engine" />
+
+    <!-- 搜索引擎名称 -->
     <TextView
-        android:id="@+id/tv_language_name"
+        android:id="@+id/tv_engine_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="English"
-        android:textSize="14sp"
-        android:textColor="#333333" />
+        android:layout_marginStart="12dp"
+        android:text="Google"
+        android:textColor="#333333"
+        android:textSize="14sp" />
 
     <!-- 选中指示图标 -->
     <ImageView
         android:id="@+id/iv_check"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:src="@drawable/ic_language_checked"
+        android:src="@drawable/ic_search_engine_checked"
         android:visibility="gone"
-        android:contentDescription="@string/language_select_title" />
+        android:contentDescription="@string/search_engine" />
 
 </LinearLayout>

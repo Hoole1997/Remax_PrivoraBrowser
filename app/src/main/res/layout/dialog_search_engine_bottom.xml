@@ -21,26 +21,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="12dp"
-        android:text="@string/language_select_title"
+        android:text="@string/search_engine"
         android:textColor="#1A1A1A"
         android:textSize="15sp"
         android:textStyle="bold" />
 
-    <!-- 语言列表 -->
+    <!-- 搜索引擎列表 -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_languages"
+        android:id="@+id/rv_search_engines"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:overScrollMode="never"
         android:clipToPadding="false" />
-
-    <!-- 广告容器 -->
-    <FrameLayout
-        android:id="@+id/ads_container"
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>
