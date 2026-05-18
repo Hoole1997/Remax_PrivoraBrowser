@@ -71,11 +71,12 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
         // 天气区域初始显示占位状态（"--"）
         binding?.weatherContainer?.isVisible = true
         binding?.tvTemperature?.text = "--"
-        binding?.ivWeatherIcon?.setImageResource(com.browser.weather.R.drawable.ic_weather_partly_cloudy)
+        binding?.ivWeatherIcon?.setImageResource(R.drawable.ic_weather_home_partly_cloudy)
 
-        // 天气区域点击 -> 可跳转天气详情
+        // 天气区域点击 -> 跳转天气详情页
         binding?.weatherContainer?.setOnClickListener {
-            // 可以跳转到天气详情页
+            val ctx = activity ?: return@setOnClickListener
+            com.browser.weather.ui.WeatherActivity.start(ctx)
         }
 
         // 历史记录按钮 -> 跳转到 BookmarkActivity 的 History Tab
@@ -99,9 +100,8 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
         viewModel.weatherData.observe(viewLifecycleOwner) { weatherData ->
             if (weatherData != null) {
                 binding?.weatherContainer?.isVisible = true
-                // 温度转华氏度显示
-                val tempF = (weatherData.temperature * 9 / 5) + 32
-                binding?.tvTemperature?.text = tempF.toString()
+                // 直接使用摄氏度显示（API返回的就是摄氏度）
+                binding?.tvTemperature?.text = weatherData.temperature.toString()
 
                 // 根据天气代码设置图标
                 val iconRes = getWeatherIconRes(weatherData.weatherIcon, weatherData.isDayTime)
@@ -127,22 +127,22 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
     }
 
     /**
-     * 根据 WMO 天气代码返回对应图标资源
+     * 根据 WMO 天气代码返回对应图标资源（首页专用，小尺寸优化）
      */
     private fun getWeatherIconRes(weatherCode: Int, isDayTime: Boolean): Int {
         return when (weatherCode) {
-            0 -> if (isDayTime) com.browser.weather.R.drawable.ic_weather_sunny else com.browser.weather.R.drawable.ic_weather_night_clear
-            1 -> if (isDayTime) com.browser.weather.R.drawable.ic_weather_sunny else com.browser.weather.R.drawable.ic_weather_night_clear
-            2 -> if (isDayTime) com.browser.weather.R.drawable.ic_weather_partly_cloudy else com.browser.weather.R.drawable.ic_weather_night_cloudy
-            3 -> com.browser.weather.R.drawable.ic_weather_cloudy
-            45, 48 -> com.browser.weather.R.drawable.ic_weather_fog
-            51, 53, 55, 56, 57 -> com.browser.weather.R.drawable.ic_weather_rain
-            61, 63, 65, 66, 67 -> com.browser.weather.R.drawable.ic_weather_rain
-            71, 73, 75, 77 -> com.browser.weather.R.drawable.ic_weather_snow
-            80, 81, 82 -> com.browser.weather.R.drawable.ic_weather_rain
-            85, 86 -> com.browser.weather.R.drawable.ic_weather_snow
-            95, 96, 99 -> com.browser.weather.R.drawable.ic_weather_thunderstorm
-            else -> com.browser.weather.R.drawable.ic_weather_cloudy
+            0 -> if (isDayTime) R.drawable.ic_weather_home_sunny else R.drawable.ic_weather_home_night_clear
+            1 -> if (isDayTime) R.drawable.ic_weather_home_sunny else R.drawable.ic_weather_home_night_clear
+            2 -> if (isDayTime) R.drawable.ic_weather_home_partly_cloudy else R.drawable.ic_weather_home_night_cloudy
+            3 -> R.drawable.ic_weather_home_cloudy
+            45, 48 -> R.drawable.ic_weather_home_fog
+            51, 53, 55, 56, 57 -> R.drawable.ic_weather_home_rain
+            61, 63, 65, 66, 67 -> R.drawable.ic_weather_home_rain
+            71, 73, 75, 77 -> R.drawable.ic_weather_home_snow
+            80, 81, 82 -> R.drawable.ic_weather_home_rain
+            85, 86 -> R.drawable.ic_weather_home_snow
+            95, 96, 99 -> R.drawable.ic_weather_home_thunderstorm
+            else -> R.drawable.ic_weather_home_cloudy
         }
     }
 

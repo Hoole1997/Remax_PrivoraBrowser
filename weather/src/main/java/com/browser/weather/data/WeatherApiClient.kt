@@ -78,7 +78,11 @@ class WeatherApiClient(private val context: Context) {
             val lat = ipGeo.latitude
             val lon = ipGeo.longitude
             if (lat != null && lon != null) {
-                return Triple(lat, lon, ipGeo.city ?: "Unknown")
+                val cityName = ipGeo.city?.takeIf { it.isNotBlank() }
+                    ?: ipGeo.region?.takeIf { it.isNotBlank() }
+                    ?: ipGeo.country?.takeIf { it.isNotBlank() }
+                    ?: "My Location"
+                return Triple(lat, lon, cityName)
             }
             LogUtils.w(TAG, "ip.sb returned no lat/lon, trying fallback...")
         } catch (e: Exception) {
@@ -91,7 +95,11 @@ class WeatherApiClient(private val context: Context) {
         val fallback = gson.fromJson(fallbackBody, IpApiComResponse::class.java)
         val lat = fallback.lat ?: throw Exception("All IP geolocation APIs failed: no latitude")
         val lon = fallback.lon ?: throw Exception("All IP geolocation APIs failed: no longitude")
-        return Triple(lat, lon, fallback.city ?: "Unknown")
+        val cityName = fallback.city?.takeIf { it.isNotBlank() }
+            ?: fallback.regionName?.takeIf { it.isNotBlank() }
+            ?: fallback.country?.takeIf { it.isNotBlank() }
+            ?: "My Location"
+        return Triple(lat, lon, cityName)
     }
 
     /**
