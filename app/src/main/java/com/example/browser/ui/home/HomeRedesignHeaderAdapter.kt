@@ -9,13 +9,11 @@ import com.example.browser.databinding.ItemHomeRedesignHeaderBinding
 import com.example.browser.ui.tabs.GridSpacingItemDecoration
 
 class HomeRedesignHeaderAdapter(
-    private val onCleanClick: () -> Unit,
-    private val onNewsClick: () -> Unit,
-    private val onSpeedClick: () -> Unit,
-    private val onProcessClick: () -> Unit,
-    private val onBookmarkClick: () -> Unit,
-    private val onDuplicateClick: () -> Unit,
-    private val onEditClick: () -> Unit,
+    private val onSearchClick: () -> Unit,
+    private val onVoiceClick: () -> Unit,
+    private val onScanClick: () -> Unit,
+    private val onPdfClick: () -> Unit,
+    private val onVideoClick: () -> Unit,
     private val onMoreClick: () -> Unit,
     private val onWebsiteClick: (QuickWebsite) -> Unit,
     private val onWebsiteLongClick: (QuickWebsite) -> Unit,
@@ -60,13 +58,11 @@ class HomeRedesignHeaderAdapter(
                 }
             }
 
-            binding.actionClean.setOnClickListener { onCleanClick() }
-            binding.actionNews.setOnClickListener { onNewsClick() }
-            binding.actionSpeed.setOnClickListener { onSpeedClick() }
-            binding.actionProcess.setOnClickListener { onProcessClick() }
-            binding.actionBookmark.setOnClickListener { onBookmarkClick() }
-            binding.actionDuplicate.setOnClickListener { onDuplicateClick() }
-            binding.tvEdit.setOnClickListener { onEditClick() }
+            binding.searchBarContainer.setOnClickListener { onSearchClick() }
+            binding.voiceSearchIcon.setOnClickListener { onVoiceClick() }
+            binding.qrCodeScanIcon.setOnClickListener { onScanClick() }
+            binding.actionPdf.setOnClickListener { onPdfClick() }
+            binding.actionVideo.setOnClickListener { onVideoClick() }
             binding.tvMore.setOnClickListener { onMoreClick() }
         }
 

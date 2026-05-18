@@ -1,13 +1,15 @@
 <resources>
     <string name="app_name" translatable="false">Privora Browser - Smart &amp; Safe</string>
-    <string name="home_title" translatable="false">Open Browser</string>
+    <string name="home_title" translatable="false">Privora Browser</string>
 
     <string name="tab_home">Home</string>
     <string name="tab_short">Short</string>
     <string name="tab_files">Files</string>
     <string name="tab_tabs">Tabs</string>
     <string name="tab_settings">Settings</string>
-    <string name="home_search_text_hint">Search or enter URL</string>
+    <string name="home_search_text_hint">Search or enter web address</string>
+    <string name="home_pdf_generation">PDF Generation</string>
+    <string name="home_video_generation">Video Generation</string>
     <string name="clean">Clean</string>
     <string name="news">News</string>
     <string name="process">Process</string>

@@ -1,49 +1,33 @@
 package com.example.browser.ui.home
 
 import android.content.Intent
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ClickUtils
 import com.blankj.utilcode.util.LogUtils
-import com.example.browser.BrowserApplication
 import com.example.browser.R
 import com.example.browser.base.BaseFragment
+import com.example.browser.components
 import com.example.browser.data.website.QuickWebsite
 import com.example.browser.data.website.QuickWebsiteRepository
 import com.example.browser.databinding.FragmentHomeRedesignBinding
-import com.example.browser.ui.MainActivity
-import com.example.browser.ui.bookmark.BookmarkActivity
-import com.example.browser.ui.dialog.StoragePermissionDialog
-import com.example.browser.ui.junk.JunkScanActivity
-import com.example.browser.ui.junk.ProcessCleanActivity
 import com.example.browser.ui.news.NewsDetailsActivity
 import com.example.browser.ui.news.NewsFeedItem
 import com.example.browser.ui.news.NewsItem
 import com.example.browser.ui.news.NewsModel
 import com.example.browser.ui.news.NewsMoreActivity
-import com.example.browser.ui.photoclean.PhotoCleanActivity
-import com.example.browser.ui.photoclean.PhotoScanDialogFragment
-import com.example.browser.ui.photoclean.model.PhotoCleanMode
 import com.example.browser.ui.scan.ScanResultActivity
 import com.example.browser.ui.search.SearchActivity
-import com.example.browser.ui.speed.SpeedTestActivity
 import com.example.browser.ui.web.WebActivity
 import com.example.browser.ui.website.RecommendedWebsitesActivity
 import com.example.browser.utils.GoogleBarcodeScanner
 import com.example.browser.view.ConfirmDialog
-import com.hjq.permissions.XXPermissions
-import com.hjq.permissions.permission.PermissionLists
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import mozilla.components.browser.state.state.selectedOrDefaultSearchEngine
 import mozilla.components.lib.state.ext.flowScoped
 
 class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel>() {
@@ -69,46 +53,124 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
 
     override fun lazyLoad() {
         super.lazyLoad()
-        setupSearchListeners()
+        setupTopNavBar()
         setupHomeRecycler()
         setupSwipeRefresh()
         initNewsModel()
         observeQuickWebsites()
         observeNews()
-        observeSearchEngine()
+        observeWeather()
+        observeTabCount()
+        viewModel.loadWeather()
     }
 
-    private fun setupSearchListeners() {
-        ClickUtils.applyGlobalDebouncing(binding?.searchBarContainer) {
-            val intent = Intent(activity ?: return@applyGlobalDebouncing, SearchActivity::class.java)
-            startActivity(intent)
+    /**
+     * 设置顶部导航栏：天气 + 历史 + Tab计数
+     */
+    private fun setupTopNavBar() {
+        // 天气区域初始显示占位状态（"--"）
+        binding?.weatherContainer?.isVisible = true
+        binding?.tvTemperature?.text = "--"
+        binding?.ivWeatherIcon?.setImageResource(com.browser.weather.R.drawable.ic_weather_partly_cloudy)
+
+        // 天气区域点击 -> 可跳转天气详情
+        binding?.weatherContainer?.setOnClickListener {
+            // 可以跳转到天气详情页
         }
 
-        ClickUtils.applyGlobalDebouncing(binding?.voiceSearchIcon) {
-            val intent = Intent(activity ?: return@applyGlobalDebouncing, SearchActivity::class.java).apply {
-                putExtra(SearchActivity.EXTRA_START_VOICE_SEARCH, true)
-            }
-            startActivity(intent)
+        // 历史记录按钮 -> 跳转到 BookmarkActivity 的 History Tab
+        ClickUtils.applyGlobalDebouncing(binding?.ivHistory) {
+            val ctx = activity ?: return@applyGlobalDebouncing
+            com.example.browser.ui.bookmark.BookmarkActivity.start(ctx, com.example.browser.ui.bookmark.BookmarkActivity.TAB_HISTORY)
         }
 
-        ClickUtils.applyGlobalDebouncing(binding?.qrCodeScanIcon) {
-            GoogleBarcodeScanner().scanBarcode { rawValue ->
-                it.post {
-                    ScanResultActivity.start(activity ?: return@post, rawValue)
-                }
+        // Tab计数按钮 -> 跳转到 BrowserTabsActivity
+        binding?.tabCountContainer?.setOnClickListener {
+            val ctx = activity ?: return@setOnClickListener
+            val intent = Intent(ctx, com.example.browser.ui.tabs.BrowserTabsActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    /**
+     * 观察天气数据变化，更新顶部天气显示
+     */
+    private fun observeWeather() {
+        viewModel.weatherData.observe(viewLifecycleOwner) { weatherData ->
+            if (weatherData != null) {
+                binding?.weatherContainer?.isVisible = true
+                // 温度转华氏度显示
+                val tempF = (weatherData.temperature * 9 / 5) + 32
+                binding?.tvTemperature?.text = tempF.toString()
+
+                // 根据天气代码设置图标
+                val iconRes = getWeatherIconRes(weatherData.weatherIcon, weatherData.isDayTime)
+                binding?.ivWeatherIcon?.setImageResource(iconRes)
+            } else {
+                // 天气数据为空时隐藏天气区域
+                binding?.weatherContainer?.isVisible = false
             }
+        }
+    }
+
+    /**
+     * 观察 Tab 数量变化
+     */
+    private fun observeTabCount() {
+        requireContext().components.store.flowScoped(viewLifecycleOwner) { flow ->
+            flow.collect { state ->
+                val tabCount = state.tabs.size
+                val countText = if (tabCount > 99) "99" else tabCount.toString()
+                binding?.tvTabCount?.text = countText
+            }
+        }
+    }
+
+    /**
+     * 根据 WMO 天气代码返回对应图标资源
+     */
+    private fun getWeatherIconRes(weatherCode: Int, isDayTime: Boolean): Int {
+        return when (weatherCode) {
+            0 -> if (isDayTime) com.browser.weather.R.drawable.ic_weather_sunny else com.browser.weather.R.drawable.ic_weather_night_clear
+            1 -> if (isDayTime) com.browser.weather.R.drawable.ic_weather_sunny else com.browser.weather.R.drawable.ic_weather_night_clear
+            2 -> if (isDayTime) com.browser.weather.R.drawable.ic_weather_partly_cloudy else com.browser.weather.R.drawable.ic_weather_night_cloudy
+            3 -> com.browser.weather.R.drawable.ic_weather_cloudy
+            45, 48 -> com.browser.weather.R.drawable.ic_weather_fog
+            51, 53, 55, 56, 57 -> com.browser.weather.R.drawable.ic_weather_rain
+            61, 63, 65, 66, 67 -> com.browser.weather.R.drawable.ic_weather_rain
+            71, 73, 75, 77 -> com.browser.weather.R.drawable.ic_weather_snow
+            80, 81, 82 -> com.browser.weather.R.drawable.ic_weather_rain
+            85, 86 -> com.browser.weather.R.drawable.ic_weather_snow
+            95, 96, 99 -> com.browser.weather.R.drawable.ic_weather_thunderstorm
+            else -> com.browser.weather.R.drawable.ic_weather_cloudy
         }
     }
 
     private fun setupHomeRecycler() {
         headerAdapter = HomeRedesignHeaderAdapter(
-            onCleanClick = { openClean() },
-            onNewsClick = { activity?.let { NewsMoreActivity.start(it) } },
-            onSpeedClick = { activity?.let { SpeedTestActivity.start(it) } },
-            onProcessClick = { activity?.let { ProcessCleanActivity.start(it) } },
-            onBookmarkClick = { activity?.let { BookmarkActivity.start(it) } },
-            onDuplicateClick = { openDuplicateCleaner() },
-            onEditClick = { activity?.let { RecommendedWebsitesActivity.start(it) } },
+            onSearchClick = {
+                val intent = Intent(activity ?: return@HomeRedesignHeaderAdapter, SearchActivity::class.java)
+                startActivity(intent)
+            },
+            onVoiceClick = {
+                val intent = Intent(activity ?: return@HomeRedesignHeaderAdapter, SearchActivity::class.java).apply {
+                    putExtra(SearchActivity.EXTRA_START_VOICE_SEARCH, true)
+                }
+                startActivity(intent)
+            },
+            onScanClick = {
+                GoogleBarcodeScanner().scanBarcode { rawValue ->
+                    activity?.runOnUiThread {
+                        ScanResultActivity.start(activity ?: return@runOnUiThread, rawValue)
+                    }
+                }
+            },
+            onPdfClick = {
+                // PDF Generation 功能入口
+            },
+            onVideoClick = {
+                // Video Generation 功能入口
+            },
             onMoreClick = { activity?.let { NewsMoreActivity.start(it) } },
             onWebsiteClick = { openWebsite(it) },
             onWebsiteLongClick = { showRemoveDialog(it) },
@@ -169,6 +231,7 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
             setColorSchemeResources(R.color.color_material_button)
             setOnRefreshListener {
                 newsModel.loadNews()
+                viewModel.loadWeather()
             }
         }
     }
@@ -285,55 +348,8 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
         }
     }
 
-    private fun observeSearchEngine() {
-        val application = requireActivity().application as BrowserApplication
-        val store = application.browserComponents.store
-
-        lifecycleScope.launch {
-            store.flowScoped(viewLifecycleOwner) { flow ->
-                flow.map { state -> state.search }
-                    .distinctUntilChanged()
-                    .collect { searchState ->
-                        val selectedEngine = searchState.selectedOrDefaultSearchEngine
-                        selectedEngine?.icon?.let { icon ->
-                            binding?.searchIcon?.setImageBitmap(icon)
-                        }
-                    }
-            }
-        }
-    }
-
-    private fun openClean() {
-        if (hasStoragePermission()) {
-            JunkScanActivity.start(activity ?: return)
-        } else {
-            showStoragePermissionDialog(
-                call = {
-                    JunkScanActivity.start(activity ?: return@showStoragePermissionDialog)
-                },
-                autoJump = {
-                    startActivity(Intent().apply {
-                        setClass(activity ?: return@apply, MainActivity::class.java)
-                        putExtra(MainActivity.EXTRA_AUTO_JUNK, true)
-                    })
-                },
-            )
-        }
-    }
-
-    private fun openDuplicateCleaner() {
-        if (hasStoragePermission()) {
-            launchPhotoClean(PhotoCleanMode.DUPLICATE)
-        } else {
-            showStoragePermissionDialog(
-                call = { launchPhotoClean(PhotoCleanMode.DUPLICATE) },
-                autoJump = {},
-            )
-        }
-    }
-
     private fun openWebsite(website: QuickWebsite) {
-        val intent = Intent(activity ?: return@openWebsite, WebActivity::class.java).apply {
+        val intent = Intent(activity ?: return, WebActivity::class.java).apply {
             putExtra(WebActivity.EXTRA_URL, website.url)
         }
         startActivity(intent)
@@ -350,49 +366,5 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
                 viewModel.removeQuickWebsite(website.id)
             }
         }
-    }
-
-    private fun launchPhotoClean(mode: PhotoCleanMode) {
-        val dialog = PhotoScanDialogFragment.newInstance(mode)
-        dialog.setOnResultReadyListener { groups ->
-            val ctx = activity ?: return@setOnResultReadyListener
-            PhotoCleanActivity.start(ctx, mode, groups)
-        }
-        dialog.show(childFragmentManager, "photo_scan_dialog")
-    }
-
-    private fun hasStoragePermission(): Boolean {
-        return XXPermissions.isGrantedPermissions(
-            activity ?: return false,
-            arrayOf(PermissionLists.getManageExternalStoragePermission()),
-        )
-    }
-
-    private fun showStoragePermissionDialog(call: () -> Unit, autoJump: () -> Unit) {
-        StoragePermissionDialog(
-            context = activity ?: return,
-            onGoNowClick = {
-                XXPermissions.with(this)
-                    .permission(PermissionLists.getManageExternalStoragePermission())
-                    .request { _, deniedList ->
-                        if (deniedList.isEmpty()) {
-                            call.invoke()
-                        }
-                    }
-                lifecycleScope.launch(Dispatchers.IO) {
-                    for (i in 0 until 25) {
-                        delay(200)
-                        if (XXPermissions.isGrantedPermissions(
-                                activity ?: ActivityUtils.getTopActivity(),
-                                arrayOf(PermissionLists.getManageExternalStoragePermission()),
-                            )
-                        ) {
-                            autoJump.invoke()
-                            return@launch
-                        }
-                    }
-                }
-            },
-        ).show()
     }
 }
