@@ -17,13 +17,17 @@ object DefaultSearchEngines {
     /**
      * 默认搜索引擎 ID
      */
-    const val DEFAULT_SEARCH_ENGINE_ID = "google"
+    const val DEFAULT_SEARCH_ENGINE_ID = "buzzonfeed"
+
+    const val DEFAULT_SEARCH_ENGINE_NAME = "PrivacySearch"
+    private const val DEFAULT_SEARCH_ENGINE_URL = "https://cse.buzzonfeed.com/search/?q={searchTerms}"
 
     /**
      * 获取所有内置的默认搜索引擎
      */
     fun getDefaultSearchEngines(context: Context): List<SearchEngine> {
         return listOf(
+            createDefaultSearchEngine(context),
             SearchEngine(
                 id = "google",
                 name = "Google",
@@ -79,6 +83,20 @@ object DefaultSearchEngines {
                 resultUrls = listOf("https://duckduckgo.com/?q={searchTerms}"),
                 suggestUrl = "https://ac.duckduckgo.com/ac/?q={searchTerms}"
             )
+        )
+    }
+
+    fun createDefaultSearchEngine(context: Context): SearchEngine {
+        return SearchEngine(
+            id = DEFAULT_SEARCH_ENGINE_ID,
+            name = DEFAULT_SEARCH_ENGINE_NAME,
+            icon = ContextCompat.getDrawable(
+                context,
+                R.mipmap.ic_logo
+            )?.toBitmap() ?: createBitmap(1, 1),
+            type = SearchEngine.Type.CUSTOM,
+            resultUrls = listOf(DEFAULT_SEARCH_ENGINE_URL),
+            suggestUrl = null
         )
     }
 }

@@ -25,6 +25,7 @@ import com.example.browser.feature.VideoDetectorFeature
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
@@ -80,6 +81,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
     // Store流观察的协程作用域
     private var storeScope: CoroutineScope? = null
     private var downloadsScope: CoroutineScope? = null
+    private var searchEngineScope: CoroutineScope? = null
 
     // 缓存上一次的进度和加载状态，减少重复刷新
     private var lastProgress: Int = -1
@@ -202,6 +204,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
         }
 
         observeBrowserState()
+        observeSearchEngine()
         observeDownloadState()
         updateTabCount()
 
@@ -710,6 +713,17 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
         }
     }
 
+    private fun observeSearchEngine() {
+        searchEngineScope?.cancel()
+        searchEngineScope = components.store.flowScoped { flow ->
+            flow.map { state -> state.search.selectedOrDefaultSearchEngine?.id }
+                .distinctUntilChanged()
+                .collect {
+                    updateSearchEngineIcon()
+                }
+        }
+    }
+
     private fun handleDownloadUpdates(downloads: Collection<DownloadState>) {
         val nonPrivate = downloads.filter { !it.private }
         if (nonPrivate.isEmpty()) {
@@ -977,31 +991,22 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
         binding.ivForward.isEnabled = tab.content.canGoForward
         binding.ivForward.alpha = if (tab.content.canGoForward) 1.0f else 0.3f
 
-        // 更新网站图标
-        updateSiteIcon(tab)
+        // 更新搜索引擎图标
+        updateSearchEngineIcon()
 
         // 更新标签页计数
         updateTabCount()
     }
 
     /**
-     * 更新网站图标
-     * 使用 BrowserIcons 加载当前网页的 favicon
+     * 更新顶部搜索区域的搜索引擎图标
      */
-    private fun updateSiteIcon(tab: SessionState) {
-        // 如果有网站图标，显示网站图标
-        tab.content.icon?.let { icon ->
-            binding.ivSiteIcon.setImageBitmap(icon)
-            return
-        }
-        
-        // 如果没有网站图标，显示默认的搜索引擎图标
+    private fun updateSearchEngineIcon() {
         val searchEngine = components.store.state.search.selectedOrDefaultSearchEngine
         searchEngine?.icon?.let { searchIcon ->
             binding.ivSiteIcon.setImageBitmap(searchIcon)
         } ?: run {
-            // 最后的后备方案：显示默认 Google 图标
-            binding.ivSiteIcon.setImageResource(R.mipmap.ic_search_icon_google)
+            binding.ivSiteIcon.setImageResource(R.mipmap.ic_logo)
         }
     }
 
@@ -1255,6 +1260,8 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
         storeScope = null
         downloadsScope?.cancel()
         downloadsScope = null
+        searchEngineScope?.cancel()
+        searchEngineScope = null
 
         // 注意：不删除标签页，因为用户可能只是切换到其他界面
         // 标签页应该由用户在标签页管理界面主动关闭

@@ -88,8 +88,7 @@ class HomeRedesignNewsAdapter(
         when (holder) {
             is NewsViewHolder -> {
                 val item = getItem(position) as? NewsFeedItem.News ?: return
-                val isLastNewsItem = position == super.getItemCount() - 1
-                holder.bind(item.newsItem, isLastNewsItem)
+                holder.bind(item.newsItem)
             }
 
             is NativeAdViewHolder -> {
@@ -151,11 +150,12 @@ class HomeRedesignNewsAdapter(
 
         private var currentImageUrl: String? = null
 
-        fun bind(newsItem: NewsItem, isLastNewsItem: Boolean) {
+        fun bind(newsItem: NewsItem) {
             binding.tvNewsTitle.text = Html.fromHtml(newsItem.title ?: "No title", Html.FROM_HTML_MODE_COMPACT)
+                .toString()
+                .trim()
             binding.tvAuthor.text = newsItem.author ?: newsItem.source ?: "Unknown"
             binding.tvNewsTime.text = formatDate(newsItem.publishedAt)
-            binding.divider.isVisible = !isLastNewsItem
 
             currentImageUrl = newsItem.image?.replace("\\/", "/")
             binding.cvNews.isVisible = !currentImageUrl.isNullOrEmpty()

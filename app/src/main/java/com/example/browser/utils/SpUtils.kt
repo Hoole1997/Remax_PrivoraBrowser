@@ -17,6 +17,7 @@ object SpUtils {
     private const val KEY_IS_FIRST_LAUNCH = "is_first_launch"
     private const val KEY_SELECTED_ENGINE_ID = "selected_search_engine_id"
     private const val KEY_SELECTED_ENGINE_NAME = "selected_search_engine_name"
+    private const val KEY_SEARCH_ENGINE_DEFAULT_MIGRATED = "search_engine_default_migrated"
     private const val KEY_HAS_SHOWN_RATING_DIALOG = "has_shown_rating_dialog"
     private const val KEY_HAS_ADDED_SHORTCUT = "has_added_shortcut"
     private const val KEY_PENDING_SHORTCUT_DIALOG = "pending_shortcut_dialog"
@@ -81,6 +82,16 @@ object SpUtils {
      */
     fun getSavedSearchEngineName(context: Context): String? {
         return getPrefs(context, PREF_SEARCH_ENGINE).getString(KEY_SELECTED_ENGINE_NAME, null)
+    }
+
+    fun hasMigratedSearchEngineDefault(context: Context): Boolean {
+        return getPrefs(context, PREF_SEARCH_ENGINE).getBoolean(KEY_SEARCH_ENGINE_DEFAULT_MIGRATED, false)
+    }
+
+    fun setSearchEngineDefaultMigrated(context: Context) {
+        getPrefs(context, PREF_SEARCH_ENGINE).edit()
+            .putBoolean(KEY_SEARCH_ENGINE_DEFAULT_MIGRATED, true)
+            .apply()
     }
 
     // --- Rating Dialog ---

@@ -79,7 +79,14 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
      * 设置 ViewPager
      */
     private fun setupViewPager() {
-        pagerAdapter = TabsPagerAdapter(childFragmentManager)
+        pagerAdapter = TabsPagerAdapter(childFragmentManager) { fragment ->
+            fragment.onTabClick = { tab ->
+                selectTabAndReturn(tab)
+            }
+            fragment.onTabClose = { tab ->
+                closeTab(tab)
+            }
+        }
         
         binding?.viewPager?.apply {
             adapter = pagerAdapter
@@ -100,28 +107,6 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
                     // 不需要处理
                 }
             })
-        }
-
-        // 设置子 Fragment 的回调
-        setupFragmentCallbacks()
-    }
-
-    /**
-     * 设置子 Fragment 的回调
-     */
-    private fun setupFragmentCallbacks() {
-        // 延迟设置回调，等待 Fragment 创建
-        binding?.viewPager?.post {
-            for (i in 0 until TabsPagerAdapter.TAB_COUNT) {
-                pagerAdapter.getFragment(i)?.apply {
-                    onTabClick = { tab ->
-                        selectTabAndReturn(tab)
-                    }
-                    onTabClose = { tab ->
-                        closeTab(tab)
-                    }
-                }
-            }
         }
     }
 

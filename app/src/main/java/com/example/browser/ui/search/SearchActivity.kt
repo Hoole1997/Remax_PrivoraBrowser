@@ -2,8 +2,6 @@ package com.example.browser.ui.search
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.speech.RecognizerIntent
 import android.view.KeyEvent
@@ -21,6 +19,7 @@ import com.example.browser.BrowserApplication
 import com.example.browser.R
 import com.example.browser.base.BaseActivity
 import com.example.browser.databinding.ActivitySearchBinding
+import com.example.browser.search.DefaultSearchEngines
 import com.example.browser.ui.web.WebActivity
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -142,23 +141,8 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
         // 从 BrowserStore 获取当前选中的搜索引擎
         val selectedEngine = components.browserComponents.store.state.search.selectedOrDefaultSearchEngine
         
-        // 如果没有选中的搜索引擎，创建一个默认的 Google 搜索引擎作为后备
-        return selectedEngine ?: createFallbackGoogleSearchEngine()
-    }
-
-    /**
-     * 创建后备的 Google 搜索引擎
-     * 仅在 BrowserStore 中没有任何搜索引擎时使用
-     */
-    private fun createFallbackGoogleSearchEngine(): SearchEngine {
-        return SearchEngine(
-            id = "google",
-            name = "Google",
-            icon = ContextCompat.getDrawable(this, R.mipmap.ic_search_icon_google)?.toBitmap() ?: Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888),
-            type = SearchEngine.Type.BUNDLED,
-            resultUrls = listOf("https://www.google.com/search?q={searchTerms}"),
-            suggestUrl = "https://www.google.com/complete/search?client=firefox&q={searchTerms}"
-        )
+        // 如果没有选中的搜索引擎，创建应用配置的默认搜索引擎作为后备
+        return selectedEngine ?: DefaultSearchEngines.createDefaultSearchEngine(this)
     }
 
     /**
@@ -170,6 +154,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
         val icons = components.browserComponents.icons
         val client = components.browserComponents.client
         val engine = components.browserComponents.engine
+        binding.awesomeBar.removeAllProviders()
 
         // 创建搜索图标
         val searchBitmap = ContextCompat.getDrawable(this, R.drawable.ic_round_search)?.toBitmap()
@@ -211,7 +196,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
 
         // 搜索建议 Provider
         val searchSuggestionProvider = SearchSuggestionProvider(
-            searchEngine = searchEngine,
+            searchEngine = getSuggestionSearchEngine(),
             searchUseCase = searchUseCase,
             fetchClient = client,
             limit = 5,
@@ -245,6 +230,16 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
             binding.etKeyword.setText(text)
             binding.etKeyword.setSelection(text.length)
         }
+    }
+
+    private fun getSuggestionSearchEngine(): SearchEngine {
+        if (searchEngine.suggestUrl != null) {
+            return searchEngine
+        }
+
+        return DefaultSearchEngines.getDefaultSearchEngines(this)
+            .firstOrNull { it.suggestUrl != null }
+            ?: searchEngine
     }
 
     /**

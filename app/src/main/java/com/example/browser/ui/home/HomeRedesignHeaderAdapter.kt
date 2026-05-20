@@ -1,5 +1,6 @@
 package com.example.browser.ui.home
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,6 +22,7 @@ class HomeRedesignHeaderAdapter(
 ) : RecyclerView.Adapter<HomeRedesignHeaderAdapter.HeaderViewHolder>() {
 
     private var websites: List<QuickWebsite> = emptyList()
+    private var searchEngineIcon: Bitmap? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeaderViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -35,6 +37,11 @@ class HomeRedesignHeaderAdapter(
 
     fun submitWebsites(newWebsites: List<QuickWebsite>) {
         websites = newWebsites
+        notifyItemChanged(0)
+    }
+
+    fun submitSearchEngineIcon(icon: Bitmap?) {
+        searchEngineIcon = icon
         notifyItemChanged(0)
     }
 
@@ -68,6 +75,7 @@ class HomeRedesignHeaderAdapter(
 
         fun bind(websites: List<QuickWebsite>) {
             quickWebsiteAdapter.submitWebsites(websites)
+            searchEngineIcon?.let { binding.searchIcon.setImageBitmap(it) }
         }
     }
 }

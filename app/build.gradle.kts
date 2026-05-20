@@ -163,7 +163,7 @@ android {
                 val versionName = versionName
                 
                 // 生成文件名：OpenBrowser-Dev-1.0.0-dev-Release.apk
-                outputFileName = "OpenBrowser-${flavorName}-${versionName}-${buildTypeName}.${outputFileName.substringAfterLast(".")}"
+                outputFileName = "PrivacyBrowser-${flavorName}-${versionName}-${buildTypeName}.${outputFileName.substringAfterLast(".")}"
             }
         }
     }

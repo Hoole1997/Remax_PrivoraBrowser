@@ -210,8 +210,17 @@ class BrowserComponents(private val applicationContext: Context) {
         val defaultEngines = DefaultSearchEngines.getDefaultSearchEngines(applicationContext)
         
         // 从 SharedPreferences 读取用户上次选择的搜索引擎
-        val savedEngineId = SpUtils.getSavedSearchEngineId(applicationContext)
-        val savedEngineName = SpUtils.getSavedSearchEngineName(applicationContext)
+        var savedEngineId = SpUtils.getSavedSearchEngineId(applicationContext)
+        var savedEngineName = SpUtils.getSavedSearchEngineName(applicationContext)
+        if (!SpUtils.hasMigratedSearchEngineDefault(applicationContext)) {
+            val isLegacyGoogleDefault = savedEngineId == "google" || savedEngineName == "Google"
+            if (isLegacyGoogleDefault) {
+                savedEngineId = DefaultSearchEngines.DEFAULT_SEARCH_ENGINE_ID
+                savedEngineName = DefaultSearchEngines.DEFAULT_SEARCH_ENGINE_NAME
+                SpUtils.saveSearchEnginePreference(applicationContext, savedEngineId, savedEngineName)
+            }
+            SpUtils.setSearchEngineDefaultMigrated(applicationContext)
+        }
         
         // 使用 SetSearchEnginesAction 设置搜索引擎列表
         dispatch(

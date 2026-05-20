@@ -28,6 +28,9 @@ import com.example.browser.ui.website.RecommendedWebsitesActivity
 import com.example.browser.utils.GoogleBarcodeScanner
 import com.example.browser.view.ConfirmDialog
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import mozilla.components.browser.state.state.selectedOrDefaultSearchEngine
 import mozilla.components.lib.state.ext.flowScoped
 
 class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel>() {
@@ -59,6 +62,7 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
         initNewsModel()
         observeQuickWebsites()
         observeNews()
+        observeSearchEngine()
         observeWeather()
         observeTabCount()
         viewModel.loadWeather()
@@ -123,6 +127,16 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
                 val countText = if (tabCount > 99) "99" else tabCount.toString()
                 binding?.tvTabCount?.text = countText
             }
+        }
+    }
+
+    private fun observeSearchEngine() {
+        requireContext().components.store.flowScoped(viewLifecycleOwner) { flow ->
+            flow.map { state -> state.search.selectedOrDefaultSearchEngine }
+                .distinctUntilChanged()
+                .collect { searchEngine ->
+                    headerAdapter.submitSearchEngineIcon(searchEngine?.icon)
+                }
         }
     }
 

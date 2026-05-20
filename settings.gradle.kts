@@ -55,7 +55,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Browser"
+rootProject.name = "Browser003"
 include(":app")
 include(":mozilla")
 include(":player")
