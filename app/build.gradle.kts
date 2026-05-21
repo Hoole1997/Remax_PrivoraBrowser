@@ -222,6 +222,8 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     //noinspection UseTomlInstead
     implementation("androidx.compose.runtime:runtime")
+    //noinspection UseTomlInstead
+    implementation("androidx.compose.runtime:runtime-livedata")
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.viewpager2)
     implementation(libs.flexbox)
