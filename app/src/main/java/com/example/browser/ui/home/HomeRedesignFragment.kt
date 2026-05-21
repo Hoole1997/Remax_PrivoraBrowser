@@ -18,6 +18,7 @@ import com.example.browser.data.website.QuickWebsiteRepository
 import com.example.browser.databinding.FragmentHomeRedesignBinding
 import com.example.browser.ui.dialog.StoragePermissionDialog
 import com.example.browser.ui.junk.JunkScanActivity
+import com.example.browser.ui.junk.ProcessCleanActivity
 import com.example.browser.ui.news.NewsDetailsActivity
 import com.example.browser.ui.news.NewsFeedItem
 import com.example.browser.ui.news.NewsItem
@@ -377,6 +378,9 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
             HomeRedesignQuickWebsiteAdapter.FeatureType.SIMILAR_PHOTOS -> openDuplicateCleaner()
             HomeRedesignQuickWebsiteAdapter.FeatureType.SPEED_TEST -> {
                 activity?.let { SpeedTestActivity.start(it) }
+            }
+            HomeRedesignQuickWebsiteAdapter.FeatureType.PROCESS -> {
+                activity?.let { ProcessCleanActivity.start(it) }
             }
         }
     }

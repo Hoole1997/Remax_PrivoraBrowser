@@ -213,26 +213,6 @@ class QuickWebsiteRepository private constructor(context: Context) {
                 iconUrl = "web_chatgpt.webp"
             ),
             DefaultWebsite(
-                title = "Bing",
-                url = "https://www.bing.com",
-                iconUrl = "web_bing.webp"
-            ),
-            DefaultWebsite(
-                title = "Amazon",
-                url = "https://www.amazon.com",
-                iconUrl = "web_amazon.webp"
-            ),
-            DefaultWebsite(
-                title = "Twitter(X)",
-                url = "https://www.x.com",
-                iconUrl = "web_x.webp"
-            ),
-            DefaultWebsite(
-                title = "TikTok",
-                url = "https://www.tiktok.com",
-                iconUrl = "web_tiktok.webp"
-            ),
-            DefaultWebsite(
                 title = "Facebook",
                 url = "https://www.facebook.com",
                 iconUrl = "web_facebook.webp"
@@ -241,7 +221,7 @@ class QuickWebsiteRepository private constructor(context: Context) {
                 title = "Instagram",
                 url = "https://www.instagram.com",
                 iconUrl = "web_instagram.webp"
-            )
+            ),
         )
 
         synchronized(lock) {

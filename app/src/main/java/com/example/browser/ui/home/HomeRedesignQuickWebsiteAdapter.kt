@@ -58,13 +58,14 @@ class HomeRedesignQuickWebsiteAdapter(
 
     fun submitWebsites(websites: List<QuickWebsite>) {
         val items = buildList {
-            // First row: 3 features + Add
+            // First row: 4 feature shortcuts
             add(HomeGridItem.FeatureItem(FeatureType.CLEAN))
             add(HomeGridItem.FeatureItem(FeatureType.SIMILAR_PHOTOS))
             add(HomeGridItem.FeatureItem(FeatureType.SPEED_TEST))
-            add(HomeGridItem.AddItem)
-            // Remaining rows: user websites
+            add(HomeGridItem.FeatureItem(FeatureType.PROCESS))
+            // Remaining rows: user websites + Add at the end
             websites.take(MAX_WEBSITE_COUNT).forEach { add(HomeGridItem.WebsiteItem(it)) }
+            add(HomeGridItem.AddItem)
         }
         submitList(items)
     }
@@ -140,6 +141,7 @@ class HomeRedesignQuickWebsiteAdapter(
         CLEAN(R.mipmap.ic_home_clean, R.string.clean),
         SIMILAR_PHOTOS(R.mipmap.ic_home_duplicate, R.string.duplicate),
         SPEED_TEST(R.mipmap.ic_home_speed, R.string.speed),
+        PROCESS(R.mipmap.ic_home_process, R.string.process),
     }
 
     private object DiffCallback : DiffUtil.ItemCallback<HomeGridItem>() {
