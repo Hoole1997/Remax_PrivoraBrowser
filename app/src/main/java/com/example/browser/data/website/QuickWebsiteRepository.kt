@@ -18,6 +18,10 @@ class QuickWebsiteRepository private constructor(context: Context) {
         private const val STORAGE_DIR = "quick_websites"
         private const val STORAGE_FILE = "websites.json"
         private const val KEY_WEBSITES = "websites"
+        private const val FEATURE_URL_CLEAN = "app://feature/clean"
+        private const val FEATURE_URL_DUPLICATE = "app://feature/duplicate"
+        private const val FEATURE_URL_SPEED = "app://feature/speed"
+        private const val FEATURE_URL_PROCESS = "app://feature/process"
 
         @Volatile
         private var instance: QuickWebsiteRepository? = null
@@ -46,7 +50,11 @@ class QuickWebsiteRepository private constructor(context: Context) {
         if (internalWebsites.isEmpty()) {
             preloadDefaultWebsites()
         } else {
-            updateStateLocked()
+            synchronized(lock) {
+                normalizeDefaultWebsitesLocked()
+                updateStateLocked()
+            }
+            persistAsync()
         }
     }
 
@@ -209,38 +217,23 @@ class QuickWebsiteRepository private constructor(context: Context) {
         val defaults = listOf(
             DefaultWebsite(
                 title = "Clean",
-                url = "app://feature/clean",
+                url = FEATURE_URL_CLEAN,
                 iconUrl = "mipmap:ic_home_clean"
             ),
             DefaultWebsite(
                 title = "Duplicate",
-                url = "app://feature/duplicate",
+                url = FEATURE_URL_DUPLICATE,
                 iconUrl = "mipmap:ic_home_duplicate"
             ),
             DefaultWebsite(
                 title = "Speed",
-                url = "app://feature/speed",
+                url = FEATURE_URL_SPEED,
                 iconUrl = "mipmap:ic_home_speed"
             ),
             DefaultWebsite(
                 title = "Process",
-                url = "app://feature/process",
+                url = FEATURE_URL_PROCESS,
                 iconUrl = "mipmap:ic_home_process"
-            ),
-            DefaultWebsite(
-                title = "ChatGPT",
-                url = "https://chat.openai.com",
-                iconUrl = "web_chatgpt.webp"
-            ),
-            DefaultWebsite(
-                title = "Facebook",
-                url = "https://www.facebook.com",
-                iconUrl = "web_facebook.webp"
-            ),
-            DefaultWebsite(
-                title = "Instagram",
-                url = "https://www.instagram.com",
-                iconUrl = "web_instagram.webp"
             ),
         )
 
@@ -287,6 +280,54 @@ class QuickWebsiteRepository private constructor(context: Context) {
 
     private fun updateStateLocked() {
         _websitesFlow.value = internalWebsites.map { it.toPublic() }
+    }
+
+    private fun normalizeDefaultWebsitesLocked() {
+        removeLegacySeededWebsitesLocked()
+        ensureFeatureShortcutLocked("Clean", FEATURE_URL_CLEAN, "mipmap:ic_home_clean", 0)
+        ensureFeatureShortcutLocked("Duplicate", FEATURE_URL_DUPLICATE, "mipmap:ic_home_duplicate", 1)
+        ensureFeatureShortcutLocked("Speed", FEATURE_URL_SPEED, "mipmap:ic_home_speed", 2)
+        ensureFeatureShortcutLocked("Process", FEATURE_URL_PROCESS, "mipmap:ic_home_process", 3)
+    }
+
+    private fun removeLegacySeededWebsitesLocked() {
+        internalWebsites.removeAll { site ->
+            when (site.url.lowercase()) {
+                "https://chat.openai.com" ->
+                    site.title == "ChatGPT" && site.iconUrl == "web_chatgpt.webp"
+                "https://www.facebook.com" ->
+                    site.title == "Facebook" && site.iconUrl == "web_facebook.webp"
+                "https://www.instagram.com" ->
+                    site.title == "Instagram" && site.iconUrl == "web_instagram.webp"
+                else -> false
+            }
+        }
+    }
+
+    private fun ensureFeatureShortcutLocked(
+        title: String,
+        url: String,
+        iconUrl: String,
+        targetIndex: Int
+    ) {
+        val existingIndex = internalWebsites.indexOfFirst { it.url == url }
+        if (existingIndex >= 0) {
+            val existing = internalWebsites.removeAt(existingIndex)
+            existing.title = title
+            existing.iconUrl = iconUrl
+            internalWebsites.add(targetIndex.coerceAtMost(internalWebsites.size), existing)
+            return
+        }
+
+        internalWebsites.add(
+            targetIndex.coerceAtMost(internalWebsites.size),
+            InternalWebsite(
+                id = generateId(),
+                title = title,
+                url = url,
+                iconUrl = iconUrl
+            )
+        )
     }
 
     private fun generateId(): Long {

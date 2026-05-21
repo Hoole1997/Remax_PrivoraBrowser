@@ -53,6 +53,8 @@ class HomeRedesignQuickWebsiteAdapter(
             websites.take(MAX_WEBSITE_COUNT).forEach { add(HomeWebsiteItem.WebsiteItem(it)) }
             add(HomeWebsiteItem.AddItem)
         }
+        // Force ListAdapter to always process the new list
+        submitList(null)
         submitList(items)
     }
 
@@ -90,8 +92,12 @@ class HomeRedesignQuickWebsiteAdapter(
 
             itemView.setOnClickListener { onWebsiteClick(website) }
             itemView.setOnLongClickListener {
-                onWebsiteLongClick(website)
-                true
+                if (isRemovableWebsite(website)) {
+                    onWebsiteLongClick(website)
+                    true
+                } else {
+                    false
+                }
             }
         }
     }
@@ -130,6 +136,17 @@ class HomeRedesignQuickWebsiteAdapter(
     companion object {
         private const val VIEW_TYPE_WEBSITE = 0
         private const val VIEW_TYPE_ADD = 1
-        private const val MAX_WEBSITE_COUNT = 7
+        private const val MAX_WEBSITE_COUNT = 11
+        private const val FEATURE_URL_CLEAN = "app://feature/clean"
+        private const val FEATURE_URL_DUPLICATE = "app://feature/duplicate"
+        private const val FEATURE_URL_SPEED = "app://feature/speed"
+        private const val FEATURE_URL_PROCESS = "app://feature/process"
+
+        private fun isRemovableWebsite(website: QuickWebsite): Boolean {
+            return website.url != FEATURE_URL_CLEAN &&
+                website.url != FEATURE_URL_DUPLICATE &&
+                website.url != FEATURE_URL_SPEED &&
+                website.url != FEATURE_URL_PROCESS
+        }
     }
 }
