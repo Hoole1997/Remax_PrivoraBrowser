@@ -2,6 +2,8 @@ package com.example.browser.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,15 +12,18 @@ import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.browser.R
 import com.example.browser.data.website.QuickWebsite
 import com.example.browser.databinding.ItemHomeRedesignAddBinding
+import com.example.browser.databinding.ItemHomeRedesignFeatureBinding
 import com.example.browser.databinding.ItemHomeRedesignWebsiteBinding
 
 class HomeRedesignQuickWebsiteAdapter(
     private val onWebsiteClick: (QuickWebsite) -> Unit,
     private val onWebsiteLongClick: (QuickWebsite) -> Unit,
     private val onAddClick: () -> Unit,
-) : ListAdapter<HomeRedesignQuickWebsiteAdapter.HomeWebsiteItem, RecyclerView.ViewHolder>(DiffCallback) {
+    private val onFeatureClick: (FeatureType) -> Unit,
+) : ListAdapter<HomeRedesignQuickWebsiteAdapter.HomeGridItem, RecyclerView.ViewHolder>(DiffCallback) {
 
     init {
         setHasStableIds(true)
@@ -28,8 +33,9 @@ class HomeRedesignQuickWebsiteAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is HomeWebsiteItem.WebsiteItem -> VIEW_TYPE_WEBSITE
-            HomeWebsiteItem.AddItem -> VIEW_TYPE_ADD
+            is HomeGridItem.WebsiteItem -> VIEW_TYPE_WEBSITE
+            HomeGridItem.AddItem -> VIEW_TYPE_ADD
+            is HomeGridItem.FeatureItem -> VIEW_TYPE_FEATURE
         }
     }
 
@@ -37,21 +43,28 @@ class HomeRedesignQuickWebsiteAdapter(
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_TYPE_WEBSITE -> WebsiteViewHolder(ItemHomeRedesignWebsiteBinding.inflate(inflater, parent, false))
+            VIEW_TYPE_FEATURE -> FeatureViewHolder(ItemHomeRedesignFeatureBinding.inflate(inflater, parent, false))
             else -> AddViewHolder(ItemHomeRedesignAddBinding.inflate(inflater, parent, false))
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = getItem(position)) {
-            is HomeWebsiteItem.WebsiteItem -> (holder as WebsiteViewHolder).bind(item.website)
-            HomeWebsiteItem.AddItem -> (holder as AddViewHolder).bind()
+            is HomeGridItem.WebsiteItem -> (holder as WebsiteViewHolder).bind(item.website)
+            HomeGridItem.AddItem -> (holder as AddViewHolder).bind()
+            is HomeGridItem.FeatureItem -> (holder as FeatureViewHolder).bind(item)
         }
     }
 
     fun submitWebsites(websites: List<QuickWebsite>) {
         val items = buildList {
-            websites.take(MAX_WEBSITE_COUNT).forEach { add(HomeWebsiteItem.WebsiteItem(it)) }
-            add(HomeWebsiteItem.AddItem)
+            // First row: 3 features + Add
+            add(HomeGridItem.FeatureItem(FeatureType.CLEAN))
+            add(HomeGridItem.FeatureItem(FeatureType.SIMILAR_PHOTOS))
+            add(HomeGridItem.FeatureItem(FeatureType.SPEED_TEST))
+            add(HomeGridItem.AddItem)
+            // Remaining rows: user websites
+            websites.take(MAX_WEBSITE_COUNT).forEach { add(HomeGridItem.WebsiteItem(it)) }
         }
         submitList(items)
     }
@@ -93,24 +106,48 @@ class HomeRedesignQuickWebsiteAdapter(
         }
     }
 
-    sealed interface HomeWebsiteItem {
-        val id: Long
+    private inner class FeatureViewHolder(
+        private val binding: ItemHomeRedesignFeatureBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        data class WebsiteItem(val website: QuickWebsite) : HomeWebsiteItem {
-            override val id: Long = website.id
-        }
-
-        object AddItem : HomeWebsiteItem {
-            override val id: Long = Long.MIN_VALUE
+        fun bind(item: HomeGridItem.FeatureItem) {
+            binding.ivFeatureIcon.setImageResource(item.featureType.iconRes)
+            binding.tvFeatureTitle.setText(item.featureType.titleRes)
+            itemView.setOnClickListener { onFeatureClick(item.featureType) }
         }
     }
 
-    private object DiffCallback : DiffUtil.ItemCallback<HomeWebsiteItem>() {
-        override fun areItemsTheSame(oldItem: HomeWebsiteItem, newItem: HomeWebsiteItem): Boolean {
+    sealed interface HomeGridItem {
+        val id: Long
+
+        data class WebsiteItem(val website: QuickWebsite) : HomeGridItem {
+            override val id: Long = website.id
+        }
+
+        object AddItem : HomeGridItem {
+            override val id: Long = Long.MIN_VALUE
+        }
+
+        data class FeatureItem(val featureType: FeatureType) : HomeGridItem {
+            override val id: Long = Long.MIN_VALUE + featureType.ordinal + 1
+        }
+    }
+
+    enum class FeatureType(
+        @DrawableRes val iconRes: Int,
+        @StringRes val titleRes: Int,
+    ) {
+        CLEAN(R.mipmap.ic_home_clean, R.string.clean),
+        SIMILAR_PHOTOS(R.mipmap.ic_home_duplicate, R.string.duplicate),
+        SPEED_TEST(R.mipmap.ic_home_speed, R.string.speed),
+    }
+
+    private object DiffCallback : DiffUtil.ItemCallback<HomeGridItem>() {
+        override fun areItemsTheSame(oldItem: HomeGridItem, newItem: HomeGridItem): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: HomeWebsiteItem, newItem: HomeWebsiteItem): Boolean {
+        override fun areContentsTheSame(oldItem: HomeGridItem, newItem: HomeGridItem): Boolean {
             return oldItem == newItem
         }
     }
@@ -118,6 +155,7 @@ class HomeRedesignQuickWebsiteAdapter(
     companion object {
         private const val VIEW_TYPE_WEBSITE = 0
         private const val VIEW_TYPE_ADD = 1
-        private const val MAX_WEBSITE_COUNT = 7
+        private const val VIEW_TYPE_FEATURE = 2
+        private const val MAX_WEBSITE_COUNT = 8
     }
 }

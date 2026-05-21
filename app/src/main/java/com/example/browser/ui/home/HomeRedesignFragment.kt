@@ -16,17 +16,25 @@ import com.example.browser.components
 import com.example.browser.data.website.QuickWebsite
 import com.example.browser.data.website.QuickWebsiteRepository
 import com.example.browser.databinding.FragmentHomeRedesignBinding
+import com.example.browser.ui.dialog.StoragePermissionDialog
+import com.example.browser.ui.junk.JunkScanActivity
 import com.example.browser.ui.news.NewsDetailsActivity
 import com.example.browser.ui.news.NewsFeedItem
 import com.example.browser.ui.news.NewsItem
 import com.example.browser.ui.news.NewsModel
 import com.example.browser.ui.news.NewsMoreActivity
+import com.example.browser.ui.photoclean.PhotoCleanActivity
+import com.example.browser.ui.photoclean.PhotoScanDialogFragment
+import com.example.browser.ui.photoclean.model.PhotoCleanMode
 import com.example.browser.ui.scan.ScanResultActivity
 import com.example.browser.ui.search.SearchActivity
+import com.example.browser.ui.speed.SpeedTestActivity
 import com.example.browser.ui.web.WebActivity
 import com.example.browser.ui.website.RecommendedWebsitesActivity
 import com.example.browser.utils.GoogleBarcodeScanner
 import com.example.browser.view.ConfirmDialog
+import com.hjq.permissions.XXPermissions
+import com.hjq.permissions.permission.PermissionLists
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -189,6 +197,7 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
             onWebsiteClick = { openWebsite(it) },
             onWebsiteLongClick = { showRemoveDialog(it) },
             onAddClick = { activity?.let { RecommendedWebsitesActivity.start(it) } },
+            onFeatureClick = { featureType -> handleFeatureClick(featureType) },
         )
 
         newsAdapter = HomeRedesignNewsAdapter(
@@ -360,6 +369,67 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
                 newsAdapter.loadAdAtPosition(recyclerView, position)
             }
         }
+    }
+
+    private fun handleFeatureClick(featureType: HomeRedesignQuickWebsiteAdapter.FeatureType) {
+        when (featureType) {
+            HomeRedesignQuickWebsiteAdapter.FeatureType.CLEAN -> openClean()
+            HomeRedesignQuickWebsiteAdapter.FeatureType.SIMILAR_PHOTOS -> openDuplicateCleaner()
+            HomeRedesignQuickWebsiteAdapter.FeatureType.SPEED_TEST -> {
+                activity?.let { SpeedTestActivity.start(it) }
+            }
+        }
+    }
+
+    private fun openClean() {
+        if (hasStoragePermission()) {
+            JunkScanActivity.start(activity ?: return)
+        } else {
+            showStoragePermissionDialog {
+                JunkScanActivity.start(activity ?: return@showStoragePermissionDialog)
+            }
+        }
+    }
+
+    private fun openDuplicateCleaner() {
+        if (hasStoragePermission()) {
+            launchPhotoClean(PhotoCleanMode.DUPLICATE)
+        } else {
+            showStoragePermissionDialog {
+                launchPhotoClean(PhotoCleanMode.DUPLICATE)
+            }
+        }
+    }
+
+    private fun launchPhotoClean(mode: PhotoCleanMode) {
+        val dialog = PhotoScanDialogFragment.newInstance(mode)
+        dialog.setOnResultReadyListener { groups ->
+            val ctx = activity ?: return@setOnResultReadyListener
+            PhotoCleanActivity.start(ctx, mode, groups)
+        }
+        dialog.show(childFragmentManager, "photo_scan_dialog")
+    }
+
+    private fun hasStoragePermission(): Boolean {
+        return XXPermissions.isGrantedPermissions(
+            activity ?: return false,
+            arrayOf(PermissionLists.getManageExternalStoragePermission()),
+        )
+    }
+
+    private fun showStoragePermissionDialog(onGranted: () -> Unit) {
+        StoragePermissionDialog(
+            context = activity ?: return,
+            onGoNowClick = {
+                XXPermissions.with(this)
+                    .permission(PermissionLists.getManageExternalStoragePermission())
+                    .request { _, deniedList ->
+                        if (deniedList.isEmpty()) {
+                            onGranted()
+                        }
+                    }
+            },
+        ).show()
     }
 
     private fun openWebsite(website: QuickWebsite) {

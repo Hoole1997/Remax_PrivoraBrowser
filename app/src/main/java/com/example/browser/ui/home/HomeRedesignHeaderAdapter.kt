@@ -19,6 +19,7 @@ class HomeRedesignHeaderAdapter(
     private val onWebsiteClick: (QuickWebsite) -> Unit,
     private val onWebsiteLongClick: (QuickWebsite) -> Unit,
     private val onAddClick: () -> Unit,
+    private val onFeatureClick: (HomeRedesignQuickWebsiteAdapter.FeatureType) -> Unit,
 ) : RecyclerView.Adapter<HomeRedesignHeaderAdapter.HeaderViewHolder>() {
 
     private var websites: List<QuickWebsite> = emptyList()
@@ -53,6 +54,7 @@ class HomeRedesignHeaderAdapter(
             onWebsiteClick = onWebsiteClick,
             onWebsiteLongClick = onWebsiteLongClick,
             onAddClick = onAddClick,
+            onFeatureClick = onFeatureClick,
         )
 
         init {
