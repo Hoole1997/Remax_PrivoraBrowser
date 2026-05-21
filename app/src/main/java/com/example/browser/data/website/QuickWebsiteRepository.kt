@@ -208,6 +208,26 @@ class QuickWebsiteRepository private constructor(context: Context) {
     private fun preloadDefaultWebsites() {
         val defaults = listOf(
             DefaultWebsite(
+                title = "Clean",
+                url = "app://feature/clean",
+                iconUrl = "mipmap:ic_home_clean"
+            ),
+            DefaultWebsite(
+                title = "Duplicate",
+                url = "app://feature/duplicate",
+                iconUrl = "mipmap:ic_home_duplicate"
+            ),
+            DefaultWebsite(
+                title = "Speed",
+                url = "app://feature/speed",
+                iconUrl = "mipmap:ic_home_speed"
+            ),
+            DefaultWebsite(
+                title = "Process",
+                url = "app://feature/process",
+                iconUrl = "mipmap:ic_home_process"
+            ),
+            DefaultWebsite(
                 title = "ChatGPT",
                 url = "https://chat.openai.com",
                 iconUrl = "web_chatgpt.webp"

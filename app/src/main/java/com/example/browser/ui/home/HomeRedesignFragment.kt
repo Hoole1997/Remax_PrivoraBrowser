@@ -198,7 +198,6 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
             onWebsiteClick = { openWebsite(it) },
             onWebsiteLongClick = { showRemoveDialog(it) },
             onAddClick = { activity?.let { RecommendedWebsitesActivity.start(it) } },
-            onFeatureClick = { featureType -> handleFeatureClick(featureType) },
         )
 
         newsAdapter = HomeRedesignNewsAdapter(
@@ -372,19 +371,6 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
         }
     }
 
-    private fun handleFeatureClick(featureType: HomeRedesignQuickWebsiteAdapter.FeatureType) {
-        when (featureType) {
-            HomeRedesignQuickWebsiteAdapter.FeatureType.CLEAN -> openClean()
-            HomeRedesignQuickWebsiteAdapter.FeatureType.SIMILAR_PHOTOS -> openDuplicateCleaner()
-            HomeRedesignQuickWebsiteAdapter.FeatureType.SPEED_TEST -> {
-                activity?.let { SpeedTestActivity.start(it) }
-            }
-            HomeRedesignQuickWebsiteAdapter.FeatureType.PROCESS -> {
-                activity?.let { ProcessCleanActivity.start(it) }
-            }
-        }
-    }
-
     private fun openClean() {
         if (hasStoragePermission()) {
             JunkScanActivity.start(activity ?: return)
@@ -437,10 +423,18 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
     }
 
     private fun openWebsite(website: QuickWebsite) {
-        val intent = Intent(activity ?: return, WebActivity::class.java).apply {
-            putExtra(WebActivity.EXTRA_URL, website.url)
+        when (website.url) {
+            FEATURE_URL_CLEAN -> openClean()
+            FEATURE_URL_DUPLICATE -> openDuplicateCleaner()
+            FEATURE_URL_SPEED -> activity?.let { SpeedTestActivity.start(it) }
+            FEATURE_URL_PROCESS -> activity?.let { ProcessCleanActivity.start(it) }
+            else -> {
+                val intent = Intent(activity ?: return, WebActivity::class.java).apply {
+                    putExtra(WebActivity.EXTRA_URL, website.url)
+                }
+                startActivity(intent)
+            }
         }
-        startActivity(intent)
     }
 
     private fun showRemoveDialog(website: QuickWebsite) {
@@ -454,5 +448,12 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
                 viewModel.removeQuickWebsite(website.id)
             }
         }
+    }
+
+    companion object {
+        const val FEATURE_URL_CLEAN = "app://feature/clean"
+        const val FEATURE_URL_DUPLICATE = "app://feature/duplicate"
+        const val FEATURE_URL_SPEED = "app://feature/speed"
+        const val FEATURE_URL_PROCESS = "app://feature/process"
     }
 }
