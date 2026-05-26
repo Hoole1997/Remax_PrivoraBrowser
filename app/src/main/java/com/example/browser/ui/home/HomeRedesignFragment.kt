@@ -1,6 +1,7 @@
 package com.example.browser.ui.home
 
 import android.content.Intent
+import android.net.Uri
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -186,10 +187,10 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
                 }
             },
             onPdfClick = {
-                // PDF Generation 功能入口
+                openWebSearch(getString(R.string.home_pdf_generation))
             },
             onVideoClick = {
-                // Video Generation 功能入口
+                openWebSearch(getString(R.string.home_video_generation))
             },
             onMoreClick = { activity?.let { NewsMoreActivity.start(it) } },
             onWebsiteClick = { openWebsite(it) },
@@ -395,6 +396,28 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
     private fun openWebsite(website: QuickWebsite) {
         val intent = Intent(activity ?: return, WebActivity::class.java).apply {
             putExtra(WebActivity.EXTRA_URL, website.url)
+        }
+        startActivity(intent)
+    }
+
+    /**
+     * 以关键词形式跳转到 [WebActivity]，用于 PDF / Video Generation 等
+     * "搜索式"入口。复用当前选中的搜索引擎模板，与 SearchActivity.performSearch 行为一致。
+     */
+    private fun openWebSearch(keyword: String) {
+        val ctx = activity ?: return
+        val trimmed = keyword.trim()
+        if (trimmed.isEmpty()) return
+
+        val encodedQuery = Uri.encode(trimmed)
+        val searchEngine = ctx.components.store.state.search.selectedOrDefaultSearchEngine
+        val url = searchEngine?.resultUrls
+            ?.firstOrNull()
+            ?.replace("{searchTerms}", encodedQuery)
+            ?: "https://www.google.com/search?q=$encodedQuery"
+
+        val intent = Intent(ctx, WebActivity::class.java).apply {
+            putExtra(WebActivity.EXTRA_URL, url)
         }
         startActivity(intent)
     }
