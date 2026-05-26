@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  广告位 item 外壳。
+  与 item_home_redesign_news.xml 保持一致的横向 padding (16dp) 与底部 margin (16dp)，
+  让广告卡和新闻卡在 feed 中保持统一的视觉节奏。
+  实际广告内容由广告 SDK 渲染并填入 @id/adContainer。
+-->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/adContainer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:paddingHorizontal="16dp" />
