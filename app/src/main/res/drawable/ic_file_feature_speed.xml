@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Figma 18472-3399 中"Speed"功能图标。
+  来源：Figma node Group 1000008087 (viewBox 0 0 39.5012 38.5161)。
+  原 SVG 在 (5.30783, 2.32299) 位置叠了一个浅蓝圆，主体在 (0,0) 起始的更大圆，前景白色仪表针。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="42dp"
+    android:height="42dp"
+    android:viewportWidth="39.5012"
+    android:viewportHeight="38.5161">
+
+    <!-- 后置浅蓝阴影圆 -->
+    <path android:pathData="M20.4045,2.32299C28.7422,2.32299 35.5012,9.082 35.5012,17.4195C35.5012,25.7571 28.7422,32.5161 20.4045,32.5161C12.0669,32.5161 5.30783,25.7571 5.30783,17.4195C5.30783,9.082 12.0669,2.32299 20.4045,2.32299Z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startX="20.4045"
+                android:startY="2.32299"
+                android:endX="20.4045"
+                android:endY="32.5161"
+                android:type="linear">
+                <item android:offset="0" android:color="#CAEDFF" />
+                <item android:offset="1" android:color="#A8D2FF" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- 主体深蓝圆 -->
+    <path android:pathData="M16.26,0C7.27983,0 0,7.27983 0,16.26C0,25.2402 7.27983,32.52 16.26,32.52C25.2402,32.52 32.52,25.2402 32.52,16.26C32.52,7.27983 25.2402,0 16.26,0Z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startX="16.26"
+                android:startY="0"
+                android:endX="16.26"
+                android:endY="32.52"
+                android:type="linear">
+                <item android:offset="0" android:color="#A1DFF8" />
+                <item android:offset="1" android:color="#4698F5" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- 内部白色仪表 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M23.0458,14.6479L18.7987,22.0039C19.385,22.6274 19.7443,23.4667 19.7443,24.39C19.7443,26.3143 18.1843,27.8743 16.26,27.8743C14.3357,27.8743 12.7757,26.3143 12.7757,24.39C12.7757,22.4657 14.3357,20.9057 16.26,20.9057C16.4201,20.9057 16.5777,20.9167 16.7321,20.9377L21.0341,13.4864C21.3535,12.9332 22.0674,12.7419 22.6206,13.0613C23.1738,13.3807 23.3651,14.0947 23.0458,14.6479ZM26.0233,13.6832C25.4796,13.6832 25.0234,13.3095 24.8969,12.8052L24.8888,12.8085C23.5185,9.38608 20.1717,6.96864 16.2599,6.96864C12.3482,6.96864 9.00151,9.38608 7.63127,12.8085L7.62311,12.8052C7.49659,13.3095 7.04025,13.6832 6.4967,13.6832C5.85534,13.6832 5.33542,13.163 5.33542,12.5217C5.33519,12.3214 5.38697,12.1245 5.48568,11.9503L5.47414,11.9457C7.18677,7.66764 11.3702,4.64568 16.2599,4.64568C21.1498,4.64568 25.3332,7.66764 27.0459,11.9457L27.0344,11.9503C27.133,12.1245 27.1848,12.3214 27.1846,12.5217C27.1846,13.163 26.6647,13.6832 26.0233,13.6832Z" />
+</vector>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Figma 18472-3399 中 Download 卡片右侧 30dp 详情按钮。
+  来源：Figma node Details (viewBox 0 0 30 30)。
+  组成：蓝色实心圆 + 白色右箭头。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="30dp"
+    android:height="30dp"
+    android:viewportWidth="30"
+    android:viewportHeight="30">
+
+    <!-- 底色蓝色圆 #0881FE -->
+    <path
+        android:fillColor="#0881FE"
+        android:pathData="M15,0A15,15 0,0 1,30 15A15,15 0,0 1,15 30A15,15 0,0 1,0 15A15,15 0,0 1,15 0Z" />
+
+    <!-- 白色右箭头 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M11.2515,20.5663C10.9162,20.8944 10.9162,21.426 11.2515,21.754C11.4178,21.9189 11.6377,22 11.8568,22C12.0767,22 12.2966,21.9189 12.4638,21.7549L18.7492,15.5956C19.0836,15.2667 19.0836,14.7346 18.7492,14.4066L12.4639,8.24635C12.1286,7.91788 11.586,7.91788 11.2516,8.24635C10.9162,8.57389 10.9162,9.106 11.2516,9.43446L16.9307,15.0004L11.2515,20.5663Z" />
+</vector>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      用于在 RecentFileThumbnail 的 ImageView 上记录"上一次加载的文件路径"，
+      避免快速滑动时 LazyColumn 复用 ImageView 反复触发 Glide.load。
+    -->
+    <item name="tag_file_thumbnail_path" type="id" />
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Figma 18472-3399 中"Zip files"分类图标。
+  外框 34dp 圆角方块（蓝渐变 #16B6FD -> #2994E8）+ 内部白色文件夹/zip glyph。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="34dp"
+    android:height="34dp"
+    android:viewportWidth="34"
+    android:viewportHeight="34">
+
+    <!-- 圆角方形渐变底 -->
+    <path android:pathData="M8,0L26,0A8,8 0,0 1,34 8L34,26A8,8 0,0 1,26 34L8,34A8,8 0,0 1,0 26L0,8A8,8 0,0 1,8 0Z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startX="17"
+                android:startY="0"
+                android:endX="17"
+                android:endY="34"
+                android:type="linear">
+                <item android:offset="0" android:color="#16B6FD" />
+                <item android:offset="1" android:color="#2994E8" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!--
+      内部白色 zip 图标 (Figma viewBox 18 x 16)。
+      平移到 (8, 9) 居中。
+    -->
+    <group
+        android:translateX="8"
+        android:translateY="9">
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M17.1,1.77778C17.3387,1.77778 17.5676,1.87143 17.7364,2.03813C17.9052,2.20483 18,2.43092 18,2.66667V15.1111C18,15.3469 17.9052,15.573 17.7364,15.7397C17.5676,15.9064 17.3387,16 17.1,16H0.9C0.661305,16 0.432387,15.9064 0.263604,15.7397C0.094821,15.573 0,15.3469 0,15.1111V0.888889C0,0.653141 0.094821,0.427049 0.263604,0.26035C0.432387,0.0936506 0.661305,0 0.9,0H7.5726L9.3726,1.77778H12.6V3.55556H14.4V1.77778H17.1ZM14.4,8.88889H12.6V10.6667H10.8V13.3333H14.4V8.88889ZM12.6,7.11111H10.8V8.88889H12.6V7.11111ZM14.4,5.33333H12.6V7.11111H14.4V5.33333ZM12.6,3.55556H10.8V5.33333H12.6V3.55556Z" />
+    </group>
+</vector>

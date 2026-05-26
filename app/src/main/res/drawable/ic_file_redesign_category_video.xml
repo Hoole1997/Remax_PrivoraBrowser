@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Figma 18472-3399 中"Video"分类图标。
+  外框 34dp 圆角方块（黄→橙渐变 #FFE26E -> #FF962D） + 光带高光 + 白色播放三角。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="34dp"
+    android:height="34dp"
+    android:viewportWidth="34"
+    android:viewportHeight="34">
+
+    <!-- 圆角方形渐变底（rx=8） -->
+    <path android:pathData="M8,0L26,0A8,8 0,0 1,34 8L34,26A8,8 0,0 1,26 34L8,34A8,8 0,0 1,0 26L0,8A8,8 0,0 1,8 0Z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startX="17"
+                android:startY="0"
+                android:endX="17"
+                android:endY="34"
+                android:type="linear">
+                <item android:offset="0" android:color="#FFE26E" />
+                <item android:offset="1" android:color="#FF962D" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- 光带高光（橙渐变，半透明，自动在圆角范围内可见） -->
+    <path
+        android:pathData="M22.5668,27.7892L12.4,16.9L14.0668,13.6225L17.8445,12.6781L12.9,0.4L47.1223,19.2892L22.5668,27.7892Z"
+        android:fillAlpha="0.65">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startX="13.122"
+                android:startY="9.845"
+                android:endX="34.845"
+                android:endY="24.011"
+                android:type="linear">
+                <item android:offset="0" android:color="#FF7317" />
+                <item android:offset="1" android:color="#FF962C" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- 白色播放三角，按 Figma 居中放置 -->
+    <group
+        android:translateX="9.611"
+        android:translateY="7.588">
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M13.0475,10.4601L2.51875,17.4793C1.40977,18.2164 0.5,17.7316 0.5,16.3969V1.82732C0.5,0.492555 1.40977,0.00446897 2.51875,0.748219L13.0475,7.77068C14.1564,8.50447 14.1564,9.7197 13.0475,10.4601Z" />
+    </group>
+</vector>

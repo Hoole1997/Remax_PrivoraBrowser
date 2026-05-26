@@ -246,6 +246,10 @@
     <string name="file_category_zip">ZIPs</string>
     <string name="files_my_files">My Files</string>
     <string name="files_clean">Clean</string>
+    <string name="files_speed">Speed</string>
+    <string name="files_process">Process</string>
+    <string name="files_duplicate">Duplicate</string>
+    <string name="files_similar">Similar</string>
     <string name="files_legend_apps">Apps</string>
     <string name="files_legend_videos">Videos</string>
     <string name="files_legend_photos">Photos</string>

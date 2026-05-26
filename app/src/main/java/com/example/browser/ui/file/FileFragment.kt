@@ -19,6 +19,11 @@ import com.example.browser.ui.file.model.FileType
 import com.example.browser.ui.file.model.RecentFile
 import com.example.browser.ui.file.model.StorageInfo
 import com.example.browser.ui.junk.JunkScanActivity
+import com.example.browser.ui.junk.ProcessCleanActivity
+import com.example.browser.ui.photoclean.PhotoCleanActivity
+import com.example.browser.ui.photoclean.PhotoScanDialogFragment
+import com.example.browser.ui.photoclean.model.PhotoCleanMode
+import com.example.browser.ui.speed.SpeedTestActivity
 import com.example.browser.utils.FileManagerUtils
 import com.example.browser.utils.StorageUtils
 import com.hjq.permissions.XXPermissions
@@ -52,7 +57,7 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
                     storageUiState = storageUiState,
                     categories = fileCategoriesState,
                     recentFiles = recentFilesState,
-                    onCleanClick = ::openClean,
+                    onFeatureClick = ::handleFeatureClick,
                     onDownloadClick = ::openDownloads,
                     onCategoryClick = ::openCategory,
                     onRecentFileClick = { file -> file.open(requireContext()) },
@@ -91,11 +96,24 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
         )
     }
 
-    private fun openClean() {
-        if (hasStoragePermission()) {
-            JunkScanActivity.start(activity ?: return)
-        } else {
-            showStoragePermissionDialog()
+    /** 5 个功能入口的统一入口。需要存储权限的入口会先弹权限对话框。 */
+    private fun handleFeatureClick(action: FileFeatureAction) {
+        when (action) {
+            FileFeatureAction.CLEAN -> requireStorageThen {
+                JunkScanActivity.start(activity ?: return@requireStorageThen)
+            }
+
+            FileFeatureAction.SPEED -> activity?.let { SpeedTestActivity.start(it) }
+
+            FileFeatureAction.PROCESS -> activity?.let { ProcessCleanActivity.start(it) }
+
+            FileFeatureAction.DUPLICATE_PHOTO -> requireStorageThen {
+                launchPhotoClean(PhotoCleanMode.DUPLICATE)
+            }
+
+            FileFeatureAction.SIMILAR_PHOTO -> requireStorageThen {
+                launchPhotoClean(PhotoCleanMode.SIMILAR)
+            }
         }
     }
 
@@ -104,22 +122,34 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
     }
 
     private fun openCategory(fileType: FileType) {
-        if (hasStoragePermission()) {
+        requireStorageThen {
             FileListActivity.start(
-                activity ?: return,
+                activity ?: return@requireStorageThen,
                 fileType,
                 getCategoryTitle(fileType),
             )
-        } else {
-            showStoragePermissionDialog()
         }
     }
 
-    private fun showStoragePermissionDialog() {
-        StoragePermissionDialog(
-            context = activity ?: return,
-            onGoNowClick = ::requestPermission,
-        ).show()
+    /** 检查存储权限：已授权直接执行 [block]；否则弹权限对话框。 */
+    private fun requireStorageThen(block: () -> Unit) {
+        if (hasStoragePermission()) {
+            block()
+        } else {
+            StoragePermissionDialog(
+                context = activity ?: return,
+                onGoNowClick = ::requestPermission,
+            ).show()
+        }
+    }
+
+    private fun launchPhotoClean(mode: PhotoCleanMode) {
+        val dialog = PhotoScanDialogFragment.newInstance(mode)
+        dialog.setOnResultReadyListener { groups ->
+            val ctx = activity ?: return@setOnResultReadyListener
+            PhotoCleanActivity.start(ctx, mode, groups)
+        }
+        dialog.show(childFragmentManager, "photo_scan_dialog")
     }
 
     private fun requestPermission() {
@@ -198,14 +228,11 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
 
     private fun buildStorageUiState(storageInfo: StorageInfo): FileStorageUiState {
         val totalSpace = storageInfo.totalSpace.coerceAtLeast(1L)
-        val otherUsed = (storageInfo.usedSpace -
-            storageInfo.appSize -
-            storageInfo.videoSize -
-            storageInfo.imageSize -
-            storageInfo.audioSize).coerceAtLeast(0L)
+        val usedSpace = storageInfo.usedSpace.coerceIn(0L, totalSpace)
 
+        // 仅展示 Apps / Videos / Photos / Music 四类占用，"其他" 不在指示器中体现，
+        // 避免出现灰色未知段落
         val segments = listOf(
-            otherUsed to Color.White,
             storageInfo.appSize to Color(0xFFFEBE42),
             storageInfo.videoSize to Color(0xFFFC4643),
             storageInfo.imageSize to Color(0xFF6DC882),
@@ -224,6 +251,7 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
         return FileStorageUiState(
             usedLabel = StorageUtils.formatSize(storageInfo.usedSpace),
             totalLabel = StorageUtils.formatSize(storageInfo.totalSpace),
+            usedFraction = (usedSpace.toFloat() / totalSpace.toFloat()).coerceIn(0f, 1f),
             segments = segments,
         )
     }
@@ -237,12 +265,9 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
                 fileType = type,
                 title = title,
                 count = if (zeroCounts) {
-                    context.getString(R.string.files_items_count, 0)
+                    "0"
                 } else {
-                    context.getString(
-                        R.string.files_items_count,
-                        FileManagerUtils.getFileCountByType(context, type),
-                    )
+                    FileManagerUtils.getFileCountByType(context, type).toString()
                 },
                 iconRes = iconRes,
             )
@@ -257,11 +282,7 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
             FileCategoryCardUiState(
                 fileType = type,
                 title = title,
-                count = placeholder ?: if (zeroCounts) {
-                    getString(R.string.files_items_count, 0)
-                } else {
-                    "..."
-                },
+                count = placeholder ?: if (zeroCounts) "0" else "...",
                 iconRes = iconRes,
             )
         }

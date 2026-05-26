@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Figma 18472-3399 中"Duplicate"功能图标。
+  来源：Figma node Group 1171274954 (viewBox 0 0 30 30)。
+  组成：圆角方形蓝色渐变底 + 半透明白色山形 + 白色太阳圆。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="42dp"
+    android:height="42dp"
+    android:viewportWidth="30"
+    android:viewportHeight="30">
+
+    <!-- 圆角方形蓝色渐变底（rx=5） -->
+    <path android:pathData="M5,0L25,0A5,5 0,0 1,30 5L30,25A5,5 0,0 1,25 30L5,30A5,5 0,0 1,0 25L0,5A5,5 0,0 1,5 0Z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startX="15"
+                android:startY="0"
+                android:endX="15"
+                android:endY="30"
+                android:type="linear">
+                <item android:offset="0" android:color="#7AE0F4" />
+                <item android:offset="1" android:color="#3DABEF" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- 山形（半透明白） -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.49"
+        android:pathData="M5.72446,25.3673H24.6409C26.1746,25.3673 26.9424,23.5129 25.8582,22.4287L19.9337,16.5041C19.2615,15.832 18.1717,15.832 17.4995,16.5041L14.3701,19.6335C13.6979,20.3057 12.6081,20.3057 11.9359,19.6335L10.8104,18.508C10.1349,17.8326 9.03899,17.8363 8.36774,18.516L4.49962,22.4362C3.42618,23.5237 4.19681,25.3668 5.72493,25.3668L5.72446,25.3673Z" />
+
+    <!-- 太阳（白色实心圆 cx=7.5 cy=7.5 r=3.5） -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M11,7.5A3.5,3.5 0,0 1,7.5 11A3.5,3.5 0,0 1,4 7.5A3.5,3.5 0,0 1,7.5 4A3.5,3.5 0,0 1,11 7.5Z" />
+</vector>

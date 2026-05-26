@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Figma 18472-3399 中"Image"分类图标。
+  外框 34dp 圆角方块（橙红渐变 #FF8077 -> #FF7238） + 内部白色照片 glyph。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="34dp"
+    android:height="34dp"
+    android:viewportWidth="34"
+    android:viewportHeight="34">
+
+    <!-- 圆角方形渐变底 -->
+    <path android:pathData="M8,0L26,0A8,8 0,0 1,34 8L34,26A8,8 0,0 1,26 34L8,34A8,8 0,0 1,0 26L0,8A8,8 0,0 1,8 0Z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startX="17"
+                android:startY="0"
+                android:endX="17"
+                android:endY="34"
+                android:type="linear">
+                <item android:offset="0" android:color="#FF8077" />
+                <item android:offset="1" android:color="#FF7238" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!--
+      内部白色照片 glyph (Figma viewBox 20.289 x 15.5667)。
+      平移到 (6.85, 9.22) 使其在 34x34 方块内居中。
+    -->
+    <group
+        android:translateX="6.85"
+        android:translateY="9.22">
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M5.55368,8.27667C5.2727,7.87606 4.81858,7.87606 4.5384,8.27667L0.63627,13.8426C0.355298,14.2424 0.522936,14.5667 1.00933,14.5667H18.8829C19.3701,14.5667 19.533,14.2432 19.2505,13.8442L13.0691,5.12773C12.7842,4.72634 12.3269,4.72792 12.0436,5.12773L7.66923,11.2957L5.55289,8.27667H5.55368ZM3.07608,2.17083C3.07608,3.14912 3.84502,3.94167 4.7934,3.94167C5.74178,3.94167 6.50993,3.14912 6.50993,2.17083C6.50993,1.19255 5.74257,0.4 4.79419,0.4C3.84581,0.4 3.07687,1.19255 3.07687,2.17083H3.07608Z" />
+    </group>
+</vector>

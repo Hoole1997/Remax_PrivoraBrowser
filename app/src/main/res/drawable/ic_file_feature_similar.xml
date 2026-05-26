@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Figma 18472-3399 中"Similar"功能图标。
+  来源：Figma node Group 1171274955 (viewBox 0 0 30 30)。
+  组成：圆角方形紫色渐变底 + 半透明白色山形 + 白色加号。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="42dp"
+    android:height="42dp"
+    android:viewportWidth="30"
+    android:viewportHeight="30">
+
+    <!-- 圆角方形紫色渐变底（rx=5） -->
+    <path android:pathData="M5,0L25,0A5,5 0,0 1,30 5L30,25A5,5 0,0 1,25 30L5,30A5,5 0,0 1,0 25L0,5A5,5 0,0 1,5 0Z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startX="15"
+                android:startY="0"
+                android:endX="15"
+                android:endY="30"
+                android:type="linear">
+                <item android:offset="0" android:color="#C17AF4" />
+                <item android:offset="1" android:color="#4F3DEF" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- 山形（半透明白） -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.49"
+        android:pathData="M5.72446,25.3673H24.6409C26.1746,25.3673 26.9424,23.5129 25.8582,22.4287L19.9337,16.5041C19.2615,15.832 18.1717,15.832 17.4995,16.5041L14.3701,19.6335C13.6979,20.3057 12.6081,20.3057 11.9359,19.6335L10.8104,18.508C10.1349,17.8326 9.03899,17.8363 8.36774,18.516L4.49962,22.4362C3.42618,23.5237 4.19681,25.3668 5.72493,25.3668L5.72446,25.3673Z" />
+
+    <!-- 加号 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M7.625,4C7.22736,4 6.90425,4.31914 6.89782,4.71523L6.89773,4.72727V7.27271L4.35227,7.27273C3.95464,7.27273 3.63152,7.59186 3.62509,7.98795L3.625,8C3.625,8.39764 3.94414,8.72075 4.34023,8.72718L4.35227,8.72727L6.89773,8.72725V11.2727C6.89773,11.6704 7.21686,11.9935 7.61295,11.9999L7.625,12C8.02264,12 8.34575,11.6809 8.35218,11.2848L8.35227,11.2727V8.72725L10.8977,8.72727C11.2954,8.72727 11.6185,8.40814 11.6249,8.01205L11.625,8C11.625,7.60236 11.3059,7.27925 10.9098,7.27282L10.8977,7.27273L8.35227,7.27271V4.72727C8.35227,4.32964 8.03314,4.00652 7.63705,4.00009L7.625,4Z" />
+</vector>
