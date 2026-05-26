@@ -2,7 +2,9 @@ package com.example.browser.ui.home
 
 import android.text.Html
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -20,7 +22,9 @@ import com.example.browser.databinding.LayoutEmptyNormalBinding
 import com.example.browser.ui.news.NewsFeedItem
 import com.example.browser.ui.news.NewsItem
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -33,6 +37,26 @@ class HomeRedesignNewsAdapter(
     private var showLoadingFooter = false
     private var showEmptyView = false
     private var showNetworkError = false
+
+    /** Adapter 级别的协程作用域，跟随 detach 自动取消，避免广告加载协程泄漏。 */
+    private val adapterScope = MainScope()
+
+    /**
+     * 按广告位 id 缓存已加载好的原生广告 View。
+     * 这样即使 ViewHolder 被回收复用，滑回原位置时也能把同一个广告 View 挂回容器，
+     * 避免出现"滑出再滑回，广告没了"的现象。
+     */
+    private val nativeAdViewCache = mutableMapOf<Int, View>()
+
+    /**
+     * 已经向 SDK 请求过的广告位 id 集合。
+     * 同一个 adId 只允许请求 SDK 一次，无论后续 ViewHolder 如何被回收/重绑，
+     * 都不会再触发广告 SDK 的加载或展示计数，避免广告刷新过频。
+     */
+    private val loadedAdIds = mutableSetOf<Int>()
+
+    /** 上一次执行进场动画的 adapter position，防止已显示过的 item 反复播放。 */
+    private var lastAnimatedPosition = -1
 
     init {
         setHasStableIds(true)
@@ -73,7 +97,12 @@ class HomeRedesignNewsAdapter(
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             VIEW_TYPE_NEWS -> NewsViewHolder(ItemHomeRedesignNewsBinding.inflate(inflater, parent, false), onNewsClick)
-            VIEW_TYPE_NATIVE_AD -> NativeAdViewHolder(ItemNewsNativeAdBinding.inflate(inflater, parent, false))
+            VIEW_TYPE_NATIVE_AD -> NativeAdViewHolder(
+                ItemNewsNativeAdBinding.inflate(inflater, parent, false),
+                adapterScope,
+                nativeAdViewCache,
+                loadedAdIds,
+            )
             VIEW_TYPE_LOADING -> LoadingViewHolder(ItemNewsLoadingBinding.inflate(inflater, parent, false))
             VIEW_TYPE_NETWORK_ERROR -> NetworkErrorViewHolder(
                 ItemNewsNetworkErrorBinding.inflate(inflater, parent, false),
@@ -85,6 +114,12 @@ class HomeRedesignNewsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        // 复用 ViewHolder 时，先把 itemView 视觉状态恢复到默认值，避免上一次进场动画
+        // 被中断后残留的 alpha/translation 跟过来，造成"item 看不到"的现象。
+        holder.itemView.animate().cancel()
+        holder.itemView.alpha = 1f
+        holder.itemView.translationY = 0f
+
         when (holder) {
             is NewsViewHolder -> {
                 val item = getItem(position) as? NewsFeedItem.News ?: return
@@ -103,6 +138,7 @@ class HomeRedesignNewsAdapter(
         if (holder is NewsViewHolder) {
             holder.loadImage()
         }
+        playEnterAnimationIfNeeded(holder)
     }
 
     override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
@@ -110,6 +146,43 @@ class HomeRedesignNewsAdapter(
         if (holder is NewsViewHolder) {
             holder.clearImage()
         }
+        // 取消可能正在进行的进场动画，并把 itemView 还原到稳态，
+        // 否则动画播放到一半被中断时，alpha/translationY 会残留在中间值，
+        // 滑回时由于 lastAnimatedPosition 判断不会重播动画，导致 item 看起来"消失"。
+        holder.itemView.animate().cancel()
+        holder.itemView.alpha = 1f
+        holder.itemView.translationY = 0f
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        adapterScope.cancel()
+        // 清理广告 View 缓存与已加载记录，避免内存泄漏。
+        // RecyclerView detach 通常发生在 Fragment view 销毁时，下次重建 Adapter 会重新加载。
+        nativeAdViewCache.values.forEach { (it.parent as? ViewGroup)?.removeView(it) }
+        nativeAdViewCache.clear()
+        loadedAdIds.clear()
+    }
+
+    /**
+     * 给新进入屏幕的 item 一个克制的"上滑+淡入"进场动画，缓解滑动时 item 突然出现的卡顿观感。
+     * 仅对首次进入屏幕的 position 触发；回滚到已展示过的 item 不再播放。
+     */
+    private fun playEnterAnimationIfNeeded(holder: RecyclerView.ViewHolder) {
+        // 加载中、空、错误等占位项不参与动画，避免视觉混乱
+        if (holder is LoadingViewHolder || holder is EmptyViewHolder || holder is NetworkErrorViewHolder) return
+        val position = holder.bindingAdapterPosition
+        if (position <= lastAnimatedPosition) return
+        lastAnimatedPosition = position
+        val view = holder.itemView
+        view.alpha = 0f
+        view.translationY = ENTER_ANIMATION_TRANSLATION_PX
+        view.animate()
+            .alpha(1f)
+            .translationY(0f)
+            .setDuration(ENTER_ANIMATION_DURATION_MS)
+            .setInterpolator(DecelerateInterpolator())
+            .start()
     }
 
     fun setLoadingFooterVisible(show: Boolean) {
@@ -151,9 +224,13 @@ class HomeRedesignNewsAdapter(
         private var currentImageUrl: String? = null
 
         fun bind(newsItem: NewsItem) {
-            binding.tvNewsTitle.text = Html.fromHtml(newsItem.title ?: "No title", Html.FROM_HTML_MODE_COMPACT)
-                .toString()
-                .trim()
+            // 大部分 title 是纯文本，没有 HTML 转义就跳过 fromHtml，节省主线程 parse 成本
+            val rawTitle = newsItem.title ?: "No title"
+            binding.tvNewsTitle.text = if (rawTitle.containsHtmlEntity()) {
+                Html.fromHtml(rawTitle, Html.FROM_HTML_MODE_COMPACT).toString().trim()
+            } else {
+                rawTitle.trim()
+            }
             binding.tvAuthor.text = newsItem.author ?: newsItem.source ?: "Unknown"
             binding.tvNewsTime.text = formatDate(newsItem.publishedAt)
 
@@ -182,42 +259,69 @@ class HomeRedesignNewsAdapter(
             Glide.with(binding.ivNewsImage.context).clear(binding.ivNewsImage)
         }
 
+        private fun String.containsHtmlEntity(): Boolean {
+            // 简单判定：含 < 或 & 才需要走 HTML 解码，避免对纯文本做无意义解析
+            return indexOf('<') >= 0 || indexOf('&') >= 0
+        }
+
         private fun formatDate(dateString: String?): String {
             if (dateString.isNullOrEmpty()) return ""
             return try {
-                val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
-                val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val date = inputFormat.parse(dateString)
-                date?.let { outputFormat.format(it) } ?: dateString
+                val date = inputDateFormat.parse(dateString)
+                date?.let { outputDateFormat.format(it) } ?: dateString
             } catch (_: Exception) {
                 dateString
             }
+        }
+
+        companion object {
+            // SimpleDateFormat 非线程安全，但这里只在主线程使用，可以安全复用
+            private val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
+            private val outputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         }
     }
 
     private class NativeAdViewHolder(
         private val binding: ItemNewsNativeAdBinding,
+        private val scope: CoroutineScope,
+        private val viewCache: MutableMap<Int, View>,
+        private val loadedAdIds: MutableSet<Int>,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private var boundAdId: Int? = null
-        private var isAdLoaded = false
+        private var loadingJob: Job? = null
 
         fun bind(adId: Int) {
-            if (boundAdId != adId) {
-                boundAdId = adId
-                isAdLoaded = false
-                binding.adContainer.removeAllViews()
+            if (boundAdId == adId) return
+            boundAdId = adId
+
+            // 切换到新的广告位，先把容器清干净（不会销毁广告 View 本身，
+            // 因为缓存里仍持有强引用，只是把它从父容器里摘下来）。
+            binding.adContainer.removeAllViews()
+
+            // 如果该 adId 已经有缓存好的广告 View，直接挂回去复用，避免重新请求 SDK
+            viewCache[adId]?.let { cachedAdView ->
+                (cachedAdView.parent as? ViewGroup)?.removeView(cachedAdView)
+                binding.adContainer.addView(cachedAdView)
             }
         }
 
         fun loadAd() {
-            if (isAdLoaded) return
-            isAdLoaded = true
-            CoroutineScope(Dispatchers.Main).launch {
+            val adId = boundAdId ?: return
+            // 严格按 adId 去重：只要这个广告位之前请求过 SDK，就不再触发，
+            // 防止滑出再滑回 → 进入 RV 缓存命中失败 → 再次调用 SDK → 计数刷新过频
+            if (loadedAdIds.contains(adId)) return
+            loadedAdIds.add(adId)
+
+            loadingJob = scope.launch {
                 AdShowExt.showNativeAdInContainer(
                     context = binding.adContainer.context,
                     container = binding.adContainer,
                 )
+                // 渲染完成后把当前展示的广告 View 缓存起来，方便后续滑回时直接复用
+                binding.adContainer.getChildAt(0)?.let { rendered ->
+                    viewCache[adId] = rendered
+                }
             }
         }
     }
@@ -259,5 +363,11 @@ class HomeRedesignNewsAdapter(
         private const val VIEW_TYPE_EMPTY = 2
         private const val VIEW_TYPE_NETWORK_ERROR = 3
         private const val VIEW_TYPE_NATIVE_AD = 4
+
+        /** Item 入场动画时长，控制在 300ms 以内避免拖沓也不会被快速滑动盖掉。 */
+        private const val ENTER_ANIMATION_DURATION_MS = 260L
+
+        /** 入场动画的初始 Y 位移（px），约等于 28dp。低端机也不会因位移过大而显眼掉帧。 */
+        private const val ENTER_ANIMATION_TRANSLATION_PX = 80f
     }
 }

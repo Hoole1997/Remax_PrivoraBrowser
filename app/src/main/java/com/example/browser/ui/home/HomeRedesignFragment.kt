@@ -218,6 +218,8 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
             adapter = concatAdapter
             itemAnimator = null
             setHasFixedSize(false)
+            // Feed 中存在新闻、广告、loading 等多种 viewType，适当放大缓存可减少滑动时的 bind 次数
+            setItemViewCacheSize(8)
             overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
