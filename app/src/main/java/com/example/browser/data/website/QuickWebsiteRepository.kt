@@ -235,6 +235,21 @@ class QuickWebsiteRepository private constructor(context: Context) {
                 url = FEATURE_URL_PROCESS,
                 iconUrl = "mipmap:ic_home_process"
             ),
+            DefaultWebsite(
+                title = "ChatGPT",
+                url = "https://chat.openai.com",
+                iconUrl = "web_chatgpt.webp"
+            ),
+            DefaultWebsite(
+                title = "Facebook",
+                url = "https://www.facebook.com",
+                iconUrl = "web_facebook.webp"
+            ),
+            DefaultWebsite(
+                title = "Instagram",
+                url = "https://www.instagram.com",
+                iconUrl = "web_instagram.webp"
+            ),
         )
 
         synchronized(lock) {
@@ -283,25 +298,13 @@ class QuickWebsiteRepository private constructor(context: Context) {
     }
 
     private fun normalizeDefaultWebsitesLocked() {
-        removeLegacySeededWebsitesLocked()
         ensureFeatureShortcutLocked("Clean", FEATURE_URL_CLEAN, "mipmap:ic_home_clean", 0)
         ensureFeatureShortcutLocked("Duplicate", FEATURE_URL_DUPLICATE, "mipmap:ic_home_duplicate", 1)
         ensureFeatureShortcutLocked("Speed", FEATURE_URL_SPEED, "mipmap:ic_home_speed", 2)
         ensureFeatureShortcutLocked("Process", FEATURE_URL_PROCESS, "mipmap:ic_home_process", 3)
-    }
-
-    private fun removeLegacySeededWebsitesLocked() {
-        internalWebsites.removeAll { site ->
-            when (site.url.lowercase()) {
-                "https://chat.openai.com" ->
-                    site.title == "ChatGPT" && site.iconUrl == "web_chatgpt.webp"
-                "https://www.facebook.com" ->
-                    site.title == "Facebook" && site.iconUrl == "web_facebook.webp"
-                "https://www.instagram.com" ->
-                    site.title == "Instagram" && site.iconUrl == "web_instagram.webp"
-                else -> false
-            }
-        }
+        ensureDefaultWebsiteLocked("ChatGPT", "https://chat.openai.com", "web_chatgpt.webp", 4)
+        ensureDefaultWebsiteLocked("Facebook", "https://www.facebook.com", "web_facebook.webp", 5)
+        ensureDefaultWebsiteLocked("Instagram", "https://www.instagram.com", "web_instagram.webp", 6)
     }
 
     private fun ensureFeatureShortcutLocked(
@@ -311,6 +314,32 @@ class QuickWebsiteRepository private constructor(context: Context) {
         targetIndex: Int
     ) {
         val existingIndex = internalWebsites.indexOfFirst { it.url == url }
+        if (existingIndex >= 0) {
+            val existing = internalWebsites.removeAt(existingIndex)
+            existing.title = title
+            existing.iconUrl = iconUrl
+            internalWebsites.add(targetIndex.coerceAtMost(internalWebsites.size), existing)
+            return
+        }
+
+        internalWebsites.add(
+            targetIndex.coerceAtMost(internalWebsites.size),
+            InternalWebsite(
+                id = generateId(),
+                title = title,
+                url = url,
+                iconUrl = iconUrl
+            )
+        )
+    }
+
+    private fun ensureDefaultWebsiteLocked(
+        title: String,
+        url: String,
+        iconUrl: String,
+        targetIndex: Int
+    ) {
+        val existingIndex = internalWebsites.indexOfFirst { it.url.equals(url, true) }
         if (existingIndex >= 0) {
             val existing = internalWebsites.removeAt(existingIndex)
             existing.title = title

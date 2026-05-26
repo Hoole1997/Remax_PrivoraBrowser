@@ -72,11 +72,6 @@
 
     </com.hjq.shape.layout.ShapeLinearLayout>
 
-    <FrameLayout
-        android:id="@+id/adContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <!-- AwesomeBar 搜索建议列表 -->
     <com.example.browser.ui.search.AwesomeBarWrapper
         android:id="@+id/awesomeBar"

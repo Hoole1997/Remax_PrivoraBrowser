@@ -23,3 +23,6 @@ SmartCookieWeb-Preview-master
 reference-browser-master
 m3u8-downloader-master
 android-youtube-player-dev
+
+# Kotlin compiler caches and error logs
+.kotlin/

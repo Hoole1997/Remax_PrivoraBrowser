@@ -25,9 +25,9 @@ class NewsDetailsActivity : BaseActivity<ActivityNewsDetailsBinding, NewsModel>(
         const val EXTRA_NEWS_URL = "extra_news_url"
 
         fun start(context: Context, newsUrl: String,isMoreNews:Boolean = false) {
-            if(isMoreNews){
-                NewsMoreActivity.start(context)
-            }
+//            if(isMoreNews){
+//                NewsMoreActivity.start(context)
+//            }
             val intent = Intent(context, NewsDetailsActivity::class.java)
             intent.putExtra(EXTRA_NEWS_URL, newsUrl)
             context.startActivity(intent)

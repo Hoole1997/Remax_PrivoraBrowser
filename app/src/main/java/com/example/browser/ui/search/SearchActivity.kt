@@ -106,7 +106,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
         } else {
             focusSearchInput()
         }
-        loadNative(binding.adContainer)
     }
 
     /**

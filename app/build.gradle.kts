@@ -14,6 +14,8 @@ plugins {
 val appConfig = findProperty("app") as Map<*, *>
 val adMobConfig = findProperty("admob") as Map<*, *>
 val adMobUnitConfig = adMobConfig["adUnitIds"] as Map<*, *>
+val gamConfig = findProperty("gam") as Map<*, *>
+val gamUnitConfig = gamConfig["adUnitIds"] as Map<*, *>
 val pangleConfig = findProperty("pangle") as? Map<*, *>
 val pangleUnitConfig = pangleConfig?.get("adUnitIds") as? Map<*, *>
 val toponConfig = findProperty("topon") as? Map<*, *>
@@ -37,6 +39,14 @@ fun com.android.build.api.dsl.ApplicationProductFlavor.applyConfig(configFile: S
     buildConfigField("String", "ADMOB_NATIVE_ID", "\"${adMobUnitConfig["native"]}\"")
     buildConfigField("String", "ADMOB_FULL_NATIVE_ID", "\"${adMobUnitConfig["full_native"]}\"")
     buildConfigField("String", "ADMOB_REWARDED_ID", "\"${adMobUnitConfig["rewarded"]}\"")
+
+    buildConfigField("String", "GAM_SPLASH_ID", "\"${gamUnitConfig["splash"]}\"")
+    buildConfigField("String", "GAM_BANNER_ID", "\"${gamUnitConfig["banner"]}\"")
+    buildConfigField("String", "GAM_INTERSTITIAL_ID", "\"${gamUnitConfig["interstitial"]}\"")
+    buildConfigField("String", "GAM_NATIVE_ID", "\"${gamUnitConfig["native"]}\"")
+    buildConfigField("String", "GAM_FULL_NATIVE_ID", "\"${gamUnitConfig["full_native"]}\"")
+    buildConfigField("String", "GAM_REWARDED_ID", "\"${gamUnitConfig["rewarded"]}\"")
+
 
     // Pangle 配置
     buildConfigField("String", "PANGLE_APPLICATION_ID", "\"${pangleConfig?.get("applicationId") ?: ""}\"")
