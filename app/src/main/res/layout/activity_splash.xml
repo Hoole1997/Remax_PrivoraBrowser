@@ -69,6 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Progress Bar -->
+    <!-- 使用 max=10000 让进度可以按浮点细分推进，避免按 1% 整数跳动 -->
     <ProgressBar
         android:id="@+id/progress_bar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -79,8 +80,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:progress="50"
-        android:max="100"
+        tools:progress="5000"
+        android:max="10000"
         android:progress="0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

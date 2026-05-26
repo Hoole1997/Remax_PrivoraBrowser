@@ -3,21 +3,26 @@ package com.example.browser.ui.splash
 import android.animation.ValueAnimator
 import android.content.Intent
 import android.util.Log
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.view.animation.OvershootInterpolator
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.android.common.bill.BillConfig
 import com.android.common.bill.ads.AdResult
 import com.android.common.bill.ads.PreloadController
 import com.android.common.bill.ads.bidding.AppOpenBiddingInitializer
 import com.android.common.bill.ads.ext.AdShowExt
 import com.android.common.bill.ads.ext.CountdownConfig
 import com.android.common.bill.ads.util.GoogleMobileAdsConsentManager
+import com.android.common.bill.ui.NativeAdStyle
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.LogUtils
 import com.example.browser.BrowserApplication
+import com.example.browser.BuildConfig
 import com.example.browser.R
 import com.example.browser.ad.AdConfig
 import com.example.browser.ad.BrowserAdLoadingDialogRenderer
@@ -27,6 +32,8 @@ import com.example.browser.ad.BrowserPangleFullScreenNativeAdRenderer
 import com.example.browser.ad.BrowserPangleNativeAdRenderer
 import com.example.browser.ad.BrowserToponFullScreenNativeAdRenderer
 import com.example.browser.ad.BrowserToponNativeAdRenderer
+import com.example.browser.ad.DefaultGamFullScreenNativeAdRenderer
+import com.example.browser.ad.DefaultGamNativeAdRenderer
 import com.example.browser.base.BaseActivity
 import com.example.browser.databinding.ActivitySplashBinding
 import com.example.browser.ui.MainActivity
@@ -65,11 +72,31 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
 
         private const val TAG = "SplashActivity"
         const val EXTRA_IS_FROM_BACKGROUND = "is_from_background"
+
+        /**
+         * 进入 SplashActivity 后，至少展示这么久的动画/Logo 后才允许开屏广告显示。
+         * 用于避免「有缓存广告时秒展示，UI 很突兀」的问题。
+         * 这段时间内广告 SDK 初始化、加载会并行进行，不会被阻塞。
+         */
+        private const val MIN_AD_SHOW_DELAY_MS = 2000L
+
+        /** Logo 入场动画时长，控制在 600ms 左右避免拖沓但仍有存在感。 */
+        private const val LOGO_ANIMATION_DURATION_MS = 600L
+
+        /**
+         * 等待 Logo 入场动画结束的兜底时长。即使动画因异常未触发结束回调，
+         * 也最多等这么久就会继续展示广告，避免一直卡在等待动画状态。
+         */
+        private const val LOGO_ANIMATION_FALLBACK_MS = 1500L
     }
 
     private var loadingAnimator: ValueAnimator? = null
     private var shouldNavigateOnCountdownEnd: Boolean = true
     private var hasNavigated: Boolean = false
+
+    /** Logo 入场动画是否已经播放完毕。用于在展示广告前等待动画结束，避免界面突兀。 */
+    @Volatile
+    private var isLogoAnimationFinished: Boolean = false
 
     // 广告是否已加载
     var isAdLoaded = false
@@ -105,16 +132,59 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
 
     override fun initView() {
         launchTime = System.currentTimeMillis()
-        ReportDataManager.reportData("loading_pagge_show", mapOf())
         dataReport()
         Log.d(TAG, "启动页：开始启动倒计时与广告流程")
+        playLogoEnterAnimation()
         startSplashFlow()
-        lifecycleScope.launch() {
-            ConfigRemoteManager.getString("Grouping", "")
-                ?.takeIf { it.isNotEmpty() }?.let {
-                Log.d(TAG, "启动页：获取分组参数成功，准备上报 Grouping_${it}")
-                ReportDataManager.reportData(eventName = "Grouping_${it}", data = mapOf())
-            }
+    }
+
+    /**
+     * 启动页 Logo 入场动画：
+     * - 透明度 0 → 1：快速淡入；
+     * - 缩放 0.6 → 1.0，配合 OvershootInterpolator 让 Logo 有"弹出"的存在感；
+     * - 轻微上浮 (translationY 24dp → 0)，让动效更有方向感。
+     *
+     * 整体时长压缩到 [LOGO_ANIMATION_DURATION_MS]，避免 2 秒线性渐变带来的拖沓感。
+     * 动画结束后会把 [isLogoAnimationFinished] 置为 true，配合 [showAdWithBidding] 的
+     * 等待逻辑保证广告至少在动画播完后才展示。即使动画被中断/异常，也有兜底机制。
+     */
+    private fun playLogoEnterAnimation() {
+        isLogoAnimationFinished = false
+        val translationStart = resources.displayMetrics.density * 24f // 24dp
+        binding.llLogo.apply {
+            alpha = 0f
+            scaleX = 0.6f
+            scaleY = 0.6f
+            translationY = translationStart
+            animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .translationY(0f)
+                .setDuration(LOGO_ANIMATION_DURATION_MS)
+                // tension=2 让 overshoot 比较克制，不会过分弹动
+                .setInterpolator(OvershootInterpolator(2f))
+                .withEndAction { isLogoAnimationFinished = true }
+                .start()
+        }
+    }
+
+    /**
+     * 等待 Logo 入场动画结束。带兜底：最长等待 [LOGO_ANIMATION_FALLBACK_MS]，
+     * 如果动画因为各种原因没有标记完成，也会强制返回避免卡死。
+     */
+    private suspend fun awaitLogoAnimationFinished() {
+        if (isLogoAnimationFinished) return
+        Log.d(TAG, "等待 Logo 入场动画结束")
+        val start = System.currentTimeMillis()
+        while (!isLogoAnimationFinished &&
+            System.currentTimeMillis() - start < LOGO_ANIMATION_FALLBACK_MS
+        ) {
+            delay(50)
+        }
+        if (!isLogoAnimationFinished) {
+            Log.w(TAG, "Logo 动画兜底超时(${LOGO_ANIMATION_FALLBACK_MS}ms)，强制继续")
+            isLogoAnimationFinished = true
         }
     }
 
@@ -141,9 +211,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
 
                 awaitAdWithTimeout()
 
+                // 广告流程结束（成功/超时/失败），把进度补到 100%，体感更顺滑
+                finishProgressTo100()
+
                 navigateNext()
             }.onFailure {
                 Log.e(TAG, "启动页加载失败", it)
+                finishProgressTo100()
                 navigateNext()
             }
         }
@@ -179,14 +253,27 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
     private suspend fun initializeAndShowAd(onTick: ((Int) -> Unit)): Boolean{
         return try {
             val initResult = AppOpenBiddingInitializer.initialize(this,R.mipmap.ic_logo) {
+                googleMobileAds = BillConfig.GoogleMobileAdsConfig(BuildConfig.ADMOB_APPLICATION_ID)
                 // ===== 广告ID和布局 =====
                 admob = AdConfig.admobConfig()
                 pangle = AdConfig.pangleConfig()
                 topon = AdConfig.toponConfig()
+                gam = BillConfig.GamConfig(
+                    splashId = BuildConfig.GAM_SPLASH_ID,
+                    bannerId = BuildConfig.GAM_BANNER_ID,
+                    interstitialId = BuildConfig.GAM_INTERSTITIAL_ID,
+                    nativeId = BuildConfig.GAM_NATIVE_ID,
+                    fullNativeId = BuildConfig.GAM_FULL_NATIVE_ID,
+                    rewardedId = BuildConfig.GAM_REWARDED_ID,
+                    nativeStyleStandard = NativeAdStyle(R.layout.layout_native_ads, "normal"),
+                    nativeStyleLarge = NativeAdStyle(R.layout.layout_native_ads, "card"),
+                )
 
                 // ===== 渲染器 =====
                 admobNativeRenderer = BrowserAdmobNativeAdRenderer()
                 admobFullScreenNativeRenderer = BrowserAdmobFullScreenNativeAdRenderer()
+                gamNativeRenderer = DefaultGamNativeAdRenderer()
+                gamFullScreenNativeRenderer = DefaultGamFullScreenNativeAdRenderer()
                 pangleNativeRenderer = BrowserPangleNativeAdRenderer()
                 pangleFullScreenNativeRenderer = BrowserPangleFullScreenNativeAdRenderer()
                 toponNativeRenderer = BrowserToponNativeAdRenderer()
@@ -212,6 +299,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
 
     private suspend fun showAdWithBidding(onTick: ((Int) -> Unit)): Boolean {
         Log.d(TAG, "准备显示开屏广告")
+        // 等 Logo 入场动画播放结束再展示广告，避免有缓存广告时秒展示导致 UI 突兀。
+        // awaitLogoAnimationFinished 内部带兜底超时，不会一直卡住。
+        awaitLogoAnimationFinished()
         val adResult = AdShowExt.showAppOpenAd(
             activity = this,
             onLoaded = { isSuccess ->
@@ -225,6 +315,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
             ))
 
         return if (adResult is AdResult.Success) {
+            //广告展示后关闭回调
             Log.d(TAG, "广告显示成功")
             true
         } else {
@@ -243,18 +334,47 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
 
         Log.d(TAG, "启动页：开始倒计时进度动画，duration=${durationMillis}ms")
 
-        val animator = ValueAnimator.ofInt(0, 100)
+        // 使用 ofFloat 让进度按 vsync 的每一帧推进，避免 ofInt(0,100) 导致的"一顿一顿"。
+        // ProgressBar 已将 max 调整为 10000，可承载浮点 0~100 的细分进度。
+        val animator = ValueAnimator.ofFloat(0f, 100f)
         loadingAnimator = animator
 
         animator.duration = durationMillis
-        animator.interpolator = LinearInterpolator()
+        // DecelerateInterpolator 比线性更自然，前段快、后段慢，符合"加载"心理预期
+        animator.interpolator = DecelerateInterpolator(1.2f)
 
+        // 用 tag 缓存上一次显示的整数百分比，避免每帧 setText 触发 measure/layout
+        var lastShownPercent = -1
         animator.addUpdateListener { animation ->
-            val progress = animation.animatedValue as Int
-            binding.progressBar.progress = progress
-            binding.tvProgress.text = "$progress%"
+            val raw = animation.animatedValue as Float
+            // ProgressBar 按浮点细分推进（max=10000 -> 每 1% 等于 100）
+            binding.progressBar.progress = (raw * 100f).toInt()
+
+            val percent = raw.toInt()
+            if (percent != lastShownPercent) {
+                lastShownPercent = percent
+                binding.tvProgress.text = "$percent%"
+            }
         }
 
+        animator.start()
+    }
+
+    /**
+     * 广告就绪或超时后，把进度条快速补到 100%，避免出现"广告关了，进度还卡在 30%"。
+     */
+    private fun finishProgressTo100(durationMs: Long = 250L) {
+        loadingAnimator?.cancel()
+        val current = binding.progressBar.progress
+        val animator = ValueAnimator.ofInt(current, 10000)
+        loadingAnimator = animator
+        animator.duration = durationMs
+        animator.interpolator = LinearInterpolator()
+        animator.addUpdateListener {
+            val v = it.animatedValue as Int
+            binding.progressBar.progress = v
+            binding.tvProgress.text = "${v / 100}%"
+        }
         animator.start()
     }
 
@@ -398,6 +518,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
         }
 
     private fun dataReport() {
+        ReportDataManager.reportData("loading_pagge_show", mapOf())
         ReportDataManager.reportData(
             "app_open", mapOf(
                 "type" to if (ActivityUtils.isActivityExistsInStack(MainActivity::class.java)) "hot_open" else "cold_open",
@@ -405,6 +526,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
                     LANDING_NOTIFICATION_FROM
                 ).orEmpty().ifBlank { "other" } else "other"
             ))
+        lifecycleScope.launch() {
+            ConfigRemoteManager.getString("Grouping", "")
+                ?.takeIf { it.isNotEmpty() }?.let {
+                    Log.d(TAG, "启动页：获取分组参数成功，准备上报 Grouping_${it}")
+                    ReportDataManager.reportData(eventName = "Grouping_${it}", data = mapOf())
+                }
+        }
         if (intent.hasExtra(LANDING_NOTIFICATION_FROM)) {
             ReportDataManager.reportData(
                 "Notific_Click", mapOf(
