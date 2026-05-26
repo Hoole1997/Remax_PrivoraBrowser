@@ -18,10 +18,13 @@ class QuickWebsiteRepository private constructor(context: Context) {
         private const val STORAGE_DIR = "quick_websites"
         private const val STORAGE_FILE = "websites.json"
         private const val KEY_WEBSITES = "websites"
-        private const val FEATURE_URL_CLEAN = "app://feature/clean"
-        private const val FEATURE_URL_DUPLICATE = "app://feature/duplicate"
-        private const val FEATURE_URL_SPEED = "app://feature/speed"
-        private const val FEATURE_URL_PROCESS = "app://feature/process"
+
+        /**
+         * 旧版本曾经预置过 4 个本地 feature 入口（清理 / 重复照片 / 测速 / 进程）。
+         * 现已移除。这里保留前缀用于在加载老用户数据时过滤掉这些遗留条目，
+         * 避免升级后首页继续显示这 4 个废弃入口。
+         */
+        private const val LEGACY_FEATURE_URL_PREFIX = "app://feature/"
 
         @Volatile
         private var instance: QuickWebsiteRepository? = null
@@ -47,6 +50,17 @@ class QuickWebsiteRepository private constructor(context: Context) {
 
     init {
         loadFromDisk()
+        // 老用户的 websites.json 里可能仍残留 4 个 app://feature/* 条目，启动时清理掉
+        val purgedLegacy = synchronized(lock) {
+            val before = internalWebsites.size
+            internalWebsites.removeAll { it.url.startsWith(LEGACY_FEATURE_URL_PREFIX) }
+            val changed = internalWebsites.size != before
+            if (changed) {
+                updateStateLocked()
+            }
+            changed
+        }
+
         if (internalWebsites.isEmpty()) {
             preloadDefaultWebsites()
         } else {
@@ -54,6 +68,10 @@ class QuickWebsiteRepository private constructor(context: Context) {
                 normalizeDefaultWebsitesLocked()
                 updateStateLocked()
             }
+            persistAsync()
+        }
+
+        if (purgedLegacy) {
             persistAsync()
         }
     }
@@ -216,26 +234,6 @@ class QuickWebsiteRepository private constructor(context: Context) {
     private fun preloadDefaultWebsites() {
         val defaults = listOf(
             DefaultWebsite(
-                title = "Clean",
-                url = FEATURE_URL_CLEAN,
-                iconUrl = "mipmap:ic_home_clean"
-            ),
-            DefaultWebsite(
-                title = "Duplicate",
-                url = FEATURE_URL_DUPLICATE,
-                iconUrl = "mipmap:ic_home_duplicate"
-            ),
-            DefaultWebsite(
-                title = "Speed",
-                url = FEATURE_URL_SPEED,
-                iconUrl = "mipmap:ic_home_speed"
-            ),
-            DefaultWebsite(
-                title = "Process",
-                url = FEATURE_URL_PROCESS,
-                iconUrl = "mipmap:ic_home_process"
-            ),
-            DefaultWebsite(
                 title = "ChatGPT",
                 url = "https://chat.openai.com",
                 iconUrl = "web_chatgpt.webp"
@@ -298,39 +296,9 @@ class QuickWebsiteRepository private constructor(context: Context) {
     }
 
     private fun normalizeDefaultWebsitesLocked() {
-        ensureFeatureShortcutLocked("Clean", FEATURE_URL_CLEAN, "mipmap:ic_home_clean", 0)
-        ensureFeatureShortcutLocked("Duplicate", FEATURE_URL_DUPLICATE, "mipmap:ic_home_duplicate", 1)
-        ensureFeatureShortcutLocked("Speed", FEATURE_URL_SPEED, "mipmap:ic_home_speed", 2)
-        ensureFeatureShortcutLocked("Process", FEATURE_URL_PROCESS, "mipmap:ic_home_process", 3)
-        ensureDefaultWebsiteLocked("ChatGPT", "https://chat.openai.com", "web_chatgpt.webp", 4)
-        ensureDefaultWebsiteLocked("Facebook", "https://www.facebook.com", "web_facebook.webp", 5)
-        ensureDefaultWebsiteLocked("Instagram", "https://www.instagram.com", "web_instagram.webp", 6)
-    }
-
-    private fun ensureFeatureShortcutLocked(
-        title: String,
-        url: String,
-        iconUrl: String,
-        targetIndex: Int
-    ) {
-        val existingIndex = internalWebsites.indexOfFirst { it.url == url }
-        if (existingIndex >= 0) {
-            val existing = internalWebsites.removeAt(existingIndex)
-            existing.title = title
-            existing.iconUrl = iconUrl
-            internalWebsites.add(targetIndex.coerceAtMost(internalWebsites.size), existing)
-            return
-        }
-
-        internalWebsites.add(
-            targetIndex.coerceAtMost(internalWebsites.size),
-            InternalWebsite(
-                id = generateId(),
-                title = title,
-                url = url,
-                iconUrl = iconUrl
-            )
-        )
+        ensureDefaultWebsiteLocked("ChatGPT", "https://chat.openai.com", "web_chatgpt.webp", 0)
+        ensureDefaultWebsiteLocked("Facebook", "https://www.facebook.com", "web_facebook.webp", 1)
+        ensureDefaultWebsiteLocked("Instagram", "https://www.instagram.com", "web_instagram.webp", 2)
     }
 
     private fun ensureDefaultWebsiteLocked(
