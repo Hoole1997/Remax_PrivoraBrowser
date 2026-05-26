@@ -18,6 +18,11 @@ class HomeRedesignQuickWebsiteAdapter(
     private val onWebsiteClick: (QuickWebsite) -> Unit,
     private val onWebsiteLongClick: (QuickWebsite) -> Unit,
     private val onAddClick: () -> Unit,
+    /**
+     * 用于给 Add 按钮的 [com.example.browser.view.QuickAddIconView] 提供
+     * "未添加到 quick websites 的推荐站图标 asset 路径"。最多取 4 个。
+     */
+    private val provideAddPreviewIcons: (() -> List<String>)? = null,
 ) : ListAdapter<HomeRedesignQuickWebsiteAdapter.HomeWebsiteItem, RecyclerView.ViewHolder>(DiffCallback) {
 
     init {
@@ -107,6 +112,9 @@ class HomeRedesignQuickWebsiteAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
+            // 动态拉取最多 4 个"未添加"的推荐站图标，填进 QuickAddIconView
+            val previews = provideAddPreviewIcons?.invoke().orEmpty()
+            binding.quickAddIcon.setIconsFromAssets(previews)
             binding.root.setOnClickListener { onAddClick() }
         }
     }

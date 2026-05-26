@@ -15,6 +15,7 @@ import com.example.browser.base.BaseFragment
 import com.example.browser.components
 import com.example.browser.data.website.QuickWebsite
 import com.example.browser.data.website.QuickWebsiteRepository
+import com.example.browser.data.website.RecommendedWebsiteRepository
 import com.example.browser.databinding.FragmentHomeRedesignBinding
 import com.example.browser.ui.dialog.StoragePermissionDialog
 import com.example.browser.ui.junk.JunkScanActivity
@@ -49,6 +50,11 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
     private lateinit var concatAdapter: ConcatAdapter
     private lateinit var newsModel: NewsModel
     private var scrollIdleRunnable: Runnable? = null
+
+    /** 推荐站点仓库；用于给 Add 按钮挑选 4 个"还没添加到 quick websites"的图标。 */
+    private val recommendedWebsiteRepository by lazy {
+        RecommendedWebsiteRepository.getInstance(requireContext())
+    }
 
     override fun initBinding(): FragmentHomeRedesignBinding {
         return FragmentHomeRedesignBinding.inflate(layoutInflater)
@@ -198,6 +204,9 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
             onWebsiteClick = { openWebsite(it) },
             onWebsiteLongClick = { showRemoveDialog(it) },
             onAddClick = { activity?.let { RecommendedWebsitesActivity.start(it) } },
+            // 给 Add 按钮提供 4 个未添加推荐站的图标 asset 路径，
+            // 用于在 QuickAddIconView 中拼出 2x2 缩略图，引导用户去添加。
+            provideAddPreviewIcons = { collectAddPreviewIcons() },
         )
 
         newsAdapter = HomeRedesignNewsAdapter(
@@ -351,6 +360,25 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
         }
 
         return result
+    }
+
+    /**
+     * 收集 4 个"未添加到 quick websites"的推荐站图标 asset 路径，
+     * 用于在 Add 按钮上拼出 2x2 缩略图。当推荐网站不足 4 个时返回少于 4 个。
+     */
+    private fun collectAddPreviewIcons(): List<String> {
+        val addedUrls = viewModel.quickWebsites.value
+            .map { it.url.lowercase() }
+            .toHashSet()
+        return recommendedWebsiteRepository.getCategories()
+            .asSequence()
+            .flatMap { it.websites.asSequence() }
+            .filter { !addedUrls.contains(it.url.lowercase()) }
+            .mapNotNull { it.iconAsset?.takeIf { asset -> asset.isNotEmpty() } }
+            .map { "weblogo/$it" }
+            .distinct()
+            .take(4)
+            .toList()
     }
 
     private fun loadVisibleAds() {

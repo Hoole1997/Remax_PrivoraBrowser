@@ -8,4 +8,24 @@
     <declare-styleable name="TouchImageView">
         <attr name="zoom_enabled" format="boolean" />
     </declare-styleable>
+
+    <!--
+      首页"添加"快捷按钮自定义视图：圆底 + 内部 2x2 网格 4 个圆形小图标。
+      对应 Figma 18481-4870 中 Add 按钮 (col-4)，复刻图标拼接效果。
+    -->
+    <declare-styleable name="QuickAddIconView">
+        <!-- 圆底背景颜色 -->
+        <attr name="qaivBackgroundColor" format="color" />
+        <!-- 圆底直径，wrap 时用 layoutParams 决定，否则会强制重设 -->
+        <attr name="qaivBackgroundSize" format="dimension" />
+        <!-- 内部 4 个小图标的直径 -->
+        <attr name="qaivIconSize" format="dimension" />
+        <!-- 4 个小图标之间的水平/垂直间距 -->
+        <attr name="qaivIconSpacing" format="dimension" />
+        <!-- 左上 / 右上 / 左下 / 右下 4 个小图标 -->
+        <attr name="qaivIconTopLeft" format="reference" />
+        <attr name="qaivIconTopRight" format="reference" />
+        <attr name="qaivIconBottomLeft" format="reference" />
+        <attr name="qaivIconBottomRight" format="reference" />
+    </declare-styleable>
 </resources>

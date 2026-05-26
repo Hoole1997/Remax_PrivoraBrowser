@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  首页 quick websites 末尾的 "Add" 按钮 item。
+  圆底 + 4 个推荐站图标的 2x2 拼接，对应 Figma 18481-4870 col-4。
+  4 个图标在运行时由 HomeRedesignQuickWebsiteAdapter 通过 [QuickAddIconView.setIconsFromAssets]
+  动态填充：取"未添加到 quick websites 中的"前 4 个推荐站。
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <FrameLayout
+    <com.example.browser.view.QuickAddIconView
+        android:id="@+id/quickAddIcon"
         android:layout_width="38dp"
         android:layout_height="38dp"
-        android:background="@drawable/bg_home_redesign_add_container">
-
-        <ImageView
-            android:id="@+id/ivAdd"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@null"
-            android:padding="10dp"
-            android:src="@mipmap/ic_home_add_website" />
-
-    </FrameLayout>
+        app:qaivBackgroundColor="#F3F5F7"
+        app:qaivIconSize="12dp"
+        app:qaivIconSpacing="3dp" />
 
     <TextView
         android:id="@+id/tvAdd"
