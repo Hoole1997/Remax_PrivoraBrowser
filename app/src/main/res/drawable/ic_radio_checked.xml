@@ -1,12 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  卸载原因 RadioButton 选中态：18dp 蓝色渐变圆 + 白色对勾。
+  渐变色与 Figma 主按钮一致 (#006BFD -> #83B7FF)。
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="18dp"
     android:height="18dp"
     android:viewportWidth="18"
     android:viewportHeight="18">
-    <path
-        android:pathData="M9,9m-9,0a9,9 0,1 1,18 0a9,9 0,1 1,-18 0"
-        android:fillColor="#0881FE"/>
+    <path android:pathData="M9,9m-9,0a9,9 0,1 1,18 0a9,9 0,1 1,-18 0">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startX="0"
+                android:startY="9"
+                android:endX="18"
+                android:endY="9"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#006BFD" />
+                <item android:offset="1.0" android:color="#83B7FF" />
+            </gradient>
+        </aapt:attr>
+    </path>
     <path
         android:pathData="M13.345,4C11.015,5.229 9.45,6.912 8.755,7.667L6.875,6.45L6,7.003L9.195,10.73C9.755,9.548 11.535,7.239 13.7,5.098L13.345,4Z"
-        android:fillColor="@android:color/white"/>
+        android:fillColor="@android:color/white" />
 </vector>

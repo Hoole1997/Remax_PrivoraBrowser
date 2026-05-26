@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  卸载确认页主按钮背景：
+  Figma 设计稿 (18845-17120) Tailwind 表达为
+    `bg-gradient-to-l from-[#006bfd] to-[#83b7ff]`
+  即从右到左：起始 #006BFD（按钮右侧），终止 #83B7FF（按钮左侧）。
+  Android 中 angle=180 表示从右向左推进，因此 startColor=#006BFD endColor=#83B7FF。
+  圆角 24dp，按钮整体高度 48dp，呈现胶囊形态。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="180"
+        android:endColor="#83B7FF"
+        android:startColor="#006BFD"
+        android:type="linear" />
+    <corners android:radius="24dp" />
+</shape>

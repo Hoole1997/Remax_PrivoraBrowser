@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  卸载原因多行输入框背景：极浅灰填充 + 12dp 圆角，
+  对应 Figma 设计稿中 #F9F9F9 容器。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#F9F9F9" />
+    <corners android:radius="12dp" />
+</shape>

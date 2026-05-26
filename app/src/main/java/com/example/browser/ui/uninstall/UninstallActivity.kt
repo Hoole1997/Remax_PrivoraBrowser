@@ -2,9 +2,9 @@ package com.example.browser.ui.uninstall
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import com.blankj.utilcode.util.ClickUtils
 import com.browser.common.loadInterstitial
 import com.browser.common.loadNative
@@ -12,6 +12,7 @@ import com.example.browser.base.BaseActivity
 import com.example.browser.base.BaseModel
 import com.example.browser.databinding.ActivityUninstallBinding
 import com.example.browser.ui.MainActivity
+import net.corekit.core.controller.ChannelUserController
 
 class UninstallActivity : BaseActivity<ActivityUninstallBinding, BaseModel>() {
 
@@ -55,15 +56,27 @@ class UninstallActivity : BaseActivity<ActivityUninstallBinding, BaseModel>() {
         }
 
         // 卸载按钮 - 跳转到确认页面
+        // 自然渠道用户不展示插屏广告，直接跳转；买量渠道用户先展示插屏后跳转
         ClickUtils.applyGlobalDebouncing(binding.btnUninstall) {
-            loadInterstitial {
+            if (ChannelUserController.isNaturalChannel()) {
                 UninstallConfirmActivity.start(this)
                 finish()
+            } else {
+                loadInterstitial {
+                    UninstallConfirmActivity.start(this)
+                    finish()
+                }
             }
         }
     }
 
     private fun loadAd() {
+        // 自然渠道用户不展示广告，仅对买量渠道用户加载原生广告
+        if (ChannelUserController.isNaturalChannel()) {
+            binding.adContainer.isVisible = false
+            return
+        }
+        binding.adContainer.isVisible = true
         loadNative(binding.adContainer)
     }
 

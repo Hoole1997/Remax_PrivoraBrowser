@@ -29,4 +29,23 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <!--
+      卸载页原因列表 RadioButton 公共样式：
+      - 文字 16sp #333333，左对齐占满宽度，drawableEnd 显示选中态圆点
+      - 系统原生 button 隐藏，自定义对勾/圆环图标在右侧
+      - 上下 12dp 内边距与 Figma 设计稿 20dp 行距相近
+    -->
+    <style name="UninstallReasonRadio">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawableEnd">@drawable/selector_radio_button</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
 </resources>

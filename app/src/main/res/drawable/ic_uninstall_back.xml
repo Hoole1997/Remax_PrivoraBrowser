@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  卸载页 toolbar 返回箭头。
+  从 Figma node 18845-17120 设计稿原始 SVG 转换为 Android Vector Drawable。
+  原 SVG viewBox 为 0 0 24 24，路径居左居中，放进 24dp 容器。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#333333"
+        android:pathData="M7.74847,17.5663C8.08384,17.8944 8.08384,18.426 7.74847,18.754C7.58217,18.9189 7.36226,19 7.14324,19C6.92327,19 6.7034,18.9189 6.53616,18.7549L0.250823,12.5956C-0.0836078,12.2667 -0.0836078,11.7346 0.250823,11.4066L6.53613,5.24635C6.87144,4.91788 7.41401,4.91788 7.74844,5.24635C8.08381,5.57389 8.08381,6.106 7.74844,6.43446L2.06934,12.0004L7.74847,17.5663Z" />
+</vector>

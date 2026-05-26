@@ -5,12 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import com.blankj.utilcode.util.ClickUtils
 import com.browser.common.loadNative
 import com.example.browser.base.BaseActivity
 import com.example.browser.base.BaseModel
 import com.example.browser.databinding.ActivityUninstallConfirmBinding
 import com.example.browser.ui.MainActivity
+import net.corekit.core.controller.ChannelUserController
 
 class UninstallConfirmActivity : BaseActivity<ActivityUninstallConfirmBinding, BaseModel>() {
 
@@ -43,6 +45,10 @@ class UninstallConfirmActivity : BaseActivity<ActivityUninstallConfirmBinding, B
     }
 
     private fun setupButtons() {
+        // 给次要按钮 "Uninstall" 添加下划线，对应 Figma 设计稿中的 underline 样式
+        binding.btnUninstall.paintFlags =
+            binding.btnUninstall.paintFlags or android.graphics.Paint.UNDERLINE_TEXT_FLAG
+
         // 留下按钮 - 跳转 MainActivity
         ClickUtils.applyGlobalDebouncing(binding.btnStay) {
             goToMainActivity()
@@ -73,6 +79,12 @@ class UninstallConfirmActivity : BaseActivity<ActivityUninstallConfirmBinding, B
     }
 
     private fun loadAd() {
+        // 自然渠道用户不展示广告，仅对买量渠道用户加载原生广告
+        if (ChannelUserController.isNaturalChannel()) {
+            binding.adContainer.isVisible = false
+            return
+        }
+        binding.adContainer.isVisible = true
         loadNative(binding.adContainer)
     }
 
