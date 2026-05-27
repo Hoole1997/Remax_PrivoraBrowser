@@ -8,12 +8,14 @@ import com.android.common.bill.ads.AdResult
 import com.android.common.bill.ads.ext.AdShowExt
 import com.android.common.bill.ui.NativeAdStyle
 import com.android.common.bill.ui.NativeAdStyleType
+import com.ironsource.nu
 import kotlinx.coroutines.launch
 
 fun FragmentActivity.loadNative(container: ViewGroup,
                                 style: NativeAdStyleType = NativeAdStyleType.STANDARD,
                                 condition: () -> Boolean = { true },
-                                call: (Boolean) -> Unit = {}
+                                call: (Boolean) -> Unit = {},
+                                position: String? = ""
 ) {
     lifecycleScope.launch {
         try {
@@ -24,11 +26,20 @@ fun FragmentActivity.loadNative(container: ViewGroup,
                 return@launch
             }
 
-            val success = AdShowExt.showNativeAdInContainer(
-                context = container.context,
-                container = container,
-                styleType = style
-            )
+            val success = if (position == null) {
+                AdShowExt.showNativeAdInContainer(
+                    context = container.context,
+                    container = container,
+                    styleType = style
+                )
+            } else {
+                AdShowExt.showNativeAdInContainer(
+                    context = container.context,
+                    container = container,
+                    styleType = style,
+                    position = position
+                )
+            }
 
             if (success) {
                 container.visibility = View.VISIBLE
@@ -44,7 +55,7 @@ fun FragmentActivity.loadNative(container: ViewGroup,
     }
 }
 
-fun FragmentActivity.loadInterstitial(condition: () -> Boolean = { true }, call: (Boolean) -> Unit) {
+fun FragmentActivity.loadInterstitial(condition: () -> Boolean = { true },position: String? = null, call: (Boolean) -> Unit) {
     lifecycleScope.launch {
         try {
             // 检查条件是否满足
@@ -53,7 +64,11 @@ fun FragmentActivity.loadInterstitial(condition: () -> Boolean = { true }, call:
                 return@launch
             }
 
-            when (val result = AdShowExt.showInterstitialAd(this@loadInterstitial,ignoreFullNative = true)) {
+            when (val result = if (position == null) {
+                AdShowExt.showInterstitialAd(this@loadInterstitial,ignoreFullNative = true)
+            } else {
+                AdShowExt.showInterstitialAd(this@loadInterstitial,ignoreFullNative = true,position = position)
+            }) {
                 is AdResult.Success -> {
                     call.invoke(true)
                 }
