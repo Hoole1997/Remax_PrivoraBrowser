@@ -79,6 +79,7 @@ class ProcessCleanActivity : BaseActivity<ActivityProcessCleanBinding, ProcessMo
         
         // 清理按钮
         ClickUtils.applyGlobalDebouncing(binding.btnClean) {
+            ReportDataManager.reportData("ProcessManage_Finish_Click",mapOf())
             cleanAllApps()
         }
         loadNative(binding.adContainer)
@@ -259,7 +260,7 @@ class ProcessCleanActivity : BaseActivity<ActivityProcessCleanBinding, ProcessMo
         val btnEnd = dialog.findViewById<android.widget.TextView>(R.id.btnEnd)
         btnEnd.setOnClickListener {
             dialog.dismiss()
-            loadInterstitial {
+            loadInterstitial(position = "IV_Process_Back") {
                 finish()
             }
         }

@@ -21,6 +21,7 @@ import com.example.browser.ui.photoclean.adapter.PhotoCleanAdapter
 import com.example.browser.ui.photoclean.model.PhotoCleanGroup
 import com.example.browser.ui.photoclean.model.PhotoCleanMode
 import kotlinx.coroutines.launch
+import net.corekit.core.report.ReportDataManager
 import java.io.File
 
 class PhotoCleanActivity : BaseActivity<ActivityPhotoCleanBinding, PhotoCleanViewModel>() {
@@ -182,7 +183,7 @@ class PhotoCleanActivity : BaseActivity<ActivityPhotoCleanBinding, PhotoCleanVie
     }
 
     private fun finishPlayAd() {
-        loadInterstitial {
+        loadInterstitial(position = if (cleanMode == PhotoCleanMode.SIMILAR) "IV_Similar_Back" else "IV_Same_Back") {
             finish()
         }
     }
@@ -195,10 +196,22 @@ class PhotoCleanActivity : BaseActivity<ActivityPhotoCleanBinding, PhotoCleanVie
             confirmText = getString(R.string.photo_clean_confirm),
             cancelText = getString(R.string.photo_clean_cancel),
             onConfirm = {
+                if (cleanMode == PhotoCleanMode.DUPLICATE) {
+                    ReportDataManager.reportData("Delete_Button_Click",mapOf("result" to "confirm"))
+                } else {
+                    ReportDataManager.reportData("Delete_SimilarButton_Click",mapOf("result" to "confirm"))
+                }
                 viewModel.removeSelectedPhotos()
                 binding.rvPhotos.postDelayed({
                     PhotoDeleteProgressActivity.start(this, cleanMode, files)
                 }, 200)
+            },
+            onCancel = {
+                if (cleanMode == PhotoCleanMode.DUPLICATE) {
+                    ReportDataManager.reportData("Delete_Button_Click",mapOf("result" to "cancel"))
+                } else {
+                    ReportDataManager.reportData("Delete_SimilarButton_Click",mapOf("result" to "cancel"))
+                }
             }
         )
     }

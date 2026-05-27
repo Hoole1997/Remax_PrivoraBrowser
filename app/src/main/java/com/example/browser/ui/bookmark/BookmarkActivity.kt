@@ -86,7 +86,7 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
                     ))
                 }
             }
-        })
+        }, position = "IV_Bookmark_Back")
     }
 
     private fun setupToolbar() {
@@ -135,6 +135,9 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
         binding.segmentedTabs.setOnTabSelectedListener { index ->
             if (binding.viewPager.currentItem != index) {
                 binding.viewPager.setCurrentItem(index, true)
+            }
+            if (index == 0) {
+                ReportDataManager.reportData("Bookmarks_Click",mapOf())
             }
             updateActionIcon(index)
         }

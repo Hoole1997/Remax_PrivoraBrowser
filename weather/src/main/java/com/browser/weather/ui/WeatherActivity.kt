@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.browser.common.loadInterstitial
 import kotlinx.coroutines.launch
+import net.corekit.core.report.ReportDataManager
 
 /**
  * 天气页面入口 Activity
@@ -43,17 +44,18 @@ class WeatherActivity : AppCompatActivity() {
                 WeatherScreen(
                     viewModel = viewModel,
                     onBackClick = {
-                        loadInterstitial {
+                        loadInterstitial(position = "IV_Weather_Back") {
                             finish()
                         }
                     }
                 )
             }
         }
+        ReportDataManager.reportData("Weather_page_Show",mapOf())
     }
 
     override fun onBackPressed() {
-        loadInterstitial {
+        loadInterstitial(position = "IV_Weather_Back") {
             finish()
         }
     }

@@ -62,7 +62,7 @@ class NewsDetailsActivity : BaseActivity<ActivityNewsDetailsBinding, NewsModel>(
         // 设置 Lottie 动画图片资源目录
         binding.lottieLoadingIcon.imageAssetsFolder = "images/"
         loadNewsUrl()
-        loadNative(binding.adContainer)
+        loadNative(binding.adContainer, position = "NA_News_preview")
     }
 
     /**

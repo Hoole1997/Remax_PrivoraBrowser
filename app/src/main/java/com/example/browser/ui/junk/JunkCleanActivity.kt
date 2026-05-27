@@ -76,6 +76,7 @@ class JunkCleanActivity : BaseActivity<ActivityJunkCleanBinding, JunkModel>() {
         
         // 初始化清理按钮
         binding.btnClean.setOnClickListener {
+            ReportDataManager.reportData("CleanButon_ Click",mapOf())
             performClean()
         }
         loadNative(binding.adContainer)
@@ -284,7 +285,7 @@ class JunkCleanActivity : BaseActivity<ActivityJunkCleanBinding, JunkModel>() {
         val btnEnd = dialog.findViewById<android.widget.TextView>(R.id.btnEnd)
         btnEnd.setOnClickListener {
             dialog.dismiss()
-            loadInterstitial {
+            loadInterstitial(position = "IV_Clean_Back") {
                 finish()
             }
         }

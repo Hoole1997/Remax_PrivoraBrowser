@@ -77,7 +77,7 @@ class CleanSuccessActivity  : BaseActivity<ActivityCleanSuccessBinding, JunkMode
             }
             finish()
         }
-        loadInterstitial {
+        loadInterstitial(position = if (fromJunk) "IV_Clean_Finish" else "IV_Process_Finish") {
 
         }
         loadNative(binding.adContainer)

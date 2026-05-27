@@ -12,6 +12,7 @@ import com.example.browser.R
 import com.example.browser.base.BaseActivity
 import com.example.browser.databinding.ActivityNewsMoreBinding
 import com.example.browser.ui.home.HomeRedesignNewsAdapter
+import net.corekit.core.report.ReportDataManager
 
 /**
  * News 更多列表页。
@@ -67,6 +68,10 @@ class NewsMoreActivity : BaseActivity<ActivityNewsMoreBinding, NewsModel>() {
     private fun setupRecycler() {
         newsAdapter = HomeRedesignNewsAdapter(
             onNewsClick = { newsItem ->
+                ReportDataManager.reportData(
+                    "News_Detail_Page_Click",
+                    mapOf("Entry_Position" to "news")
+                )
                 newsItem.url?.let { NewsDetailsActivity.start(this, it) }
             },
             onRetryClick = {
@@ -182,7 +187,7 @@ class NewsMoreActivity : BaseActivity<ActivityNewsMoreBinding, NewsModel>() {
     }
 
     private fun finishWithInterstitial() {
-        loadInterstitial { finish() }
+        loadInterstitial(position = "IV_Newslist_Back") { finish() }
     }
 
     private fun insertAdsIntoNewsList(newsList: List<NewsItem>): List<NewsFeedItem> {

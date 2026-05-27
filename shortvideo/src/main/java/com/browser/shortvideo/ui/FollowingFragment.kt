@@ -134,7 +134,7 @@ class FollowingFragment : Fragment() {
                     
                     // 检查是否应该展示广告，如果展示广告则不播放视频
                     val showingAd = checkAndShowAd(position)
-                    
+
                     if (!showingAd) {
                         binding.viewPager.post {
                             this@FollowingFragment.adapter.pauseAllExcept(position)
@@ -193,7 +193,7 @@ class FollowingFragment : Fragment() {
         
         // 使用协程展示插屏广告
         viewLifecycleOwner.lifecycleScope.launch {
-            when (val result = AdShowExt.showInterstitialAd(activity as androidx.fragment.app.FragmentActivity)) {
+            when (val result = AdShowExt.showInterstitialAd(activity as androidx.fragment.app.FragmentActivity, position = "IV_Shorts")) {
                 is AdResult.Success -> {
                     Log.d(TAG, "✅ Interstitial ad displayed successfully")
                     resumeVideo.invoke()

@@ -105,9 +105,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
         ExitConfirmDialog.show(
             fragmentManager = supportFragmentManager,
             onConfirmExit = {
+                ReportDataManager.reportData("Exit_Retention_Confirm_Click",mapOf())
                 moveTaskToBack(true)
             },
             onCancel = {
+                ReportDataManager.reportData("Exit_Retention_Watch_News_Click",mapOf())
                 NewsMoreActivity.start(this)
             }
         )
@@ -465,10 +467,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
         DefaultBrowserDialog(
             context = this,
             onLaterClick = {
+                ReportDataManager.reportData("Set_Default_Browser_Later_Click",mapOf())
                 // 点击 Later，显示扫描引导弹框
                 showProcessScanDialog()
             },
             onSetDefaultClick = {
+                ReportDataManager.reportData("Set_Default_Browser_Agree_Click",mapOf())
                 // 点击 Set as default，系统设置完成后显示扫描引导弹框
                 showProcessScanDialog()
             },
@@ -489,6 +493,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
             context = this,
             lifecycleScope = lifecycleScope,
             onScanNowClick = {
+                ReportDataManager.reportData("ProcessManage_ScanNow_Click",mapOf())
                 // 跳转到进程清理页面
                 ProcessCleanActivity.start(this)
             }
@@ -500,6 +505,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
      * Short Video 页面使用深色背景，需要浅色状态栏图标和黑色底部导航栏
      */
     private fun updateStatusBarForPage(position: Int) {
+        if (position == 1) {
+            ReportDataManager.reportData("Short_Click",mapOf())
+        }
         val insetsController = androidx.core.view.WindowInsetsControllerCompat(window, window.decorView)
         val isShortVideoTab = (position == MainFragmentPagerAdapter.POSITION_SHORT)
         

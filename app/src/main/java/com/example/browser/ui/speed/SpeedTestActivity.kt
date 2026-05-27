@@ -43,7 +43,7 @@ class SpeedTestActivity : AppCompatActivity() {
             // Load ad when completed
             if (state is SpeedTestState.Completed && !adLoaded) {
                 adLoaded = true
-                loadNative(adContainer!!)
+//                loadNative(adContainer!!)
                 ReportDataManager.reportData("speed_test_success", mapOf())
                 ReportDataManager.reportData("ad_show_result", mapOf())
             }
@@ -71,7 +71,7 @@ class SpeedTestActivity : AppCompatActivity() {
     }
 
     private fun backFinish() {
-        loadInterstitial {
+        loadInterstitial(position = "IV_Speed_Back") {
             finish()
         }
     }

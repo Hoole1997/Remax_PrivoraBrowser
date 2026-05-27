@@ -312,7 +312,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
             countdown = CountdownConfig(
                 seconds = 1,
                 onTick = { remaining -> onTick(remaining) }
-            ))
+            ),
+            position = "SP_APP_open"
+        )
 
         return if (adResult is AdResult.Success) {
             //广告展示后关闭回调

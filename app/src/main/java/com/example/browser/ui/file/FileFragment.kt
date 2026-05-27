@@ -32,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import net.corekit.core.report.ReportDataManager
 
 class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
 
@@ -100,12 +101,19 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
     private fun handleFeatureClick(action: FileFeatureAction) {
         when (action) {
             FileFeatureAction.CLEAN -> requireStorageThen {
+                ReportDataManager.reportData("CleanIcon_ Click",mapOf("Entry_Position" to "file"))
                 JunkScanActivity.start(activity ?: return@requireStorageThen)
             }
 
-            FileFeatureAction.SPEED -> activity?.let { SpeedTestActivity.start(it) }
+            FileFeatureAction.SPEED -> {
+                ReportDataManager.reportData("speed_test_Click",mapOf())
+                activity?.let { SpeedTestActivity.start(it) }
+            }
 
-            FileFeatureAction.PROCESS -> activity?.let { ProcessCleanActivity.start(it) }
+            FileFeatureAction.PROCESS -> {
+                ReportDataManager.reportData("ProcessManage_Click",mapOf())
+                activity?.let { ProcessCleanActivity.start(it) }
+            }
 
             FileFeatureAction.DUPLICATE_PHOTO -> requireStorageThen {
                 launchPhotoClean(PhotoCleanMode.DUPLICATE)
@@ -144,9 +152,15 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
     }
 
     private fun launchPhotoClean(mode: PhotoCleanMode) {
+        if (mode == PhotoCleanMode.DUPLICATE) {
+            ReportDataManager.reportData("Duplicate_Photo_Click",mapOf("Entry_Position" to "file"))
+        } else {
+            ReportDataManager.reportData("Similar_Photo_Click",mapOf("Entry_Position" to "file"))
+        }
         val dialog = PhotoScanDialogFragment.newInstance(mode)
         dialog.setOnResultReadyListener { groups ->
             val ctx = activity ?: return@setOnResultReadyListener
+            ReportDataManager.reportData(if (mode == PhotoCleanMode.DUPLICATE) "View_Result_Click" else "View_SimilarResult_Click",mapOf())
             PhotoCleanActivity.start(ctx, mode, groups)
         }
         dialog.show(childFragmentManager, "photo_scan_dialog")

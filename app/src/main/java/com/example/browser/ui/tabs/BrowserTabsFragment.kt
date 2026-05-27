@@ -15,6 +15,7 @@ import mozilla.components.browser.state.selector.normalTabs
 import mozilla.components.browser.state.selector.privateTabs
 import mozilla.components.browser.state.state.TabSessionState
 import mozilla.components.browser.state.state.selectedOrDefaultSearchEngine
+import net.corekit.core.report.ReportDataManager
 
 /**
  * 浏览器标签页管理 Fragment - 使用 ViewPager 管理普通和无痕标签
@@ -122,6 +123,9 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
             setItems(titles, 0)
             setOnTabSelectedListener { index ->
                 binding?.viewPager?.currentItem = index
+                if (index == 1) {
+                    ReportDataManager.reportData("Incognito_Click",mapOf())
+                }
             }
         }
     }
@@ -190,6 +194,7 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
             // 如果设置了回调，使用回调
             onTabSelectedListener?.invoke(tab)
         } else {
+            ReportDataManager.reportData("Tabs_Click",mapOf())
             // 默认行为：选中该标签页并跳转到 WebActivity
             activity?.components?.tabsUseCases?.selectTab(tab.id)
 

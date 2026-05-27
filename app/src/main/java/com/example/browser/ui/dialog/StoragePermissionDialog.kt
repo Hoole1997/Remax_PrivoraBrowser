@@ -7,6 +7,7 @@ import com.example.browser.R
 import com.example.browser.databinding.DialogStoragePermissionBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import net.corekit.core.report.ReportDataManager
 
 /**
  * 存储权限引导弹框
@@ -41,12 +42,14 @@ class StoragePermissionDialog(
     private fun setupClickListeners() {
         // Later 按钮
         binding.btnLater.setOnClickListener {
+            ReportDataManager.reportData("Storage_Permission_Later_Click",mapOf())
             dismiss()
             onLaterClick?.invoke()
         }
 
         // Go Now 按钮
         binding.btnGoNow.setOnClickListener {
+            ReportDataManager.reportData("Storage_Permission_Agree_Click",mapOf())
             dismiss()
             onGoNowClick()
         }

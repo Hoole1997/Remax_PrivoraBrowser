@@ -37,6 +37,7 @@ import mozilla.components.feature.session.SessionUseCases
 import java.util.Locale
 import androidx.core.graphics.drawable.toDrawable
 import com.browser.common.loadNative
+import net.corekit.core.report.ReportDataManager
 
 /**
  * 搜索页面
@@ -174,6 +175,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
         // 自定义 searchUseCase - 点击搜索建议时跳转到 WebActivity
         val searchUseCase = object : SearchUseCases.SearchUseCase {
             override fun invoke(searchTerms: String, searchEngine: SearchEngine?, parentSessionId: String?) {
+                ReportDataManager.reportData("Search_Submit",mapOf("search_keyword" to searchTerms))
                 val encodedQuery = Uri.encode(searchTerms)
                 // 使用当前选中的搜索引擎
                 val url = this@SearchActivity.searchEngine.resultUrls.firstOrNull()?.replace("{searchTerms}", encodedQuery)
@@ -313,6 +315,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
 
         // 麦克风按钮 - 启动语音搜索
         binding.ivVoiceSearch.setOnClickListener {
+            ReportDataManager.reportData("Voice_Input_Click",mapOf("Entry_Position" to "search_bar"))
             startVoiceSearch()
         }
     }
@@ -437,7 +440,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
         }
 
         currentSearchUrl = url
-
+        ReportDataManager.reportData("Search_Submit",mapOf("search_keyword" to keyword))
         // 打开 WebActivity，交给 GeckoView 完成页面渲染
         openWebActivity(url)
 
@@ -448,6 +451,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
      * 打开 WebActivity
      */
     private fun openWebActivity(url: String) {
+        ReportDataManager.reportData("Search_Result_Show",mapOf())
         val intent = Intent(this, WebActivity::class.java).apply {
             putExtra(WebActivity.EXTRA_URL, url)
         }

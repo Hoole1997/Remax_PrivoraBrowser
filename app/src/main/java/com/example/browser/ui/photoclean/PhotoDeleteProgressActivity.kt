@@ -65,7 +65,7 @@ class PhotoDeleteProgressActivity :
         showProgressState()
         startDeletion(files)
 
-        loadNative(binding.adContainer)
+//        loadNative(binding.adContainer)
     }
 
     override fun initEdgeToEdge() {
@@ -158,7 +158,7 @@ class PhotoDeleteProgressActivity :
     }
 
     private fun finishPlayAd() {
-        loadInterstitial {
+        loadInterstitial(position = if (cleanMode == PhotoCleanMode.SIMILAR) "IV_Similar_Finish" else "IV_Same_Finish") {
             ActivityUtils.finishActivity(PhotoCleanActivity::class.java)
             finish()
         }

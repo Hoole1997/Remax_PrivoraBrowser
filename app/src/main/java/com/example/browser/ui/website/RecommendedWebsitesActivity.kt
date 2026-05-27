@@ -57,12 +57,12 @@ class RecommendedWebsitesActivity :
 
     private fun setupToolbar() {
         binding.ivClose.setOnClickListener {
-            loadInterstitial {
+            loadInterstitial(position = "IV_WebStore_Back") {
                 finish()
             }
         }
         onBackPressedDispatcher.addCallback(this) {
-            loadInterstitial {
+            loadInterstitial(position = "IV_WebStore_Back") {
                 finish()
             }
         }

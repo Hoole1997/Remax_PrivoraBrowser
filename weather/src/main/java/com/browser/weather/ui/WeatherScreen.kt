@@ -535,7 +535,8 @@ private fun NativeAdCard() {
                     try {
                         val success = AdShowExt.showNativeAdInContainer(
                             context = ActivityUtils.getTopActivity(),
-                            container = container
+                            container = container,
+                            position = "NA_Weather"
                         )
                         isAdLoaded = success
                         container.visibility = if (success) View.VISIBLE else View.GONE

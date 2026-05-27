@@ -12,6 +12,7 @@ import com.example.browser.R
 import com.example.browser.base.BaseActivity
 import com.example.browser.databinding.ActivityScanResultBinding
 import com.example.browser.ui.web.WebActivity
+import net.corekit.core.report.ReportDataManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -65,7 +66,8 @@ class ScanResultActivity : BaseActivity<ActivityScanResultBinding, ScanResultMod
         // 设置UI
         setupUI()
         setupListeners()
-        loadNative(binding.adContainer)
+        loadNative(binding.adContainer, position = "NA_Qr_Result")
+        ReportDataManager.reportData("QR_Scan_Success",mapOf())
     }
 
     /**
@@ -98,6 +100,7 @@ class ScanResultActivity : BaseActivity<ActivityScanResultBinding, ScanResultMod
 
         // 打开网页按钮 (仅URL显示)
         binding.llOpenUrl.setOnClickListener {
+            ReportDataManager.reportData("QR_Result_Action_Click",mapOf("action_type" to "open_url"))
             if (isUrl) {
                 openWebPage()
             }
@@ -105,11 +108,13 @@ class ScanResultActivity : BaseActivity<ActivityScanResultBinding, ScanResultMod
 
         // 复制按钮
         binding.llCopy.setOnClickListener {
+            ReportDataManager.reportData("QR_Result_Action_Click",mapOf("action_type" to "copy"))
             copyToClipboard()
         }
 
         // 搜索按钮
         binding.llSearch.setOnClickListener {
+            ReportDataManager.reportData("QR_Result_Action_Click",mapOf("action_type" to "search"))
             searchContent()
         }
 

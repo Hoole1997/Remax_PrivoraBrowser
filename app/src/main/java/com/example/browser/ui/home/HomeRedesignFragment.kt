@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import mozilla.components.browser.state.state.selectedOrDefaultSearchEngine
 import mozilla.components.lib.state.ext.flowScoped
+import net.corekit.core.report.ReportDataManager
 
 class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel>() {
 
@@ -55,7 +56,10 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
     override fun initViewModel(): HomeModel {
         val repository = QuickWebsiteRepository.getInstance(requireContext())
         val weatherRepository = com.browser.weather.data.WeatherRepository(requireContext())
-        return ViewModelProvider(requireActivity(), HomeModel.Factory(repository, weatherRepository))
+        return ViewModelProvider(
+            requireActivity(),
+            HomeModel.Factory(repository, weatherRepository)
+        )
             .get(HomeModel::class.java)
     }
 
@@ -86,6 +90,7 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
 
         // 天气区域点击 -> 跳转天气详情页
         binding?.weatherContainer?.setOnClickListener {
+            ReportDataManager.reportData("Weather_page_Click", mapOf())
             val ctx = activity ?: return@setOnClickListener
             com.browser.weather.ui.WeatherActivity.start(ctx)
         }
@@ -93,7 +98,11 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
         // 历史记录按钮 -> 跳转到 BookmarkActivity 的 History Tab
         ClickUtils.applyGlobalDebouncing(binding?.ivHistory) {
             val ctx = activity ?: return@applyGlobalDebouncing
-            com.example.browser.ui.bookmark.BookmarkActivity.start(ctx, com.example.browser.ui.bookmark.BookmarkActivity.TAB_HISTORY)
+            ReportDataManager.reportData("History_Click",mapOf())
+            com.example.browser.ui.bookmark.BookmarkActivity.start(
+                ctx,
+                com.example.browser.ui.bookmark.BookmarkActivity.TAB_HISTORY
+            )
         }
 
         // Tab计数按钮 -> 跳转到 BrowserTabsActivity
@@ -170,16 +179,23 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
     private fun setupHomeRecycler() {
         headerAdapter = HomeRedesignHeaderAdapter(
             onSearchClick = {
-                val intent = Intent(activity ?: return@HomeRedesignHeaderAdapter, SearchActivity::class.java)
+                ReportDataManager.reportData("Search_Bar_Click",mapOf())
+                val intent =
+                    Intent(activity ?: return@HomeRedesignHeaderAdapter, SearchActivity::class.java)
                 startActivity(intent)
             },
             onVoiceClick = {
-                val intent = Intent(activity ?: return@HomeRedesignHeaderAdapter, SearchActivity::class.java).apply {
+                ReportDataManager.reportData("Voice_Input_Click",mapOf("Entry_Position" to "home"))
+                val intent = Intent(
+                    activity ?: return@HomeRedesignHeaderAdapter,
+                    SearchActivity::class.java
+                ).apply {
                     putExtra(SearchActivity.EXTRA_START_VOICE_SEARCH, true)
                 }
                 startActivity(intent)
             },
             onScanClick = {
+                ReportDataManager.reportData("QR_Scan_Click",mapOf())
                 GoogleBarcodeScanner().scanBarcode { rawValue ->
                     activity?.runOnUiThread {
                         ScanResultActivity.start(activity ?: return@runOnUiThread, rawValue)
@@ -192,8 +208,14 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
             onVideoClick = {
                 openWebSearch(getString(R.string.home_video_generation))
             },
-            onMoreClick = { activity?.let { NewsMoreActivity.start(it) } },
-            onWebsiteClick = { openWebsite(it) },
+            onMoreClick = {
+                ReportDataManager.reportData("News_Click", mapOf())
+                activity?.let { NewsMoreActivity.start(it) }
+            },
+            onWebsiteClick = {
+                ReportDataManager.reportData("WEB_ICON_Click",mapOf("icon_name" to it.title))
+                openWebsite(it)
+            },
             onWebsiteLongClick = { showRemoveDialog(it) },
             onAddClick = { activity?.let { RecommendedWebsitesActivity.start(it) } },
             // 给 Add 按钮提供 4 个未添加推荐站的图标 asset 路径，
@@ -203,6 +225,10 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
 
         newsAdapter = HomeRedesignNewsAdapter(
             onNewsClick = { newsItem ->
+                ReportDataManager.reportData(
+                    "News_Detail_Page_Click",
+                    mapOf("Entry_Position" to "home")
+                )
                 newsItem.url?.let { url ->
                     NewsDetailsActivity.start(activity ?: return@let, url, true)
                 }
