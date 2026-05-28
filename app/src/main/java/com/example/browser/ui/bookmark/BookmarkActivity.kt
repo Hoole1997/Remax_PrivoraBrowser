@@ -27,8 +27,6 @@ import kotlin.math.ceil
 
 class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.ActivityModel>() {
 
-    private val bookmarkFragment = BookmarkFragment()
-    private val historyFragment = HistoryFragment()
     private lateinit var pagerAdapter: BookmarkPagerAdapter
     private val defaultTab: Int by lazy {
         intent?.getIntExtra(EXTRA_DEFAULT_TAB, TAB_BOOKMARK) ?: TAB_BOOKMARK
@@ -112,23 +110,33 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
         binding.ivAction.setOnClickListener {
             when (viewModel.currentTab.value ?: TAB_BOOKMARK) {
                 TAB_BOOKMARK -> {
-                    val parentId = bookmarkFragment.getCurrentFolderId()
+                    // Fragment 还没 attach 到 ViewPager 时静默放弃，避免崩溃。
+                    val parentId = bookmarkFragment()?.getCurrentFolderId() ?: return@setOnClickListener
                     val intent = BookmarkFolderEditActivity.createIntentForCreate(this, parentId)
                     createFolderLauncher.launch(intent)
                 }
 
-                TAB_HISTORY -> historyFragment.confirmClearHistory()
+                TAB_HISTORY -> historyFragment()?.confirmClearHistory()
             }
         }
     }
 
     private fun setupViewPager() {
-        pagerAdapter = BookmarkPagerAdapter(this, listOf(bookmarkFragment, historyFragment))
+        pagerAdapter = BookmarkPagerAdapter(
+            this,
+            // 显式 new 实例：FragmentStateAdapter 要求每次都返回新的 Fragment，
+            // Activity 字段持有 Fragment 引用会在重建时与 FragmentManager 反射
+            // 重建出的实例分叉，导致访问 lateinit viewModel 抛 NPE。
+            fragmentFactories = listOf(
+                { BookmarkFragment() },
+                { HistoryFragment() },
+            ),
+        )
         binding.viewPager.adapter = pagerAdapter
         binding.viewPager.offscreenPageLimit = 1
 
         // 先注册回调再设 adapter 已经来不及（ViewPager2 不像 ViewPager1 那样在
-        // setAdapter 时恢复），但 ViewPager2 的恢复发生在 layout pass 期间，
+        // setAdapter 时恢复），但 ViewPager2 的恢复发生在 layout pass 期间,
         // 所以这里注册的回调能捕获到恢复触发的 onPageSelected。
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -152,6 +160,20 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
             }
         }
     }
+
+    /**
+     * 通过 FragmentStateAdapter 注册到 FragmentManager 的 tag 取当前实际显示的
+     * Fragment。Activity 重建后 FragmentManager 会反射重建出新的 Fragment 实例，
+     * 直接持有字段引用会指向孤儿对象（永远不走生命周期）。
+     */
+    private inline fun <reified T : androidx.fragment.app.Fragment> findPageFragment(position: Int): T? {
+        val itemId = pagerAdapter.getItemId(position)
+        return supportFragmentManager.findFragmentByTag("f$itemId") as? T
+    }
+
+    private fun bookmarkFragment(): BookmarkFragment? = findPageFragment(TAB_BOOKMARK)
+
+    private fun historyFragment(): HistoryFragment? = findPageFragment(TAB_HISTORY)
 
     /**
      * 观察 ViewModel 中的 currentTab，统一驱动 ViewPager2 和 SegmentedTabView。
@@ -192,7 +214,7 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
 
     private fun handleBackPressed(): Boolean {
         return when (viewModel.currentTab.value ?: TAB_BOOKMARK) {
-            TAB_BOOKMARK -> bookmarkFragment.handleBackPressed()
+            TAB_BOOKMARK -> bookmarkFragment()?.handleBackPressed() ?: false
             else -> false
         }
     }
