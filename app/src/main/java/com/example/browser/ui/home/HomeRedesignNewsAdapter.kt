@@ -63,6 +63,19 @@ class HomeRedesignNewsAdapter(
     }
 
     override fun getItemId(position: Int): Long {
+        // getItemCount() 在数据外还挂了 loading footer / empty / network error 三种占位项，
+        // 它们没有对应的数据条目。这里必须先按 viewType/位置兜底，否则在
+        // setLoadingFooterVisible(true) 触发 notifyItemInserted(dataCount) 后，
+        // RecyclerView 回到这里取 stable id 时，getItem(dataCount) 会
+        // 抛 IndexOutOfBoundsException。
+        val dataCount = super.getItemCount()
+        if (position >= dataCount) {
+            return when {
+                showNetworkError -> ID_NETWORK_ERROR
+                showEmptyView -> ID_EMPTY
+                else -> ID_LOADING_FOOTER
+            }
+        }
         return when (val item = getItem(position)) {
             is NewsFeedItem.News -> item.newsItem.url?.hashCode()?.toLong() ?: position.toLong()
             is NewsFeedItem.NativeAd -> Long.MIN_VALUE + item.id
@@ -370,5 +383,11 @@ class HomeRedesignNewsAdapter(
 
         /** 入场动画的初始 Y 位移（px），约等于 28dp。低端机也不会因位移过大而显眼掉帧。 */
         private const val ENTER_ANIMATION_TRANSLATION_PX = 80f
+
+        // 占位项的稳定 id。普通新闻使用 url.hashCode()（int 范围），广告使用 Long.MIN_VALUE + id，
+        // 这里用 Long.MAX_VALUE 附近的常量保证三者互不冲突。
+        private const val ID_LOADING_FOOTER = Long.MAX_VALUE
+        private const val ID_EMPTY = Long.MAX_VALUE - 1
+        private const val ID_NETWORK_ERROR = Long.MAX_VALUE - 2
     }
 }
