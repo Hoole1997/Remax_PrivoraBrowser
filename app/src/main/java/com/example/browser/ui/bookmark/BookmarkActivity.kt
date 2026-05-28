@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.blankj.utilcode.util.ActivityUtils
@@ -216,14 +217,23 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
         }
     }
 
-    class ActivityModel : BaseModel() {
-        private val _currentTab = MutableLiveData<Int>()
+    class ActivityModel(savedState: SavedStateHandle) : BaseModel() {
+        // 使用 SavedStateHandle.getLiveData 让当前 tab 自动持久化到
+        // ActivityRecord 的 saved state，Activity 进程死亡 / 配置变更后
+        // 重建时可直接从 Bundle 取出，与 ViewPager2 自身保存的
+        // mCurrentItem 同源，避免两边恢复不一致。
+        private val _currentTab: MutableLiveData<Int> =
+            savedState.getLiveData(KEY_CURRENT_TAB)
         val currentTab: LiveData<Int> get() = _currentTab
 
         fun setCurrentTab(tab: Int) {
             if (_currentTab.value != tab) {
                 _currentTab.value = tab
             }
+        }
+
+        companion object {
+            private const val KEY_CURRENT_TAB = "current_tab"
         }
     }
 

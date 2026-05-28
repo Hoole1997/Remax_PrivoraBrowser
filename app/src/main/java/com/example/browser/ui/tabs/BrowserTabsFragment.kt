@@ -368,10 +368,9 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
 
     override fun onResume() {
         super.onResume()
-        // 每次恢复时，让模式跟随当前选中标签的隐私属性。
-        // setMode 在值未改变时是 no-op，不会无谓重画。
-        // LiveData 观察者会负责把两侧 UI 拉到一致状态，覆盖
-        // ViewPager state 恢复阶段可能引入的临时错位。
-        viewModel.setMode(resolveModeFromSelectedTab())
+        // 不再无条件用 store.selectedTab 覆盖当前段。
+        // 视图重建时 LiveData 已通过 SavedStateHandle 恢复到正确值，
+        // 观察者会拉齐两侧 UI；强行用 store.selectedTab 同步会把
+        // 「用户在分段间切换但没点 tab 退出」的选择粗暴拉回，反而错乱。
     }
 }
