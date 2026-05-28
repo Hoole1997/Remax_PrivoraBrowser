@@ -7,6 +7,9 @@ import android.text.TextPaint
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.blankj.utilcode.util.ActivityUtils
@@ -29,17 +32,19 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
     private val defaultTab: Int by lazy {
         intent?.getIntExtra(EXTRA_DEFAULT_TAB, TAB_BOOKMARK) ?: TAB_BOOKMARK
     }
-
-    private val Ad_BookMark_Interval_Time = "Ad_BookMark_Interval_Time"
     private val createFolderLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val pathText =
                     result.data?.getStringExtra(BookmarkFolderEditActivity.EXTRA_CREATED_FOLDER_PATH)
-                bookmarkFragment.refreshAfterExternalChange(pathText)
+                supportFragmentManager.setFragmentResult(
+                    BookmarkFragment.REQUEST_EXTERNAL_REFRESH,
+                    bundleOf(BookmarkFragment.EXTRA_EXTERNAL_PATH_TEXT to pathText)
+                )
             }
         }
 
+    private val Ad_BookMark_Interval_Time = "Ad_BookMark_Interval_Time"
     private var bookmarkAdIntervalTime = 0L
 
     override fun initBinding(): ActivityBookmarkBinding {
@@ -53,6 +58,8 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
     override fun initView() {
         setupToolbar()
         setupViewPager()
+        setupTabObserver()
+        initializeTabIfNeeded()
         lifecycleScope.launch {
             bookmarkAdIntervalTime = bookmarkAdIntervalTime().toLong()
         }
@@ -102,7 +109,7 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
         }
 
         binding.ivAction.setOnClickListener {
-            when (binding.viewPager.currentItem) {
+            when (viewModel.currentTab.value ?: TAB_BOOKMARK) {
                 TAB_BOOKMARK -> {
                     val parentId = bookmarkFragment.getCurrentFolderId()
                     val intent = BookmarkFolderEditActivity.createIntentForCreate(this, parentId)
@@ -118,11 +125,14 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
         pagerAdapter = BookmarkPagerAdapter(this, listOf(bookmarkFragment, historyFragment))
         binding.viewPager.adapter = pagerAdapter
         binding.viewPager.offscreenPageLimit = 1
+
+        // 先注册回调再设 adapter 已经来不及（ViewPager2 不像 ViewPager1 那样在
+        // setAdapter 时恢复），但 ViewPager2 的恢复发生在 layout pass 期间，
+        // 所以这里注册的回调能捕获到恢复触发的 onPageSelected。
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                updateActionIcon(position)
-                binding.segmentedTabs.setSelectedIndex(position)
+                viewModel.setCurrentTab(position)
             }
         })
 
@@ -131,19 +141,42 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
             getString(R.string.bookmark_tab_history)
         )
 
-        binding.segmentedTabs.setItems(titles, defaultTab)
+        // 使用 setItemsKeepingSelection 避免视图重建时把选中粗暴拉回 0。
+        // 正确的选中由 LiveData 观察者派发。
+        binding.segmentedTabs.setItemsKeepingSelection(titles)
         binding.segmentedTabs.setOnTabSelectedListener { index ->
-            if (binding.viewPager.currentItem != index) {
-                binding.viewPager.setCurrentItem(index, true)
+            viewModel.setCurrentTab(index)
+            if (index == TAB_BOOKMARK) {
+                ReportDataManager.reportData("Bookmarks_Click", mapOf())
             }
-            if (index == 0) {
-                ReportDataManager.reportData("Bookmarks_Click",mapOf())
-            }
-            updateActionIcon(index)
         }
+    }
 
-        binding.viewPager.setCurrentItem(defaultTab, false)
-        updateActionIcon(defaultTab)
+    /**
+     * 观察 ViewModel 中的 currentTab，统一驱动 ViewPager2 和 SegmentedTabView。
+     */
+    private fun setupTabObserver() {
+        viewModel.currentTab.observe(this) { tab ->
+            applyTab(tab)
+        }
+    }
+
+    private fun applyTab(tab: Int) {
+        if (binding.viewPager.currentItem != tab) {
+            binding.viewPager.setCurrentItem(tab, false)
+        }
+        binding.segmentedTabs.setSelectedIndex(tab)
+        updateActionIcon(tab)
+    }
+
+    /**
+     * 首次进入时根据 intent 中的 defaultTab 初始化。
+     * Activity 重建时 ViewModel 已持有上次用户停留的 tab，不再覆盖。
+     */
+    private fun initializeTabIfNeeded() {
+        if (viewModel.currentTab.value == null) {
+            viewModel.setCurrentTab(defaultTab)
+        }
     }
 
     private fun updateActionIcon(position: Int) {
@@ -157,7 +190,7 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
     }
 
     private fun handleBackPressed(): Boolean {
-        return when (binding.viewPager.currentItem) {
+        return when (viewModel.currentTab.value ?: TAB_BOOKMARK) {
             TAB_BOOKMARK -> bookmarkFragment.handleBackPressed()
             else -> false
         }
@@ -183,7 +216,16 @@ class BookmarkActivity : BaseActivity<ActivityBookmarkBinding, BookmarkActivity.
         }
     }
 
-    class ActivityModel : BaseModel()
+    class ActivityModel : BaseModel() {
+        private val _currentTab = MutableLiveData<Int>()
+        val currentTab: LiveData<Int> get() = _currentTab
+
+        fun setCurrentTab(tab: Int) {
+            if (_currentTab.value != tab) {
+                _currentTab.value = tab
+            }
+        }
+    }
 
     companion object {
         const val TAB_BOOKMARK = 0
