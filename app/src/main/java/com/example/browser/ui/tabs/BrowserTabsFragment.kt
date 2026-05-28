@@ -21,13 +21,13 @@ import net.corekit.core.report.ReportDataManager
  * 浏览器标签页管理 Fragment - 使用 ViewPager 管理普通和无痕标签
  * 可复用的标签页管理组件
  *
- * 功能：
- * 1. 使用 ViewPager 分别管理普通标签和无痕标签，避免切换时的撕裂感
- * 2. 支持在普通模式和无痕模式之间切换
- * 3. 支持点击标签页切换到对应页面
- * 4. 支持关闭标签页
- * 5. 支持新建标签页
- * 6. Grid 布局显示（一行2个，类似 Chrome）
+ * 状态同步策略：
+ * - 当前所处模式（普通 / 无痕）作为唯一真相源放在 [BrowserTabsModel.currentMode]。
+ * - 顶部分段控件 SegmentedTabView、底部 ViewPager 都从该 LiveData 派生 UI 状态，
+ *   两者互相不直接驱动彼此，避免 view 重建时 ViewPager state 恢复与
+ *   SegmentedTabView 默认值竞争导致的「指示器 / 内容」错位。
+ * - 用户手势（点击分段、滑动 ViewPager）只调用 [BrowserTabsModel.setMode]，
+ *   再由观察者统一回写两边 UI。
  */
 class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabsModel>() {
 
@@ -71,9 +71,17 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
 
     override fun lazyLoad() {
         super.lazyLoad()
-        setupViewPager()
+        // 顺序很重要：
+        // 1) 先建好分段控件的 tab，但不要硬把选中重置为 0；
+        // 2) 再设置 ViewPager。监听器要在 setAdapter 之前注册，
+        //    避免 ViewPager state 恢复阶段触发的 onPageSelected 事件被吞；
+        // 3) 接着注册 LiveData 观察者，由它统一驱动两侧 UI；
+        // 4) 最后兜底初始化 mode（仅首次进入）。
         setupSegmentedTabs()
+        setupViewPager()
+        setupModeObserver()
         setupBottomToolbar()
+        initializeModeIfNeeded()
     }
 
     /**
@@ -88,26 +96,26 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
                 closeTab(tab)
             }
         }
-        
+
         binding?.viewPager?.apply {
-            adapter = pagerAdapter
-            offscreenPageLimit = 1 // 预加载相邻页面
-            
-            // 监听 ViewPager 滑动，同步更新顶部 Tab
+            // 先注册监听器，再 setAdapter。view 重建后 setAdapter 会消费
+            // ViewPager 内保存的 mRestoredCurItem 触发一次 onPageSelected，
+            // 必须保证那个事件能被我们捕获到，统一回写到 LiveData。
             addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
                 override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                     // 不需要处理
                 }
 
                 override fun onPageSelected(position: Int) {
-                    // 同步更新顶部 SegmentedTabView 的选中状态
-                    binding?.segmentedTabs?.setSelectedIndex(position)
+                    viewModel.setMode(position)
                 }
 
                 override fun onPageScrollStateChanged(state: Int) {
                     // 不需要处理
                 }
             })
+            adapter = pagerAdapter
+            offscreenPageLimit = 1 // 预加载相邻页面
         }
     }
 
@@ -120,13 +128,51 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
             getString(R.string.private_tabs)
         )
         binding?.segmentedTabs?.apply {
-            setItems(titles, 0)
+            // 视图重建时不要把选中硬拉回 0，等 LiveData 观察者派发权威值。
+            setItemsKeepingSelection(titles)
             setOnTabSelectedListener { index ->
-                binding?.viewPager?.currentItem = index
-                if (index == 1) {
-                    ReportDataManager.reportData("Incognito_Click",mapOf())
+                viewModel.setMode(index)
+                if (index == TabsPagerAdapter.TAB_PRIVATE) {
+                    ReportDataManager.reportData("Incognito_Click", mapOf())
                 }
             }
+        }
+    }
+
+    /**
+     * 观察当前模式 LiveData，单向同步两侧 UI。
+     */
+    private fun setupModeObserver() {
+        viewModel.currentMode.observe(viewLifecycleOwner) { mode ->
+            applyMode(mode)
+        }
+    }
+
+    private fun applyMode(mode: Int) {
+        binding?.viewPager?.let { pager ->
+            if (pager.currentItem != mode) {
+                pager.setCurrentItem(mode, false)
+            }
+        }
+        binding?.segmentedTabs?.setSelectedIndex(mode)
+    }
+
+    /**
+     * 首次进入时根据 store 中已选标签的隐私属性决定默认模式。
+     * 后续 view 重建只会复用 Activity 作用域 ViewModel 内已有值，不再走这条分支。
+     */
+    private fun initializeModeIfNeeded() {
+        if (viewModel.currentMode.value != null) return
+        viewModel.setMode(resolveModeFromSelectedTab())
+    }
+
+    private fun resolveModeFromSelectedTab(): Int {
+        val state = activity?.components?.store?.state ?: return TabsPagerAdapter.TAB_NORMAL
+        val selectedTab = state.selectedTabId?.let { id -> state.tabs.find { it.id == id } }
+        return if (selectedTab?.content?.private == true) {
+            TabsPagerAdapter.TAB_PRIVATE
+        } else {
+            TabsPagerAdapter.TAB_NORMAL
         }
     }
 
@@ -154,8 +200,7 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
 
     private fun handleDeleteTabs() {
         val state = activity?.components?.store?.state ?: return
-        val currentPage = binding?.viewPager?.currentItem ?: 0
-        val isPrivate = currentPage == TabsPagerAdapter.TAB_PRIVATE
+        val isPrivate = currentModeOrDefault() == TabsPagerAdapter.TAB_PRIVATE
         val tabs = if (isPrivate) state.privateTabs else state.normalTabs
         if (tabs.isEmpty()) {
             return
@@ -240,8 +285,8 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
             val normalTabs = state.normalTabs
             if (normalTabs.isNotEmpty()) {
                 activity?.components?.tabsUseCases?.selectTab(normalTabs.last().id)
-                binding?.viewPager?.currentItem = TabsPagerAdapter.TAB_NORMAL
-                binding?.segmentedTabs?.setSelectedIndex(TabsPagerAdapter.TAB_NORMAL)
+                // 通过 LiveData 统一驱动 UI，避免直接写 ViewPager 跟分段控件不同步
+                viewModel.setMode(TabsPagerAdapter.TAB_NORMAL)
             }
         }
     }
@@ -250,9 +295,8 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
      * 创建新标签页
      */
     private fun createNewTab() {
-        // 根据当前 ViewPager 页面判断模式
-        val currentPage = binding?.viewPager?.currentItem ?: 0
-        val isPrivate = currentPage == TabsPagerAdapter.TAB_PRIVATE
+        // 根据当前 LiveData 中的模式判断（避免读 ViewPager 中间态）
+        val isPrivate = currentModeOrDefault() == TabsPagerAdapter.TAB_PRIVATE
 
         // 获取当前选中的搜索引擎的首页 URL
         val searchEngine = activity?.components?.store?.state?.search?.selectedOrDefaultSearchEngine
@@ -290,8 +334,7 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
      */
     fun closeAllTabs() {
         val state = activity?.components?.store?.state ?: return
-        val currentPage = binding?.viewPager?.currentItem ?: 0
-        val isPrivate = currentPage == TabsPagerAdapter.TAB_PRIVATE
+        val isPrivate = currentModeOrDefault() == TabsPagerAdapter.TAB_PRIVATE
 
         // 获取当前模式的所有标签页
         val tabs = if (isPrivate) {
@@ -319,24 +362,16 @@ class BrowserTabsFragment : BaseFragment<FragmentBrowserTabsBinding, BrowserTabs
         this.onNewTabListener = listener
     }
 
+    private fun currentModeOrDefault(): Int {
+        return viewModel.currentMode.value ?: TabsPagerAdapter.TAB_NORMAL
+    }
+
     override fun onResume() {
         super.onResume()
-
-        // 每次恢复时同步当前选中的标签页模式
-        val state = activity?.components?.store?.state ?: return
-        state.selectedTabId?.let { selectedId ->
-            // 找到选中的标签页
-            val selectedTab = state.tabs.find { it.id == selectedId }
-            selectedTab?.let { tab ->
-                // 根据选中标签页的隐私模式来切换当前显示模式
-                val shouldBePrivate = tab.content.private
-                val targetPage = if (shouldBePrivate) TabsPagerAdapter.TAB_PRIVATE else TabsPagerAdapter.TAB_NORMAL
-                
-                if (binding?.viewPager?.currentItem != targetPage) {
-                    binding?.viewPager?.currentItem = targetPage
-                    binding?.segmentedTabs?.setSelectedIndex(targetPage)
-                }
-            }
-        }
+        // 每次恢复时，让模式跟随当前选中标签的隐私属性。
+        // setMode 在值未改变时是 no-op，不会无谓重画。
+        // LiveData 观察者会负责把两侧 UI 拉到一致状态，覆盖
+        // ViewPager state 恢复阶段可能引入的临时错位。
+        viewModel.setMode(resolveModeFromSelectedTab())
     }
 }
