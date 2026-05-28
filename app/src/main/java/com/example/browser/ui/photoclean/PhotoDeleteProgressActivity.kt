@@ -32,16 +32,20 @@ class PhotoDeleteProgressActivity :
 
     companion object {
         private const val EXTRA_MODE = "clean_mode"
-        private var pendingFiles: List<File>? = null
+        private const val EXTRA_FILE_KEY = "file_key"
 
         fun start(context: Context, mode: PhotoCleanMode, files: List<File>) {
-            pendingFiles = files
+            val fileKey = PhotoCleanSession.putFiles(files)
             val intent = Intent(context, PhotoDeleteProgressActivity::class.java).apply {
                 putExtra(EXTRA_MODE, mode.name)
+                putExtra(EXTRA_FILE_KEY, fileKey)
             }
             context.startActivity(intent)
         }
     }
+
+    private val fileSessionKey: String?
+        get() = intent.getStringExtra(EXTRA_FILE_KEY)
 
     override fun initBinding(): ActivityPhotoDeleteProgressBinding {
         return ActivityPhotoDeleteProgressBinding.inflate(layoutInflater)
@@ -54,8 +58,7 @@ class PhotoDeleteProgressActivity :
     private var rotationAnimator: ObjectAnimator? = null
 
     override fun initView() {
-        val files = pendingFiles ?: emptyList()
-        pendingFiles = null
+        val files = PhotoCleanSession.getFiles(fileSessionKey)
 
         if (files.isEmpty()) {
             finish()
@@ -107,7 +110,7 @@ class PhotoDeleteProgressActivity :
         binding.btnContinue.text = getString(R.string.photo_clean_continue)
 
         binding.btnContinue.setOnClickListener {
-            finish()
+            finishPlayAd(false)
         }
         binding.ivBack.setOnClickListener {
             finishPlayAd()
@@ -157,9 +160,11 @@ class PhotoDeleteProgressActivity :
         }
     }
 
-    private fun finishPlayAd() {
+    private fun finishPlayAd(isFinish: Boolean = true) {
         loadInterstitial(position = if (cleanMode == PhotoCleanMode.SIMILAR) "IV_Similar_Finish" else "IV_Same_Finish") {
-            ActivityUtils.finishActivity(PhotoCleanActivity::class.java)
+            if (isFinish) {
+                ActivityUtils.finishActivity(PhotoCleanActivity::class.java)
+            }
             finish()
         }
     }
@@ -172,6 +177,9 @@ class PhotoDeleteProgressActivity :
 
     override fun onDestroy() {
         stopRotationAnimation()
+        if (isFinishing) {
+            PhotoCleanSession.clear(fileSessionKey)
+        }
         super.onDestroy()
     }
 }

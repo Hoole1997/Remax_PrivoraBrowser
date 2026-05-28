@@ -37,16 +37,19 @@ class PhotoCleanActivity : BaseActivity<ActivityPhotoCleanBinding, PhotoCleanVie
     companion object {
         private const val EXTRA_MODE = "clean_mode"
         private const val EXTRA_GROUP_KEY = "group_key"
-        private var pendingGroups: List<PhotoCleanGroup>? = null
 
         fun start(context: Context, mode: PhotoCleanMode, groups: List<PhotoCleanGroup>) {
-            pendingGroups = groups
+            val groupKey = PhotoCleanSession.putGroups(groups)
             val intent = Intent(context, PhotoCleanActivity::class.java).apply {
                 putExtra(EXTRA_MODE, mode.name)
+                putExtra(EXTRA_GROUP_KEY, groupKey)
             }
             context.startActivity(intent)
         }
     }
+
+    private val groupSessionKey: String?
+        get() = intent.getStringExtra(EXTRA_GROUP_KEY)
 
     override fun initBinding(): ActivityPhotoCleanBinding {
         return ActivityPhotoCleanBinding.inflate(layoutInflater)
@@ -66,8 +69,7 @@ class PhotoCleanActivity : BaseActivity<ActivityPhotoCleanBinding, PhotoCleanVie
         setupBackPress()
 
         // 加载数据
-        val groups = pendingGroups ?: emptyList()
-        pendingGroups = null
+        val groups = PhotoCleanSession.getGroups(groupSessionKey)
         viewModel.loadGroups(groups)
 
         loadBottomNativeAd()
@@ -202,6 +204,12 @@ class PhotoCleanActivity : BaseActivity<ActivityPhotoCleanBinding, PhotoCleanVie
                     ReportDataManager.reportData("Delete_SimilarButton_Click",mapOf("result" to "confirm"))
                 }
                 viewModel.removeSelectedPhotos()
+                // 同步把最新分组写回内存中转站，B 完成后回到 A（若 A 被销毁重建）
+                // 仍能拿到剔除已删项后的快照。
+                PhotoCleanSession.updateGroups(
+                    groupSessionKey,
+                    viewModel.groups.value ?: emptyList(),
+                )
                 binding.rvPhotos.postDelayed({
                     PhotoDeleteProgressActivity.start(this, cleanMode, files)
                 }, 200)
@@ -214,5 +222,12 @@ class PhotoCleanActivity : BaseActivity<ActivityPhotoCleanBinding, PhotoCleanVie
                 }
             }
         )
+    }
+
+    override fun onDestroy() {
+        if (isFinishing) {
+            PhotoCleanSession.clear(groupSessionKey)
+        }
+        super.onDestroy()
     }
 }
