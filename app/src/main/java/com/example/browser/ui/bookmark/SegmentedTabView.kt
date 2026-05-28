@@ -40,23 +40,38 @@ class SegmentedTabView @JvmOverloads constructor(
     }
 
     fun setItems(titles: List<String>, defaultIndex: Int = 0) {
+        rebuildTabs(titles)
+        if (tabHolders.isEmpty()) return
+        selectedIndex = defaultIndex.coerceIn(tabHolders.indices)
+        refreshSelection()
+    }
+
+    /**
+     * 仅重建标题，保留当前选中位置（若已超出新列表范围则自动收敛到边界）。
+     * 适用于视图重建场景：调用方希望由外部 LiveData/Flow 驱动选中态，
+     * 重新 setItems 时不应该把选中粗暴拉回 0。
+     */
+    fun setItemsKeepingSelection(titles: List<String>) {
+        val previous = selectedIndex
+        rebuildTabs(titles)
+        if (tabHolders.isEmpty()) return
+        selectedIndex = previous.coerceIn(tabHolders.indices)
+        refreshSelection()
+    }
+
+    private fun rebuildTabs(titles: List<String>) {
         removeAllViews()
         tabHolders.clear()
         if (titles.isEmpty()) {
             isVisible = false
             return
-        } else {
-            isVisible = true
         }
-
+        isVisible = true
         titles.forEachIndexed { index, title ->
             val holder = createTabHolder(title, index)
             tabHolders.add(holder)
             addView(holder.container)
         }
-
-        selectedIndex = defaultIndex.coerceIn(titles.indices)
-        refreshSelection()
     }
 
     fun setOnTabSelectedListener(listener: (Int) -> Unit) {
