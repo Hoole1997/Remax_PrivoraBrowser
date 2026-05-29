@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_title" translatable="false">Open Browser</string>
+    <string name="home_title" translatable="false">Privora Browser</string>
 
     <string name="tab_home">首頁</string>
     <string name="tab_short">短影片</string>
@@ -226,7 +226,7 @@
 
     <!-- Storage Permission Dialog -->
     <string name="storage_permission_dialog_title">啟用儲存權限</string>
-    <string name="storage_permission_dialog_desc">要使用此功能，請在手機設定中為 Open Browser 啟用儲存權限。</string>
+    <string name="storage_permission_dialog_desc">要使用此功能，請在手機設定中為 Privora Browser 啟用儲存權限。</string>
     <string name="storage_permission_dialog_item">啟用儲存權限</string>
     <string name="storage_permission_dialog_later">稍後</string>
     <string name="storage_permission_dialog_go_now">立即前往</string>
@@ -343,6 +343,11 @@
     <string name="default_browser_light_desc">快速瀏覽熱門網站。</string>
     <string name="default_browser_later">稍後</string>
     <string name="default_browser_set">設為預設</string>
+    <string name="default_browser_skip">略過</string>
+    <string name="default_browser_headline">享受乾淨且安全的瀏覽體驗</string>
+    <string name="default_browser_subtitle">將 Privora Browser 設為預設。安全瀏覽，乾淨瀏覽。</string>
+    <string name="default_browser_other_app">其他應用</string>
+    <string name="default_browser_set_as_default">設為預設</string>
 
     <string name="news_loading_text">正在載入熱門新聞...</string>
 
@@ -369,14 +374,14 @@
     <string name="uninstall_shortcut_short_label">解除安裝</string>
 
     <!-- 確認解除安裝 -->
-    <string name="uninstall_confirm_title">為什麼要解除安裝 Open Browser？</string>
+    <string name="uninstall_confirm_title">為什麼要解除安裝 Privora Browser？</string>
     <string name="uninstall_reason_difficult">難以使用</string>
     <string name="uninstall_reason_ads">廣告太多</string>
     <string name="uninstall_reason_cant_find">找不到刪除的照片</string>
     <string name="uninstall_reason_not_restore">無法正確恢復想要的圖片</string>
     <string name="uninstall_reason_recovery">恢復其他檔案困難</string>
     <string name="uninstall_reason_others">其他</string>
-    <string name="uninstall_reason_hint">請輸入您解除安裝 Open Browser 的原因</string>
+    <string name="uninstall_reason_hint">請輸入您解除安裝 Privora Browser 的原因</string>
 
     <!-- Junk Clean Exit Dialog -->
     <string name="junk_exit_dialog_title">清理未完成</string>

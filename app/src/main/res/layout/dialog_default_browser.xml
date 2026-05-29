@@ -1,217 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    全屏式默认浏览器引导弹框
+    设计稿：Figma node 19145-12448
+    - 顶部到底部为浅蓝→白色渐变（bg_default_browser_gradient）
+    - Skip 在右上角，按钮区固定在底部，中间内容区可滚动
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bg_dialog_gray">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_default_browser_gradient"
+    android:fitsSystemWindows="true">
 
-    <!-- 背景装饰 - 顶部地球图案 -->
-    <ImageView
-        android:layout_width="match_parent"
+    <!-- 顶部右上 Skip -->
+    <TextView
+        android:id="@+id/btn_skip"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/bg_default_browser"
-        android:contentDescription="@null" />
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:padding="8dp"
+        android:text="@string/default_browser_skip"
+        android:textColor="#666666"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- 底部 Later 文字按钮（固定） -->
+    <TextView
+        android:id="@+id/btn_later"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="32dp">
+        android:layout_marginBottom="32dp"
+        android:padding="8dp"
+        android:text="@string/default_browser_later"
+        android:textColor="#999999"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- 顶部指示器 -->
-        <View
-            android:layout_width="66dp"
-            android:layout_height="8dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_dialog_indicator" />
+    <!-- 底部 Set as Default 主按钮（固定） -->
+    <TextView
+        android:id="@+id/btn_set_default"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_default_browser_set_button"
+        android:gravity="center"
+        android:text="@string/default_browser_set_as_default"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/btn_later"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- Logo -->
-        <ImageView
-            android:layout_width="84dp"
-            android:layout_height="84dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="32dp"
-            android:src="@mipmap/ic_logo_round"
-            android:contentDescription="@null" />
+    <!-- 中间内容滚动区：顶到 Skip 下方，底到 Set as Default 按钮上方 -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@id/btn_set_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_skip">
 
-        <!-- 标题 -->
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:lineSpacingMultiplier="1.6"
-            android:text="@string/default_browser_dialog_title"
-            android:textColor="#333333"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:paddingBottom="16dp">
 
-        <!-- 功能列表 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="24dp"
-            android:orientation="vertical">
+            <!-- 顶部 Logo -->
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="48dp"
+                android:src="@mipmap/ic_logo"
+                android:contentDescription="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Safe Browsing -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- 标题 -->
+            <TextView
+                android:id="@+id/tv_headline"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginTop="18dp"
+                android:gravity="center"
+                android:text="@string/default_browser_headline"
+                android:textColor="#000000"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_logo" />
 
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_default_browser_safe"
-                    android:contentDescription="@null" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="12dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/default_browser_safe_title"
-                        android:textColor="#333333"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/default_browser_safe_desc"
-                        android:textColor="#666666"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!-- Fast Download -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- 副标题 -->
+            <TextView
+                android:id="@+id/tv_subtitle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginStart="29dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="29dp"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/default_browser_subtitle"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_headline" />
 
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_default_browser_download"
-                    android:contentDescription="@null" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="12dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/default_browser_download_title"
-                        android:textColor="#333333"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/default_browser_download_desc"
-                        android:textColor="#666666"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!-- Run lightly -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- 中部 "系统设置默认浏览器" 模拟图（整体一张 bg） -->
+            <ImageView
+                android:id="@+id/iv_phone_bg"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="40dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/bg_default_browser"
+                android:contentDescription="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_subtitle" />
 
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/ic_default_browser_light"
-                    android:contentDescription="@null" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="12dp"
-                    android:orientation="vertical">
+    </androidx.core.widget.NestedScrollView>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/default_browser_light_title"
-                        android:textColor="#333333"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/default_browser_light_desc"
-                        android:textColor="#666666"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Set as default 按钮 -->
-        <com.hjq.shape.view.ShapeButton
-            android:id="@+id/btn_set_default"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginTop="32dp"
-            android:gravity="center"
-            android:text="@string/default_browser_set"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:shape_radius="24dp"
-            app:shape_solidColor="#0881FE" />
-
-        <!-- Later 文字链接 -->
-        <TextView
-            android:id="@+id/btn_later"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:padding="8dp"
-            android:text="@string/default_browser_later"
-            android:textColor="#999999"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

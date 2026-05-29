@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_title" translatable="false">Open Browser</string>
+    <string name="home_title" translatable="false">Privora Browser</string>
 
     <string name="tab_home">ホーム</string>
     <string name="tab_short">ショート</string>
@@ -219,7 +219,7 @@
 
     <!-- Storage Permission Dialog -->
     <string name="storage_permission_dialog_title">ストレージ権限を有効にする</string>
-    <string name="storage_permission_dialog_desc">この機能を使用するには、スマートフォンの設定でOpen Browserのストレージ権限を有効にしてください。</string>
+    <string name="storage_permission_dialog_desc">この機能を使用するには、スマートフォンの設定でPrivora Browserのストレージ権限を有効にしてください。</string>
     <string name="storage_permission_dialog_item">ストレージ権限を有効にする</string>
     <string name="storage_permission_dialog_later">後で</string>
     <string name="storage_permission_dialog_go_now">今すぐ設定</string>
@@ -331,6 +331,11 @@
     <string name="default_browser_light_desc">人気のウェブサイトを素早く閲覧。</string>
     <string name="default_browser_later">後で</string>
     <string name="default_browser_set">デフォルトに設定</string>
+    <string name="default_browser_skip">スキップ</string>
+    <string name="default_browser_headline">クリーンで安全なブラウジングを楽しむ</string>
+    <string name="default_browser_subtitle">Privora Browser をデフォルトに設定。安全でクリーンに閲覧。</string>
+    <string name="default_browser_other_app">他のアプリ</string>
+    <string name="default_browser_set_as_default">デフォルトに設定</string>
 
     <string name="news_loading_text">トレンドニュースを読み込んでいます...</string>
 
@@ -357,14 +362,14 @@
     <string name="uninstall_shortcut_short_label">削除</string>
 
     <!-- Uninstall Confirm Page -->
-    <string name="uninstall_confirm_title">Open Browserをアンインストールする理由は何ですか？</string>
+    <string name="uninstall_confirm_title">Privora Browserをアンインストールする理由は何ですか？</string>
     <string name="uninstall_reason_difficult">使いにくい</string>
     <string name="uninstall_reason_ads">広告が多すぎる</string>
     <string name="uninstall_reason_cant_find">削除された写真が見つからない</string>
     <string name="uninstall_reason_not_restore">希望の画像が正しく復元されない</string>
     <string name="uninstall_reason_recovery">他のファイルの復元が難しい</string>
     <string name="uninstall_reason_others">その他</string>
-    <string name="uninstall_reason_hint">Open Browserをアンインストールする理由を入力してください</string>
+    <string name="uninstall_reason_hint">Privora Browserをアンインストールする理由を入力してください</string>
 
     <!-- Junk Clean Exit Dialog -->
     <string name="junk_exit_dialog_title">クリーンアップが完了していません</string>

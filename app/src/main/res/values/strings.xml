@@ -213,6 +213,12 @@
     <string name="default_browser_light_desc">Rapidly browse popular websites.</string>
     <string name="default_browser_later">Later</string>
     <string name="default_browser_set">Set as default</string>
+    <string name="default_browser_skip">Skip</string>
+    <string name="default_browser_headline">Enjoy clean and secure browsing</string>
+    <string name="default_browser_subtitle">Make Privora Browser Your Default. Browse Safe, Browse Clean.</string>
+    <string name="default_browser_brand" translatable="false">Privora Browser</string>
+    <string name="default_browser_other_app">Other App</string>
+    <string name="default_browser_set_as_default">Set as Default</string>
 
     <!-- Process Scan Dialog -->
     <string name="process_scan_dialog_title">Process manager</string>
@@ -261,7 +267,7 @@
 
     <!-- Storage Permission Dialog -->
     <string name="storage_permission_dialog_title">Enable storage permission</string>
-    <string name="storage_permission_dialog_desc">To use this feature, please enable storage permission for Open Browser in your phone settings.</string>
+    <string name="storage_permission_dialog_desc">To use this feature, please enable storage permission for Privora Browser in your phone settings.</string>
     <string name="storage_permission_dialog_item">Enable storage permission</string>
     <string name="storage_permission_dialog_later">Later</string>
     <string name="storage_permission_dialog_go_now">Go Now</string>
@@ -387,14 +393,14 @@
     <string name="uninstall_shortcut_short_label">Uninstall</string>
 
     <!-- Uninstall Confirm Page -->
-    <string name="uninstall_confirm_title">Why uninstall Open Browser?</string>
+    <string name="uninstall_confirm_title">Why uninstall Privora Browser?</string>
     <string name="uninstall_reason_difficult">Difficult to use</string>
     <string name="uninstall_reason_ads">Too many ads</string>
     <string name="uninstall_reason_cant_find">Can\'t find deleted photos</string>
     <string name="uninstall_reason_not_restore">Doesn\'t correctly restore the desired image</string>
     <string name="uninstall_reason_recovery">Difficulty in recovering other files</string>
     <string name="uninstall_reason_others">Others</string>
-    <string name="uninstall_reason_hint">Please enter the reason why you uninstalling Open Browser</string>
+    <string name="uninstall_reason_hint">Please enter the reason why you uninstalling Privora Browser</string>
 
     <!-- Junk Clean Exit Dialog -->
     <string name="junk_exit_dialog_title">Cleanup Not Completed</string>

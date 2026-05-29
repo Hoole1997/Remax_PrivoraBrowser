@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_title" translatable="false">Open Browser</string>
+    <string name="home_title" translatable="false">Privora Browser</string>
 
     <string name="tab_home">Beranda</string>
     <string name="tab_short">Singkat</string>
@@ -219,7 +219,7 @@
 
     <!-- Storage Permission Dialog -->
     <string name="storage_permission_dialog_title">Aktifkan izin penyimpanan</string>
-    <string name="storage_permission_dialog_desc">Untuk menggunakan fitur ini, aktifkan izin penyimpanan untuk Open Browser di pengaturan ponsel Anda.</string>
+    <string name="storage_permission_dialog_desc">Untuk menggunakan fitur ini, aktifkan izin penyimpanan untuk Privora Browser di pengaturan ponsel Anda.</string>
     <string name="storage_permission_dialog_item">Aktifkan izin penyimpanan</string>
     <string name="storage_permission_dialog_later">Nanti</string>
     <string name="storage_permission_dialog_go_now">Pergi Sekarang</string>
@@ -332,6 +332,11 @@
     <string name="default_browser_light_desc">Jelajahi situs web populer dengan cepat.</string>
     <string name="default_browser_later">Nanti</string>
     <string name="default_browser_set">Atur sebagai default</string>
+    <string name="default_browser_skip">Lewati</string>
+    <string name="default_browser_headline">Nikmati penjelajahan yang bersih dan aman</string>
+    <string name="default_browser_subtitle">Jadikan Privora Browser sebagai default. Telusuri aman, telusuri bersih.</string>
+    <string name="default_browser_other_app">Aplikasi lain</string>
+    <string name="default_browser_set_as_default">Atur sebagai Default</string>
 
     <string name="news_loading_text">Memuat berita trending...</string>
 
@@ -358,14 +363,14 @@
     <string name="uninstall_shortcut_short_label">Hapus</string>
 
     <!-- Konfirmasi Uninstall -->
-    <string name="uninstall_confirm_title">Mengapa menghapus Open Browser?</string>
+    <string name="uninstall_confirm_title">Mengapa menghapus Privora Browser?</string>
     <string name="uninstall_reason_difficult">Sulit digunakan</string>
     <string name="uninstall_reason_ads">Terlalu banyak iklan</string>
     <string name="uninstall_reason_cant_find">Tidak dapat menemukan foto yang dihapus</string>
     <string name="uninstall_reason_not_restore">Tidak memulihkan gambar yang diinginkan dengan benar</string>
     <string name="uninstall_reason_recovery">Kesulitan memulihkan file lain</string>
     <string name="uninstall_reason_others">Lainnya</string>
-    <string name="uninstall_reason_hint">Harap masukkan alasan Anda menghapus Open Browser</string>
+    <string name="uninstall_reason_hint">Harap masukkan alasan Anda menghapus Privora Browser</string>
 
     <!-- Junk Clean Exit Dialog -->
     <string name="junk_exit_dialog_title">Pembersihan Belum Selesai</string>

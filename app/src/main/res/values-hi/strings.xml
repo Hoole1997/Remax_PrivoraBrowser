@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_title" translatable="false">Open Browser</string>
+    <string name="home_title" translatable="false">Privora Browser</string>
 
     <string name="tab_home">होम</string>
     <string name="tab_short">शॉर्ट</string>
@@ -219,7 +219,7 @@
 
     <!-- Storage Permission Dialog -->
     <string name="storage_permission_dialog_title">स्टोरेज अनुमति सक्षम करें</string>
-    <string name="storage_permission_dialog_desc">इस सुविधा का उपयोग करने के लिए, कृपया अपनी फ़ोन सेटिंग में Open Browser के लिए स्टोरेज अनुमति सक्षम करें।</string>
+    <string name="storage_permission_dialog_desc">इस सुविधा का उपयोग करने के लिए, कृपया अपनी फ़ोन सेटिंग में Privora Browser के लिए स्टोरेज अनुमति सक्षम करें।</string>
     <string name="storage_permission_dialog_item">स्टोरेज अनुमति सक्षम करें</string>
     <string name="storage_permission_dialog_later">बाद में</string>
     <string name="storage_permission_dialog_go_now">अभी जाएं</string>
@@ -331,6 +331,11 @@
     <string name="default_browser_light_desc">लोकप्रिय वेबसाइटों को तेज़ी से ब्राउज़ करें।</string>
     <string name="default_browser_later">बाद में</string>
     <string name="default_browser_set">डिफ़ॉल्ट के रूप में सेट करें</string>
+    <string name="default_browser_skip">छोड़ें</string>
+    <string name="default_browser_headline">साफ़ और सुरक्षित ब्राउज़िंग का आनंद लें</string>
+    <string name="default_browser_subtitle">Privora Browser को डिफ़ॉल्ट बनाएं। सुरक्षित और साफ़ ब्राउज़िंग करें।</string>
+    <string name="default_browser_other_app">अन्य ऐप</string>
+    <string name="default_browser_set_as_default">डिफ़ॉल्ट के रूप में सेट करें</string>
 
     <string name="news_loading_text">ट्रेंडिंग समाचार लोड हो रहे हैं...</string>
 
@@ -357,14 +362,14 @@
     <string name="uninstall_shortcut_short_label">अनइंस्टॉल</string>
 
     <!-- Uninstall Confirm Page -->
-    <string name="uninstall_confirm_title">Open Browser को क्यों अनइंस्टॉल करें?</string>
+    <string name="uninstall_confirm_title">Privora Browser को क्यों अनइंस्टॉल करें?</string>
     <string name="uninstall_reason_difficult">उपयोग करने में कठिन</string>
     <string name="uninstall_reason_ads">बहुत अधिक विज्ञापन</string>
     <string name="uninstall_reason_cant_find">हटाए गए फ़ोटो नहीं मिल रहे</string>
     <string name="uninstall_reason_not_restore">वांछित छवि को सही ढंग से पुनर्स्थापित नहीं करता</string>
     <string name="uninstall_reason_recovery">अन्य फ़ाइलों को पुनर्प्राप्त करने में कठिनाई</string>
     <string name="uninstall_reason_others">अन्य</string>
-    <string name="uninstall_reason_hint">कृपया Open Browser को अनइंस्टॉल करने का कारण बताएं</string>
+    <string name="uninstall_reason_hint">कृपया Privora Browser को अनइंस्टॉल करने का कारण बताएं</string>
 
     <!-- Junk Clean Exit Dialog -->
     <string name="junk_exit_dialog_title">सफाई पूरी नहीं हुई</string>

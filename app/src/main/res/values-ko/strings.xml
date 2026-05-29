@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_title" translatable="false">Open Browser</string>
+    <string name="home_title" translatable="false">Privora Browser</string>
 
     <string name="tab_home">홈</string>
     <string name="tab_short">쇼츠</string>
@@ -219,7 +219,7 @@
 
     <!-- Storage Permission Dialog -->
     <string name="storage_permission_dialog_title">저장소 권한 활성화</string>
-    <string name="storage_permission_dialog_desc">이 기능을 사용하려면 휴대폰 설정에서 Open Browser의 저장소 권한을 활성화해 주세요.</string>
+    <string name="storage_permission_dialog_desc">이 기능을 사용하려면 휴대폰 설정에서 Privora Browser의 저장소 권한을 활성화해 주세요.</string>
     <string name="storage_permission_dialog_item">저장소 권한 활성화</string>
     <string name="storage_permission_dialog_later">나중에</string>
     <string name="storage_permission_dialog_go_now">지금 이동</string>
@@ -332,6 +332,11 @@
     <string name="default_browser_light_desc">인기 웹사이트를 빠르게 탐색하세요.</string>
     <string name="default_browser_later">나중에</string>
     <string name="default_browser_set">기본값으로 설정</string>
+    <string name="default_browser_skip">건너뛰기</string>
+    <string name="default_browser_headline">깨끗하고 안전한 브라우징을 즐기세요</string>
+    <string name="default_browser_subtitle">Privora Browser를 기본 브라우저로 설정하세요. 안전하고 깔끔하게 탐색하세요.</string>
+    <string name="default_browser_other_app">다른 앱</string>
+    <string name="default_browser_set_as_default">기본값으로 설정</string>
 
     <string name="news_loading_text">인기 뉴스를 불러오는 중...</string>
 
@@ -358,14 +363,14 @@
     <string name="uninstall_shortcut_short_label">삭제</string>
 
     <!-- Uninstall Confirm Page -->
-    <string name="uninstall_confirm_title">Open Browser를 제거하는 이유는 무엇입니까?</string>
+    <string name="uninstall_confirm_title">Privora Browser를 제거하는 이유는 무엇입니까?</string>
     <string name="uninstall_reason_difficult">사용하기 어려움</string>
     <string name="uninstall_reason_ads">광고가 너무 많음</string>
     <string name="uninstall_reason_cant_find">삭제된 사진을 찾을 수 없음</string>
     <string name="uninstall_reason_not_restore">원하는 이미지가 제대로 복원되지 않음</string>
     <string name="uninstall_reason_recovery">다른 파일 복구의 어려움</string>
     <string name="uninstall_reason_others">기타</string>
-    <string name="uninstall_reason_hint">Open Browser를 제거하는 이유를 입력해주세요</string>
+    <string name="uninstall_reason_hint">Privora Browser를 제거하는 이유를 입력해주세요</string>
 
     <!-- Junk Clean Exit Dialog -->
     <string name="junk_exit_dialog_title">정리가 완료되지 않았습니다</string>

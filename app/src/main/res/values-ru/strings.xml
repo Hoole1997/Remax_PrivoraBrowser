@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_title" translatable="false">Open Browser</string>
+    <string name="home_title" translatable="false">Privora Browser</string>
 
     <string name="tab_home">Главная</string>
     <string name="tab_short">Ролики</string>
@@ -219,7 +219,7 @@
 
     <!-- Storage Permission Dialog -->
     <string name="storage_permission_dialog_title">Включить разрешение на хранение</string>
-    <string name="storage_permission_dialog_desc">Чтобы использовать эту функцию, включите разрешение на хранение для Open Browser в настройках телефона.</string>
+    <string name="storage_permission_dialog_desc">Чтобы использовать эту функцию, включите разрешение на хранение для Privora Browser в настройках телефона.</string>
     <string name="storage_permission_dialog_item">Включить разрешение на хранение</string>
     <string name="storage_permission_dialog_later">Позже</string>
     <string name="storage_permission_dialog_go_now">Перейти</string>
@@ -331,6 +331,11 @@
     <string name="default_browser_light_desc">Быстрый просмотр популярных веб-сайтов.</string>
     <string name="default_browser_later">Позже</string>
     <string name="default_browser_set">Установить по умолчанию</string>
+    <string name="default_browser_skip">Пропустить</string>
+    <string name="default_browser_headline">Чистый и безопасный просмотр</string>
+    <string name="default_browser_subtitle">Сделайте Privora Browser браузером по умолчанию. Безопасно и чисто.</string>
+    <string name="default_browser_other_app">Другое приложение</string>
+    <string name="default_browser_set_as_default">Установить по умолчанию</string>
 
     <string name="news_loading_text">Загрузка популярных новостей...</string>
 
@@ -357,14 +362,14 @@
     <string name="uninstall_shortcut_short_label">Удалить</string>
 
     <!-- Подтверждение удаления -->
-    <string name="uninstall_confirm_title">Почему вы хотите удалить Open Browser?</string>
+    <string name="uninstall_confirm_title">Почему вы хотите удалить Privora Browser?</string>
     <string name="uninstall_reason_difficult">Сложно использовать</string>
     <string name="uninstall_reason_ads">Слишком много рекламы</string>
     <string name="uninstall_reason_cant_find">Не могу найти удаленные фото</string>
     <string name="uninstall_reason_not_restore">Изображение восстанавливается некорректно</string>
     <string name="uninstall_reason_recovery">Сложности с восстановлением других файлов</string>
     <string name="uninstall_reason_others">Другое</string>
-    <string name="uninstall_reason_hint">Пожалуйста, укажите причину удаления Open Browser</string>
+    <string name="uninstall_reason_hint">Пожалуйста, укажите причину удаления Privora Browser</string>
 
     <!-- Junk Clean Exit Dialog -->
     <string name="junk_exit_dialog_title">Очистка не завершена</string>

@@ -1,18 +1,24 @@
 package com.example.browser.ui.dialog
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.ContextWrapper
-import android.view.LayoutInflater
+import android.graphics.Color
+import android.os.Build
+import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
+import androidx.core.view.WindowCompat
 import com.example.browser.R
 import com.example.browser.databinding.DialogDefaultBrowserBinding
 import com.example.browser.utils.DefaultBrowserHelper
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 /**
- * 默认浏览器引导弹框
+ * 默认浏览器引导弹框（全屏样式）
+ *
+ * 设计稿：Figma node 19145-12448
+ * 顶部 Skip / 中部 Logo + 系统设置默认浏览器示意卡片 / 底部 Set as Default + Later。
  */
 class DefaultBrowserDialog(
     context: Context,
@@ -20,40 +26,52 @@ class DefaultBrowserDialog(
     private val onSetDefaultClick: () -> Unit,
     private val onDialogShow: () -> Unit,
     private val onDialogDismiss: () -> Unit
-) : BottomSheetDialog(context, R.style.BottomSheetDialogTheme) {
+) : Dialog(context, R.style.FullScreenDialogTheme) {
 
-    private val binding: DialogDefaultBrowserBinding
+    private lateinit var binding: DialogDefaultBrowserBinding
 
-    init {
-        binding = DialogDefaultBrowserBinding.inflate(LayoutInflater.from(context))
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DialogDefaultBrowserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 设置底部弹框行为
-        behavior.apply {
-            state = BottomSheetBehavior.STATE_EXPANDED
-            skipCollapsed = true
+        // 全屏铺满 + 透明状态栏
+        window?.let { w ->
+            w.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT
+            )
+            w.setBackgroundDrawableResource(android.R.color.transparent)
+            WindowCompat.setDecorFitsSystemWindows(w, false)
+            w.statusBarColor = Color.TRANSPARENT
+            // 浅色背景下使用深色状态栏图标
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                w.decorView.systemUiVisibility =
+                    w.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
         }
 
-        // 设置背景透明
-        window?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)?.apply {
-            setBackgroundResource(android.R.color.transparent)
-        }
         setCanceledOnTouchOutside(false)
         setupClickListeners()
+    }
+
+    override fun show() {
+        super.show()
         onDialogShow.invoke()
     }
 
     private fun setupClickListeners() {
-        // Later 按钮
-        binding.btnLater.setOnClickListener {
+        // 顶部 Skip 与底部 Later 行为一致
+        val laterAction = View.OnClickListener {
             dismiss()
             onLaterClick()
         }
+        binding.btnSkip.setOnClickListener(laterAction)
+        binding.btnLater.setOnClickListener(laterAction)
 
         // Set as default 按钮
         binding.btnSetDefault.setOnClickListener {
             dismiss()
-            // 获取底层的 Activity context
             val activityContext = getActivityFromContext(context)
             DefaultBrowserHelper.requestDefaultBrowser(activityContext ?: context)
             onSetDefaultClick()

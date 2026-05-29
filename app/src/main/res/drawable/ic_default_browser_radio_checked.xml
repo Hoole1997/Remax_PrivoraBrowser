@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 蓝色选中圆点：外圈白底蓝边 + 中心蓝色实心圆 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="22dp"
+    android:height="22dp"
+    android:viewportWidth="22"
+    android:viewportHeight="22">
+    <!-- 外圈蓝色环 -->
+    <path
+        android:pathData="M11,11m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0"
+        android:strokeWidth="2"
+        android:strokeColor="#0881FE"
+        android:fillColor="@android:color/white"/>
+    <!-- 内圈实心蓝点 -->
+    <path
+        android:pathData="M11,11m-5.5,0a5.5,5.5 0,1 1,11 0a5.5,5.5 0,1 1,-11 0"
+        android:fillColor="#0881FE"/>
+</vector>

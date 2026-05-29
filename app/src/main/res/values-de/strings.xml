@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="home_title" translatable="false">Open Browser</string>
+    <string name="home_title" translatable="false">Privora Browser</string>
 
     <string name="tab_home">Startseite</string>
     <string name="tab_short">Kurz</string>
@@ -219,7 +219,7 @@
 
     <!-- Storage Permission Dialog -->
     <string name="storage_permission_dialog_title">Speicherberechtigung aktivieren</string>
-    <string name="storage_permission_dialog_desc">Um diese Funktion zu nutzen, aktivieren Sie bitte die Speicherberechtigung für Open Browser in Ihren Telefoneinstellungen.</string>
+    <string name="storage_permission_dialog_desc">Um diese Funktion zu nutzen, aktivieren Sie bitte die Speicherberechtigung für Privora Browser in Ihren Telefoneinstellungen.</string>
     <string name="storage_permission_dialog_item">Speicherberechtigung aktivieren</string>
     <string name="storage_permission_dialog_later">Später</string>
     <string name="storage_permission_dialog_go_now">Jetzt gehen</string>
@@ -332,6 +332,11 @@
     <string name="default_browser_light_desc">Beliebte Websites schnell durchsuchen.</string>
     <string name="default_browser_later">Später</string>
     <string name="default_browser_set">Als Standard festlegen</string>
+    <string name="default_browser_skip">Überspringen</string>
+    <string name="default_browser_headline">Sicheres und sauberes Surfen genießen</string>
+    <string name="default_browser_subtitle">Lege Privora Browser als Standard fest. Sicher und sauber surfen.</string>
+    <string name="default_browser_other_app">Andere App</string>
+    <string name="default_browser_set_as_default">Als Standard festlegen</string>
 
     <string name="news_loading_text">Aktuelle Nachrichten werden geladen...</string>
 
@@ -358,14 +363,14 @@
     <string name="uninstall_shortcut_short_label">Löschen</string>
 
     <!-- Deinstallation bestätigen -->
-    <string name="uninstall_confirm_title">Warum Open Browser deinstallieren?</string>
+    <string name="uninstall_confirm_title">Warum Privora Browser deinstallieren?</string>
     <string name="uninstall_reason_difficult">Schwierig zu bedienen</string>
     <string name="uninstall_reason_ads">Zu viel Werbung</string>
     <string name="uninstall_reason_cant_find">Gelöschte Fotos nicht auffindbar</string>
     <string name="uninstall_reason_not_restore">Gewünschtes Bild wird nicht korrekt wiederhergestellt</string>
     <string name="uninstall_reason_recovery">Schwierigkeiten bei der Wiederherstellung anderer Dateien</string>
     <string name="uninstall_reason_others">Andere</string>
-    <string name="uninstall_reason_hint">Bitte geben Sie den Grund ein, warum Sie Open Browser deinstallieren</string>
+    <string name="uninstall_reason_hint">Bitte geben Sie den Grund ein, warum Sie Privora Browser deinstallieren</string>
 
     <!-- Junk Clean Exit Dialog -->
     <string name="junk_exit_dialog_title">Bereinigung nicht abgeschlossen</string>
