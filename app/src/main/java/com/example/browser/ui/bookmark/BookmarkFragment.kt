@@ -94,6 +94,16 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding, BookmarkModel>() 
             .get(BookmarkModel::class.java)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        parentFragmentManager.setFragmentResultListener(
+            REQUEST_EXTERNAL_REFRESH,
+            this
+        ) { _, bundle ->
+            applyExternalRefresh(bundle.getString(EXTRA_EXTERNAL_PATH_TEXT))
+        }
+    }
+
     override fun initView() {
         binding?.rvBookmarks?.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -336,7 +346,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding, BookmarkModel>() 
 
     fun getCurrentFolderId(): Long = viewModel.currentFolder.value.id
 
-    fun refreshAfterExternalChange(pathText: String? = null) {
+    private fun applyExternalRefresh(pathText: String?) {
         if (!pathText.isNullOrEmpty()) {
             binding?.tvPath?.text = pathText
             binding?.tvPath?.isVisible = true
@@ -376,5 +386,10 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding, BookmarkModel>() 
 
             }
         }
+    }
+
+    companion object {
+        const val REQUEST_EXTERNAL_REFRESH = "bookmark_external_refresh"
+        const val EXTRA_EXTERNAL_PATH_TEXT = "extra_external_path_text"
     }
 }
