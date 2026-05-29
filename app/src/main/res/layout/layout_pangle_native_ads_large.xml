@@ -1,124 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    Pangle 大原生广告卡片
+    设计稿：Figma node 19163-13089 (343 × 262 dp)
+    与全屏 layout_pangle_fullscreen_native_ad 的媒体绑定方式一致：
+    fl_ad_media 默认可见、由 SDK 注入 mediaView。
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_ad_card_native">
 
-    <LinearLayout
-        android:id="@+id/content_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F7F7F7"
-        android:orientation="vertical"
-        android:paddingHorizontal="22dp"
-        android:paddingVertical="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- 顶部区域：图标和标题 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <!-- 应用图标 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/iconCv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/iv_ad_icon"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:scaleType="centerCrop"
-                    android:src="@android:drawable/ic_menu_info_details" />
-            </androidx.cardview.widget.CardView>
-
-            <!-- 标题和描述区域 -->
-            <LinearLayout
-                android:id="@+id/contentLL"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <!-- 广告标题行 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_ad_label"
-                        android:layout_width="27dp"
-                        android:layout_height="15dp"
-                        android:background="@drawable/bg_ad_label_gray"
-                        android:gravity="center"
-                        android:text="AD"
-                        android:textColor="#fff"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:id="@+id/tv_ad_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textColor="#333333"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        tools:text="广告标题" />
-                </LinearLayout>
-
-                <!-- 广告描述 -->
-                <TextView
-                    android:id="@+id/tv_ad_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textColor="#999999"
-                    android:textSize="12sp"
-                    tools:text="广告描述" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- CTA按钮 -->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btn_ad_cta"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_ad_cta_button"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            tools:text="INSTALL" />
-
-
-
-    </LinearLayout>
-
-    <!-- 广告Logo容器 -->
+    <!-- 顶部媒体区 -->
     <FrameLayout
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/fl_ad_media"
+        android:layout_width="0dp"
+        android:layout_height="156dp"
+        android:background="@drawable/bg_ad_card_media"
+        android:clipToOutline="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_ad_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:contentDescription="@null" />
+
+    </FrameLayout>
+
+    <!-- AD 标签 -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ads_tv_label"
+        android:layout_width="33dp"
+        android:layout_height="17dp"
+        android:background="@drawable/bg_ad_card_label"
+        android:gravity="center"
+        android:text="AD"
+        android:textColor="@android:color/white"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@id/fl_ad_media"
+        app:layout_constraintTop_toTopOf="@id/fl_ad_media" />
+
+    <!-- 标题 -->
+    <TextView
+        android:id="@+id/tv_ad_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="#222222"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fl_ad_media"
+        tools:text="Muat turun dengan satu klik 1024GBstoran awan percuma Adakah memori t..." />
+
+    <!-- 图标 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/iconCv"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_ad_title">
+
+        <ImageView
+            android:id="@+id/iv_ad_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- 描述 -->
+    <TextView
+        android:id="@+id/tv_ad_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="#666666"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/iconCv"
+        app:layout_constraintEnd_toStartOf="@id/btn_ad_cta"
+        app:layout_constraintStart_toEndOf="@id/iconCv"
+        app:layout_constraintTop_toTopOf="@id/iconCv"
+        tools:text="1TB Cloud &amp; AI Space" />
+
+    <!-- Install 描边按钮 -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btn_ad_cta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/bg_ad_card_install"
+        android:gravity="center"
+        android:minWidth="100dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="8dp"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/iconCv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iconCv"
+        tools:text="Install" />
+
+    <!-- Pangle 平台 logo 容器 -->
+    <FrameLayout
         android:id="@+id/fl_ad_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:layout_margin="6dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/fl_ad_media"
+        app:layout_constraintEnd_toEndOf="@id/fl_ad_media" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

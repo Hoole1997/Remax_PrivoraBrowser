@@ -17,16 +17,14 @@ import com.example.browser.R
 /**
  * Pangle 原生广告默认渲染器
  */
-class BrowserPangleNativeAdRenderer(
-    private val layoutResId: Int = R.layout.layout_pangle_native_ads
-) : PangleNativeAdRenderer {
+class BrowserPangleNativeAdRenderer() : PangleNativeAdRenderer {
 
     override fun createLayout(
         context: Context,
         style: PangleNativeAdStyle
     ): ViewGroup {
         return LayoutInflater.from(context)
-            .inflate(layoutResId, null) as ViewGroup
+            .inflate(style.layoutResId, null) as ViewGroup
     }
 
     override fun bindData(context: Context, adView: ViewGroup, nativeAdData: PAGNativeAdData) {
@@ -35,6 +33,8 @@ class BrowserPangleNativeAdRenderer(
         val iconView = adView.findViewById<ImageView>(R.id.iv_ad_icon)
         val descView = adView.findViewById<TextView>(R.id.tv_ad_description)
         val logoContainer = adView.findViewById<FrameLayout>(R.id.fl_ad_logo)
+        // 大卡布局存在；标准布局上为 null，安全跳过
+        val mediaContainer = adView.findViewById<FrameLayout>(R.id.fl_ad_media)
 
         titleView?.text = nativeAdData.title ?: ""
         ctaButton?.text = nativeAdData.buttonText ?: "INSTALL"
@@ -53,6 +53,17 @@ class BrowserPangleNativeAdRenderer(
             iconView?.visibility = View.GONE
         }
 
+        // 与全屏 renderer 完全一致：把 SDK 的 mediaView 加入容器，由 SDK 自行渲染
+        mediaContainer?.let { container ->
+            container.removeAllViews()
+            nativeAdData.mediaView?.let { mediaView ->
+                container.addView(mediaView)
+                container.visibility = View.VISIBLE
+            } ?: run {
+                container.visibility = View.GONE
+            }
+        }
+
         logoContainer?.let { container ->
             container.removeAllViews()
             nativeAdData.adLogoView?.let { logoView ->
@@ -65,12 +76,16 @@ class BrowserPangleNativeAdRenderer(
     }
 
     override fun createViewBinder(container: ViewGroup, adView: ViewGroup): PAGViewBinder {
-        return PAGViewBinder.Builder(container)
+        val builder = PAGViewBinder.Builder(container)
             .titleTextView(adView.findViewById<TextView>(R.id.tv_ad_title))
             .descriptionTextView(adView.findViewById<TextView>(R.id.tv_ad_description))
             .logoViewGroup(adView.findViewById<FrameLayout>(R.id.fl_ad_logo))
             .iconImageView(adView.findViewById<ImageView>(R.id.iv_ad_icon))
-            .build()
+        // 大卡布局有 fl_ad_media，绑给 SDK 才能正确播放视频/动效
+        adView.findViewById<FrameLayout>(R.id.fl_ad_media)?.let {
+            builder.mediaContentViewGroup(it)
+        }
+        return builder.build()
     }
 
     override fun getClickViews(adView: ViewGroup): List<View> {

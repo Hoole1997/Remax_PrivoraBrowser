@@ -16,16 +16,14 @@ import com.thinkup.nativead.api.TUNativePrepareInfo
 /**
  * TopOn 原生广告默认渲染器
  */
-class BrowserToponNativeAdRenderer(
-    private val layoutResId: Int = R.layout.layout_topon_native_ads
-) : ToponNativeAdRenderer {
+class BrowserToponNativeAdRenderer() : ToponNativeAdRenderer {
 
     override fun createLayout(
         context: Context,
         style: ToponNativeAdStyle
     ): ViewGroup {
         return LayoutInflater.from(context)
-            .inflate(layoutResId, null) as ViewGroup
+            .inflate(style.layoutResId, null) as ViewGroup
     }
 
     override fun bindData(adView: ViewGroup, material: TUNativeMaterial) {
@@ -51,6 +49,28 @@ class BrowserToponNativeAdRenderer(
             iconView?.setImageResource(android.R.drawable.ic_menu_info_details)
             iconView?.visibility = View.VISIBLE
         }
+
+        // 大卡布局：与全屏 renderer 一致，把主图加载到 fl_ad_media（标准小卡没有该 ID 自动跳过）
+        material.mainImageUrl?.let { mainImageUrl ->
+            adView.findViewById<ViewGroup>(R.id.fl_ad_media)?.let { container ->
+                container.removeAllViews()
+                val imageView = ImageView(container.context).apply {
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                }
+                try {
+                    Glide.with(container.context).load(mainImageUrl).into(imageView)
+                } catch (_: Exception) {
+                }
+                container.addView(
+                    imageView,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+                container.visibility = View.VISIBLE
+            }
+        } ?: run {
+            adView.findViewById<ViewGroup>(R.id.fl_ad_media)?.visibility = View.GONE
+        }
     }
 
     override fun createPrepareInfo(adView: ViewGroup): TUNativePrepareInfo {
@@ -72,6 +92,10 @@ class BrowserToponNativeAdRenderer(
         adView.findViewById<ImageView>(R.id.iv_ad_icon)?.let {
             prepareInfo.clickViewList.add(it)
             prepareInfo.setIconView(it)
+        }
+        // 大卡：把媒体容器交给 SDK 接管（视频/图片由 SDK 渲染）
+        adView.findViewById<ViewGroup>(R.id.fl_ad_media)?.let {
+            prepareInfo.setMainImageView(it)
         }
 
         return prepareInfo
