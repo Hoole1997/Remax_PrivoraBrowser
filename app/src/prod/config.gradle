@@ -50,15 +50,15 @@ ext {
     ]
 
     // 应用版本配置
-    app = [applicationId: "com.browser.web.news.downloader.free",
+    app = [applicationId: "com.private.secure.download.videodownload.browser.free",
            compileSdk   : 36,
            minSdk       : 26,
            targetSdk    : 36,
-           versionCode  : 9,
-           versionName  : "1.0.8"]
+           versionCode  : 1,
+           versionName  : "1.0.0"]
 
-    url = [fcmUrl    : "https://aavd.gamespearl.com",
-           fcmPkg   : "com.browser.web.news.downloader.free"]
+    url = [fcmUrl    : "https://summer.gravitonlumina.com",
+           fcmPkg   : "com.private.secure.download.videodownload.browser.free"]
 
     // 统计归因配置
     analytics = [adjustAppToken: "tfs4tr5cp91c",           // Adjust App Token
