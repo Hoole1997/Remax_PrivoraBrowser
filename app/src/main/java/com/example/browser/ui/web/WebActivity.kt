@@ -1041,7 +1041,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
 
         // 更新刷新/停止按钮图标
         if (isLoading) {
-            binding.ivRefresh.setImageResource(android.R.drawable.ic_menu_close_clear_cancel)
+            binding.ivRefresh.setImageResource(R.drawable.ic_browser_close)
             binding.progressBar.visibility = View.VISIBLE
             
             // 页面开始加载时，重置视频检测状态
