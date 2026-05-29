@@ -49,6 +49,7 @@ import mozilla.components.support.base.feature.ViewBoundFeatureWrapper
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import android.content.pm.PackageManager
+import com.browser.common.loadInterstitial
 
 /**
  * 网页浏览Activity
@@ -219,6 +220,8 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
 //        NativeDialog.show(this)
     }
     
+    private var notificationPermissionRunnable: Runnable? = null
+
     /**
      * 请求通知权限（如果需要）
      * Android 13+ 需要运行时请求 POST_NOTIFICATIONS 权限
@@ -226,7 +229,11 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
     private fun requestNotificationPermissionIfNeeded() {
         if (!NotificationPermissionHelper.hasNotificationPermission(this)) {
             // 延迟请求，避免在页面加载时打断用户
-            binding.root.postDelayed({
+            val runnable = Runnable {
+                // 延迟期间 Activity 可能已退出，避免 XXPermissions 的状态校验抛异常
+                if (isFinishing || isDestroyed) {
+                    return@Runnable
+                }
                 NotificationPermissionHelper.requestNotificationPermission(
                     activity = this,
                     onGranted = {
@@ -237,7 +244,9 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
                         // 可以在这里显示提示信息
                     }
                 )
-            }, 2000) // 延迟 2 秒请求
+            }
+            notificationPermissionRunnable = runnable
+            binding.root.postDelayed(runnable, 2000) // 延迟 2 秒请求
         }
     }
 
@@ -1121,7 +1130,9 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
 
         // 主页按钮（关闭当前界面，返回首页并切换到 Tabs 页面）
         binding.ivHome.setOnClickListener {
-            navigateToMainWithTabs()
+            loadInterstitial {
+                navigateToMainWithTabs()
+            }
         }
 
         // 刷新/停止按钮
@@ -1249,10 +1260,14 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
     override fun onDestroy() {
         dismissDownloadSheet()
         webMenuSheet = null
-        
+
         // 清理视频检测回调
         components.videoDetectorFeature.setCallback(null)
-        
+
+        // 取消挂起的通知权限请求 Runnable，防止 Activity 销毁后仍触发权限弹框
+        notificationPermissionRunnable?.let { binding.root.removeCallbacks(it) }
+        notificationPermissionRunnable = null
+
         super.onDestroy()
 
         // 取消Store流的订阅，避免协程泄漏
