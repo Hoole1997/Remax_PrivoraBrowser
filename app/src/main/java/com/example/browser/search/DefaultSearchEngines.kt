@@ -19,7 +19,7 @@ object DefaultSearchEngines {
      */
     const val DEFAULT_SEARCH_ENGINE_ID = "buzzonfeed"
 
-    const val DEFAULT_SEARCH_ENGINE_NAME = "PrivacySearch"
+    const val DEFAULT_SEARCH_ENGINE_NAME = "Privora Browser"
     private const val DEFAULT_SEARCH_ENGINE_URL = "https://cse.buzzonfeed.com/search/?q={searchTerms}"
 
     /**
