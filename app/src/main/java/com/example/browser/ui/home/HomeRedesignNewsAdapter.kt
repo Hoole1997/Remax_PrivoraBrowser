@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.common.bill.ads.ext.AdShowExt
+import com.android.common.bill.ui.NativeAdStyle
+import com.android.common.bill.ui.NativeAdStyleType
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -330,7 +332,8 @@ class HomeRedesignNewsAdapter(
                 AdShowExt.showNativeAdInContainer(
                     context = binding.adContainer.context,
                     container = binding.adContainer,
-                    position = "NA_News_List"
+                    position = "NA_News_List",
+                    styleType = NativeAdStyleType.LARGE
                 )
                 // 渲染完成后把当前展示的广告 View 缓存起来，方便后续滑回时直接复用
                 binding.adContainer.getChildAt(0)?.let { rendered ->

@@ -266,7 +266,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, MainModel>() {
                     fullNativeId = BuildConfig.GAM_FULL_NATIVE_ID,
                     rewardedId = BuildConfig.GAM_REWARDED_ID,
                     nativeStyleStandard = NativeAdStyle(R.layout.layout_native_ads, "normal"),
-                    nativeStyleLarge = NativeAdStyle(R.layout.layout_native_ads, "card"),
+                    nativeStyleLarge = NativeAdStyle(R.layout.layout_native_ad_card, "card"),
                 )
 
                 // ===== 渲染器 =====
