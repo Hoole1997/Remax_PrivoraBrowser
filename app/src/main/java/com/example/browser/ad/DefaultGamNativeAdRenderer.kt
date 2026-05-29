@@ -11,13 +11,10 @@ import com.example.browser.R
 import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAd
 import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdView
 
-class DefaultGamNativeAdRenderer(
-    private val fallbackLayoutResId: Int = R.layout.layout_native_ads
-) : GamNativeAdRenderer {
+class DefaultGamNativeAdRenderer() : GamNativeAdRenderer {
 
     override fun createLayout(context: Context, style: NativeAdStyle): NativeAdView {
-        val layoutResId = style.layoutResId.takeIf { it != 0 } ?: fallbackLayoutResId
-        return LayoutInflater.from(context).inflate(layoutResId, null) as NativeAdView
+        return LayoutInflater.from(context).inflate(style.layoutResId, null) as NativeAdView
     }
 
     override fun bindData(adView: NativeAdView, nativeAd: NativeAd) {
