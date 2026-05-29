@@ -53,4 +53,7 @@
 
     <color name="ad_progress_blue">#0881FE</color>
     <color name="ad_progress_track">#E8F4FF</color>
+
+    <!-- 搜索输入框选中文字背景色（半透明蓝） -->
+    <color name="search_text_highlight">#330881FE</color>
 </resources>

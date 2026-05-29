@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+
+    <!-- 圆形蓝色背景 -->
+    <path
+        android:fillColor="#0881FE"
+        android:pathData="M16,0A16,16 0 1,0 16,32A16,16 0 1,0 16,0Z"/>
+
+    <!-- 白色右箭头（粗线条 + 箭头头部） -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M9.5,15L19.2,15L15.3,11.1L16.7,9.7L23,16L16.7,22.3L15.3,20.9L19.2,17L9.5,17Z"/>
+</vector>

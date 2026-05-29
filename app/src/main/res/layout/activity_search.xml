@@ -41,7 +41,9 @@
                 android:layout_marginStart="10dp"
                 android:hint="@string/home_search_text_hint"
                 android:textSize="14sp"
-                android:textColor="@color/home_search_text_hint_color"
+                android:textColor="@color/black_333"
+                android:textColorHint="@color/home_search_text_hint_color"
+                android:textColorHighlight="@color/search_text_highlight"
                 android:singleLine="true"
                 android:background="@null"
                 android:layout_width="0dp"
@@ -77,6 +79,16 @@
             android:textColor="@color/home_search_guide_btn"
             android:textSize="14sp"
             android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/iv_search_submit"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_search_submit"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/search_keyword_cancel"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

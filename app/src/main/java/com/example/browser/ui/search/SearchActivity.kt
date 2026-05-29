@@ -264,6 +264,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
             finish()
         }
 
+        // 搜索提交按钮（输入框有内容时显示）
+        binding.ivSearchSubmit.setOnClickListener {
+            performSearch()
+        }
+
         // 清空输入按钮
         binding.ivInputClear.setOnClickListener {
             binding.etKeyword.text?.clear()
@@ -283,6 +288,15 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
                 View.GONE
             } else {
                 View.VISIBLE
+            }
+
+            // 切换右侧按钮：有内容时显示提交箭头，无内容时显示取消
+            if (text.isNullOrEmpty()) {
+                binding.tvSearchCancel.visibility = View.VISIBLE
+                binding.ivSearchSubmit.visibility = View.GONE
+            } else {
+                binding.tvSearchCancel.visibility = View.GONE
+                binding.ivSearchSubmit.visibility = View.VISIBLE
             }
 
             // 更新 AwesomeBar 输入内容，触发搜索建议
