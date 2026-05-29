@@ -103,8 +103,8 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/tabCounterCard"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
                     android:layout_gravity="center"
                     app:strokeColor="@color/home_search_stroke_color"
                     app:strokeWidth="2dp"
