@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.activity.viewModels
+import com.browser.common.loadInterstitial
 import com.browser.common.loadNative
 import com.example.browser.base.BaseActivity
 import com.example.browser.components
@@ -63,6 +64,9 @@ class NewsDetailsActivity : BaseActivity<ActivityNewsDetailsBinding, NewsModel>(
         binding.lottieLoadingIcon.imageAssetsFolder = "images/"
         loadNewsUrl()
         loadNative(binding.adContainer, position = "NA_News_preview")
+        loadInterstitial {
+
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.browser.common.loadInterstitial
 import com.example.browser.R
 import com.example.browser.base.BaseFragment
 import com.example.browser.databinding.FragmentFileBinding
@@ -116,11 +117,15 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
             }
 
             FileFeatureAction.DUPLICATE_PHOTO -> requireStorageThen {
-                launchPhotoClean(PhotoCleanMode.DUPLICATE)
+                activity?.loadInterstitial {
+                    launchPhotoClean(PhotoCleanMode.DUPLICATE)
+                }
             }
 
             FileFeatureAction.SIMILAR_PHOTO -> requireStorageThen {
-                launchPhotoClean(PhotoCleanMode.SIMILAR)
+                activity?.loadInterstitial {
+                    launchPhotoClean(PhotoCleanMode.SIMILAR)
+                }
             }
         }
     }
