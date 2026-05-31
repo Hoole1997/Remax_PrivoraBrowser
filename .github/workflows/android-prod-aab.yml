@@ -30,8 +30,8 @@ jobs:
       KOTLIN_DAEMON_JVM_ARGS: -Xmx1024m
       GITHUB_ACTOR: ${{ github.actor }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GH_PACKAGES_USER: ${{ secrets.GH_PACKAGES_USER || github.actor }}
-      GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+      GH_PACKAGES_USER: ${{ secrets.GH_PACKAGES_USER || vars.GH_PACKAGES_USER || github.actor }}
+      GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN || vars.GH_PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout main
