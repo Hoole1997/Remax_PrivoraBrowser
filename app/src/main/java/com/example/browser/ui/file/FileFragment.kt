@@ -41,6 +41,7 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
     private var storageUiState by mutableStateOf(FileStorageUiState())
     private var fileCategoriesState by mutableStateOf(emptyList<FileCategoryCardUiState>())
     private var recentFilesState by mutableStateOf(emptyList<RecentFile>())
+    private var pendingPhotoCleanMode: PhotoCleanMode? = null
 
     override fun initBinding(): FragmentFileBinding {
         return FragmentFileBinding.inflate(layoutInflater)
@@ -64,7 +65,11 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
                     onCategoryClick = ::openCategory,
                     onRecentFileClick = { file -> file.open(requireContext()) },
                     onRecentFileDeleted = ::handleFileDeleted,
-                    onPermissionClick = ::requestPermission,
+                    onPermissionClick = {
+                        requestPermission {
+
+                        }
+                    }
                 )
             }
         }
@@ -78,6 +83,7 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
     override fun onResume() {
         super.onResume()
         refreshPageData()
+        showPendingPhotoCleanIfReady()
     }
 
     private fun refreshPageData() {
@@ -151,27 +157,56 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
         } else {
             StoragePermissionDialog(
                 context = activity ?: return,
-                onGoNowClick = ::requestPermission,
+                onGoNowClick = {
+                    requestPermission{
+                        block()
+                    }
+                },
             ).show()
         }
     }
 
     private fun launchPhotoClean(mode: PhotoCleanMode) {
+        if (!canShowPhotoScanDialog()) {
+            pendingPhotoCleanMode = mode
+            binding?.root?.post { showPendingPhotoCleanIfReady() }
+            return
+        }
+        showPhotoScanDialog(mode)
+    }
+
+    private fun showPendingPhotoCleanIfReady() {
+        val mode = pendingPhotoCleanMode ?: return
+        if (!canShowPhotoScanDialog()) return
+        pendingPhotoCleanMode = null
+        showPhotoScanDialog(mode)
+    }
+
+    private fun showPhotoScanDialog(mode: PhotoCleanMode) {
         if (mode == PhotoCleanMode.DUPLICATE) {
             ReportDataManager.reportData("Duplicate_Photo_Click",mapOf("Entry_Position" to "file"))
         } else {
             ReportDataManager.reportData("Similar_Photo_Click",mapOf("Entry_Position" to "file"))
         }
+        if (childFragmentManager.findFragmentByTag(PHOTO_SCAN_DIALOG_TAG) != null) return
         val dialog = PhotoScanDialogFragment.newInstance(mode)
         dialog.setOnResultReadyListener { groups ->
             val ctx = activity ?: return@setOnResultReadyListener
             ReportDataManager.reportData(if (mode == PhotoCleanMode.DUPLICATE) "View_Result_Click" else "View_SimilarResult_Click",mapOf())
             PhotoCleanActivity.start(ctx, mode, groups)
         }
-        dialog.show(childFragmentManager, "photo_scan_dialog")
+        dialog.show(childFragmentManager, PHOTO_SCAN_DIALOG_TAG)
     }
 
-    private fun requestPermission() {
+    private fun canShowPhotoScanDialog(): Boolean {
+        val hostActivity = activity ?: return false
+        return isAdded &&
+            !hostActivity.isFinishing &&
+            !hostActivity.isDestroyed &&
+            !childFragmentManager.isStateSaved
+    }
+
+    private fun requestPermission(result:(Boolean) -> Unit) {
         XXPermissions.with(this)
             .permission(PermissionLists.getManageExternalStoragePermission())
             .request { _, deniedList ->
@@ -183,21 +218,22 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
                     recentFilesState = emptyList()
                     fileCategoriesState = defaultCategories(zeroCounts = true)
                 }
+                result.invoke(granted)
             }
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            repeat(25) {
-                delay(200)
-                if (XXPermissions.isGrantedPermissions(
-                        activity ?: ActivityUtils.getTopActivity(),
-                        arrayOf(PermissionLists.getManageExternalStoragePermission()),
-                    )
-                ) {
-                    ActivityUtils.startActivity(MainActivity::class.java)
-                    return@launch
-                }
-            }
-        }
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            repeat(25) {
+//                delay(200)
+//                if (XXPermissions.isGrantedPermissions(
+//                        activity ?: ActivityUtils.getTopActivity(),
+//                        arrayOf(PermissionLists.getManageExternalStoragePermission()),
+//                    )
+//                ) {
+//                    ActivityUtils.startActivity(MainActivity::class.java)
+//                    return@launch
+//                }
+//            }
+//        }
     }
 
     private fun loadStorageInfo() {
@@ -327,4 +363,8 @@ class FileFragment : BaseFragment<FragmentFileBinding, FileModel>() {
         val title: String,
         val iconRes: Int,
     )
+
+    private companion object {
+        private const val PHOTO_SCAN_DIALOG_TAG = "photo_scan_dialog"
+    }
 }
