@@ -63,6 +63,6 @@ ext {
     // 统计归因配置
     analytics = [adjustAppToken: "43f6r2r3nolc",           // Adjust App Token
                  thinkingDataAppId: "b40e52e6f62d46529ddbd5d5f159c485",   // 数数 SDK APP ID
-                 thinkingDataServerUrl: "https://summer.gravitonlumina.com",     // 数数上报域名
+                 thinkingDataServerUrl: "https://xiaoshu.gravitonlumina.com",     // 数数上报域名
                  defaultUserChannel: "paid"]                           // 默认用户渠道，internal默认paid
 }
