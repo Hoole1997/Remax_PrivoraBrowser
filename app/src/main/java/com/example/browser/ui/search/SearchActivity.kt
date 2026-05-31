@@ -338,7 +338,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
      * 启动语音搜索
      */
     private fun startVoiceSearch() {
-
+        ReportDataManager.reportData("Voice_Input_Click",mapOf())
         try {
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)

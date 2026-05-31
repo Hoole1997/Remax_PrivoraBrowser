@@ -50,6 +50,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import android.content.pm.PackageManager
 import com.browser.common.loadInterstitial
+import net.corekit.core.report.ReportDataManager
 
 /**
  * 网页浏览Activity
@@ -389,6 +390,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
         
         // 点击视频下载按钮
         binding.flDownload.setOnClickListener {
+            ReportDataManager.reportData("Short_Video_Switch",mapOf())
             val count = viewModel.getDetectedVideoCount()
             if (count > 0) {
                 // 显示视频列表弹框

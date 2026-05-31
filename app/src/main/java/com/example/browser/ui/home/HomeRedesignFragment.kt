@@ -203,9 +203,11 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
                 }
             },
             onPdfClick = {
+                ReportDataManager.reportData("Home_Input_Quick_Word_1_Click", mapOf())
                 openWebSearch(getString(R.string.home_pdf_generation))
             },
             onVideoClick = {
+                ReportDataManager.reportData("Home_Input_Quick_Word_2_Click", mapOf())
                 openWebSearch(getString(R.string.home_video_generation))
             },
             onMoreClick = {
