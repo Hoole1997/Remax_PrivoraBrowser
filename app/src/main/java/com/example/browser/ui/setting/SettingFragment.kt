@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import mozilla.components.browser.state.state.selectedOrDefaultSearchEngine
 import mozilla.components.lib.state.ext.flowScoped
+import net.corekit.core.report.ReportDataManager
 
 class SettingFragment : BaseFragment<FragmentSettingsBinding, SettingsModel>() {
 
@@ -38,6 +39,7 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding, SettingsModel>() {
         ActivityResultContracts.StartActivityForResult(),
     ) {
         updateDefaultBrowserSwitch()
+        ReportDataManager.reportData(if (isDefaultBrowser) "Set_Default_Browser_Success" else "Set_Default_Browser_Fail",mapOf())
     }
 
     override fun initBinding(): FragmentSettingsBinding {
@@ -111,7 +113,7 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding, SettingsModel>() {
     private fun openFeedback() {
         try {
             val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:123456@gmail.com")
+                data = Uri.parse("mailto:gravitonlumina@gmail.com")
                 putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback))
             }
             startActivity(Intent.createChooser(intent, getString(R.string.feedback)))
