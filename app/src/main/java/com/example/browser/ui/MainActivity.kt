@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.core.content.ContextCompat
@@ -23,6 +24,7 @@ import com.example.browser.ui.dialog.ExitConfirmDialog
 import com.example.browser.ui.dialog.ProcessScanDialog
 import com.example.browser.ui.dialog.RatingDialog
 import com.example.browser.ui.dialog.StoragePermissionDialog
+import com.example.browser.utils.DefaultBrowserHelper
 import com.example.browser.ui.junk.JunkScanActivity
 import com.example.browser.ui.junk.ProcessCleanActivity
 import com.example.browser.ui.news.NewsDetailsActivity
@@ -67,6 +69,20 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
     private val shortViewModel by viewModels<ShortVideoViewModel>()
     private val notificationType by lazy {
         intent.getIntExtra(LANDING_NOTIFICATION_ACTION, 0)
+    }
+
+    /**
+     * 默认浏览器系统弹框结果回调。
+     * 注册在 Activity 上确保 Dialog/Fragment 都能拿到回调。
+     */
+    private val defaultBrowserLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) {
+        val granted = DefaultBrowserHelper.isDefaultBrowser(this)
+        ReportDataManager.reportData(
+            if (granted) "Set_Default_Browser_Success" else "Set_Default_Browser_Fail",
+            mapOf()
+        )
     }
 
     override fun initBinding(): ActivityMainBinding {
@@ -466,6 +482,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
     private fun showDefaultBrowserDialog() {
         DefaultBrowserDialog(
             context = this,
+            defaultBrowserLauncher = defaultBrowserLauncher,
             onLaterClick = {
                 ReportDataManager.reportData("Set_Default_Browser_Later_Click",mapOf())
                 // 点击 Later，显示扫描引导弹框
