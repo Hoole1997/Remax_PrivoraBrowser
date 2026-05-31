@@ -36,13 +36,13 @@ class AboutActivity : BaseActivity<ActivityAboutBinding, MainModel>() {
 
         ClickUtils.applyGlobalDebouncing(binding.tvPrivacyPolicy) {
             val webIntent = Intent(this, WebActivity::class.java).apply {
-                putExtra(WebActivity.EXTRA_URL, "https://gamespearl.com/privacy.html")
+                putExtra(WebActivity.EXTRA_URL, "https://gravitonlumina.com/privacy.html")
             }
             startActivity(webIntent)
         }
         ClickUtils.applyGlobalDebouncing(binding.tvTermsOfService) {
             val webIntent = Intent(this, WebActivity::class.java).apply {
-                putExtra(WebActivity.EXTRA_URL, "https://gamespearl.com/privacy.html")
+                putExtra(WebActivity.EXTRA_URL, "https://gravitonlumina.com/privacy.html")
             }
             startActivity(webIntent)
         }
