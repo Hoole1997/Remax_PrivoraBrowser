@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "292561749278",
-    "project_id": "age803c85ada-a3114-gp",
-    "storage_bucket": "age803c85ada-a3114-gp.firebasestorage.app"
+    "project_number": "566926096285",
+    "project_id": "ag90e33d23c9-f4f43-gp",
+    "storage_bucket": "ag90e33d23c9-f4f43-gp.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:292561749278:android:941b4193ce35a9f8d0750f",
+        "mobilesdk_app_id": "1:566926096285:android:21718ac40f29949f692174",
         "android_client_info": {
-          "package_name": "com.browser.web.news.downloader.free"
+          "package_name": "com.private.secure.download.videodownload.browser.free"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA4gsfarbqbkR77m1gFm5Ei7e-YsXHF2kg"
+          "current_key": "AIzaSyBEWEl4gRbmJWz8mJOKQ62k8iDezU15Aws"
         }
       ],
       "services": {
