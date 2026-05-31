@@ -1,3 +1,26 @@
+import java.util.Properties
+import org.gradle.authentication.http.BasicAuthentication
+
+val buildConfigFile = file("build.config.properties")
+val buildConfig = Properties()
+if (buildConfigFile.exists()) {
+    buildConfig.load(buildConfigFile.inputStream())
+}
+
+fun Properties.stringValue(name: String): String? =
+    getProperty(name)?.takeIf { it.isNotBlank() }
+
+fun envValue(name: String): String? =
+    System.getenv(name)?.takeIf { it.isNotBlank() }
+
+val githubPackagesUser = buildConfig.stringValue("github.user")
+    ?: envValue("GH_PACKAGES_USER")
+    ?: envValue("GITHUB_ACTOR")
+    ?: "toukaRemax"
+val githubPackagesToken = buildConfig.stringValue("github.token")
+    ?: envValue("GH_PACKAGES_TOKEN")
+    ?: envValue("GITHUB_TOKEN")
+
 pluginManagement {
     repositories {
         maven{
@@ -22,11 +45,21 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://maven.pkg.github.com/toukaRemax/remax_sdk")
             credentials {
-                username = "toukaRemax"
-                password = "GITHUB_PACKAGES_TOKEN_REMOVED"
+                username = githubPackagesUser
+                password = githubPackagesToken
+            }
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+            content {
+                includeGroup("com.github.toukaremax")
             }
         }
-        maven("https://jitpack.io")
+        maven("https://jitpack.io") {
+            content {
+                excludeGroup("com.github.toukaremax")
+            }
+        }
         maven("https://artifact.bytedance.com/repository/pangle/")
         maven("https://maven.mozilla.org/maven2")
         maven("https://jitpack.io")

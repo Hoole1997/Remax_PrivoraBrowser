@@ -22,6 +22,8 @@ val toponConfig = findProperty("topon") as? Map<*, *>
 val toponUnitConfig = toponConfig?.get("adUnitIds") as? Map<*, *>
 val maxConfig = findProperty("max") as? Map<*, *>
 val maxUnitConfig = maxConfig?.get("adUnitIds") as? Map<*, *>
+val resolvedVersionName = appConfig["versionName"] as String
+val prodReleaseAabName = "PrivoraBrowser-Prod-${resolvedVersionName}-Release.aab"
 
 // 辅助函数：配置 flavor
 fun com.android.build.api.dsl.ApplicationProductFlavor.applyConfig(configFile: String) {
@@ -172,8 +174,8 @@ android {
                 // 获取版本名称
                 val versionName = versionName
                 
-                // 生成文件名：OpenBrowser-Dev-1.0.0-dev-Release.apk
-                outputFileName = "PrivacyBrowser-${flavorName}-${versionName}-${buildTypeName}.${outputFileName.substringAfterLast(".")}"
+                // 生成文件名：PrivoraBrowser-Dev-1.0.0-Release.apk
+                outputFileName = "PrivoraBrowser-${flavorName}-${versionName}-${buildTypeName}.${outputFileName.substringAfterLast(".")}"
             }
         }
     }
@@ -201,6 +203,22 @@ android {
         jniLibs {
             useLegacyPackaging = true
         }
+    }
+}
+
+tasks.register("printProdReleaseVersionName") {
+    group = "help"
+    description = "Prints the versionName used for prod release builds."
+    doLast {
+        println(resolvedVersionName)
+    }
+}
+
+tasks.register("printProdReleaseAabName") {
+    group = "help"
+    description = "Prints the expected output file name for prod release AAB builds."
+    doLast {
+        println(prodReleaseAabName)
     }
 }
 
