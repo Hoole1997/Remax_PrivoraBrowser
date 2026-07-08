@@ -14,7 +14,8 @@ class BrowserAdLoadingDialogRenderer : AdLoadingDialogRenderer {
     override fun getLayoutResId(): Int = R.layout.layout_ad_dialog_loading
 
     override fun onViewCreated(view: View, onReady: () -> Unit) {
-
+        view.findViewById<AdCountdownProgressView>(R.id.ads_progress_loading)?.startRotation()
+        onReady()
     }
 
     override fun updateText(view: View, text: String) {
@@ -26,7 +27,7 @@ class BrowserAdLoadingDialogRenderer : AdLoadingDialogRenderer {
     }
 
     override fun onDestroy(view: View) {
-
+        view.findViewById<AdCountdownProgressView>(R.id.ads_progress_loading)?.stopRotation()
     }
 
 }

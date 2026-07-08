@@ -6,9 +6,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.android.common.bill.ads.AdResult
 import com.android.common.bill.ads.ext.AdShowExt
-import com.android.common.bill.ui.NativeAdStyle
 import com.android.common.bill.ui.NativeAdStyleType
-import com.ironsource.nu
+import com.android.common.bill.ui.dialog.ADLoadingDialog
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 fun FragmentActivity.loadNative(container: ViewGroup,
@@ -79,7 +79,11 @@ fun FragmentActivity.loadInterstitial(condition: () -> Boolean = { true },positi
 
             }
 
+        } catch (e: CancellationException) {
+            ADLoadingDialog.hide()
+            throw e
         } catch (e: Exception) {
+            ADLoadingDialog.hide()
             call.invoke(false)
         }
     }
