@@ -23,11 +23,6 @@ val githubPackagesToken = buildConfig.stringValue("github.token")
 
 pluginManagement {
     repositories {
-        maven{
-            name = "Mozilla"
-            url = uri("https://maven.mozilla.org/maven2")
-        }
-        maven("https://jitpack.io")
         google {
             content {
                 includeGroupByRegex("com\\.android.*")
@@ -36,12 +31,22 @@ pluginManagement {
             }
         }
         mavenCentral()
+        maven {
+            name = "Mozilla"
+            url = uri("https://maven.mozilla.org/maven2")
+            content {
+                includeGroupByRegex("org\\.mozilla(\\..*)?")
+            }
+        }
+        maven("https://jitpack.io")
         gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        google()
+        mavenCentral()
         maven {
             url = uri("https://maven.pkg.github.com/toukaRemax/remax_sdk")
             credentials {
@@ -61,7 +66,13 @@ dependencyResolutionManagement {
             }
         }
         maven("https://artifact.bytedance.com/repository/pangle/")
-        maven("https://maven.mozilla.org/maven2")
+        maven {
+            name = "Mozilla"
+            url = uri("https://maven.mozilla.org/maven2")
+            content {
+                includeGroupByRegex("org\\.mozilla(\\..*)?")
+            }
+        }
         maven("https://jitpack.io")
         //Pangle
         maven {
@@ -83,8 +94,6 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://artifacts.applovin.com/android")
         }
-        google()
-        mavenCentral()
     }
 }
 
