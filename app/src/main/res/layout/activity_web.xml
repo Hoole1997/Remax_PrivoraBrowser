@@ -160,51 +160,6 @@
             android:inflatedId="@+id/findInPageView"
             android:layout="@layout/stub_find_in_page" />
 
-        <FrameLayout
-            android:id="@+id/flDownload"
-            android:layout_gravity="right|bottom"
-            android:layout_margin="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.card.MaterialCardView
-                app:cardCornerRadius="90dp"
-                app:cardBackgroundColor="@color/color_material_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp">
-
-                <ImageView
-                    android:id="@+id/iv_video_download"
-                    android:src="@mipmap/ic_webview_video_download"
-                    android:padding="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-                <ProgressBar
-                    android:id="@+id/pb_video_check"
-                    android:padding="10dp"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- 视频数量角标 -->
-            <TextView
-                android:id="@+id/tv_video_count"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="top|end"
-                android:background="@drawable/bg_video_count_badge"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@android:color/white"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:visibility="gone"/>
-
-        </FrameLayout>
-
     </mozilla.components.browser.engine.gecko.GeckoEngineView>
 
     <!-- 底部导航栏 - 固定在底部 -->

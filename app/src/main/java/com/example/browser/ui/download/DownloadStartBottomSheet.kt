@@ -8,13 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.lifecycle.lifecycleScope
-import com.android.common.bill.ads.ext.AdShowExt
 import com.example.browser.R
 import com.example.browser.ui.download.widget.DownloadProgressView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.launch
 import net.corekit.core.report.ReportDataManager
 
 class DownloadStartBottomSheet : BottomSheetDialogFragment() {
@@ -67,20 +64,6 @@ class DownloadStartBottomSheet : BottomSheetDialogFragment() {
             dismissAllowingStateLoss()
         }
         ReportDataManager.reportData("StartDownloadDialog",mapOf())
-        lifecycleScope.launch {
-            AdShowExt.showInterstitialAd(activity?:return@launch,view.findViewById(R.id.adContainer))
-        }
-    }
-
-    private fun loadNativeAd(adContainer: ViewGroup) {
-        lifecycleScope.launch {
-            try {
-                val success = AdShowExt.showNativeAdInContainer(activity?:return@launch,adContainer)
-                adContainer.visibility = if (success) View.VISIBLE else View.GONE
-            } catch (_: Exception) {
-                adContainer.visibility = View.GONE
-            }
-        }
     }
 
     fun updateProgress(statusText: String, progress: Int?, indeterminate: Boolean) {

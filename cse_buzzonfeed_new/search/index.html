@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+    <title>CSE Mobile Results</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://cse.buzzonfeed.com/favicon.ico">
+    <script async src="https://www.google.com/adsense/search/ads.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1GD07SFJG8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-1GD07SFJG8");
+
+      (function (g, o) {
+        g[o] =
+          g[o] ||
+          function () {
+            (g[o].q = g[o].q || []).push(arguments);
+          };
+        g[o].t = Date.now();
+      })(window, "_googCsa");
+    </script>
+    <script async src="https://cse.google.com/cse.js?cx=10b2765dafb5242cb"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        background: #f5f7fb;
+        color: #1f2329;
+        font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      body {
+        padding: max(12px, env(safe-area-inset-top)) 0 max(20px, env(safe-area-inset-bottom));
+      }
+
+      .page {
+        width: min(100%, 430px);
+        margin: 0 auto;
+        padding: 0 16px 18px;
+      }
+
+      .result-shell {
+        display: grid;
+      }
+
+      .results-card {
+        background: #ffffff;
+        border-radius: 22px;
+        padding: 14px 14px 18px;
+        box-shadow: 0 8px 20px rgba(38, 52, 77, 0.06);
+        overflow: hidden;
+      }
+
+      .empty-state {
+        padding: 28px 18px;
+        border-radius: 22px;
+        background: #ffffff;
+        text-align: center;
+        color: #5e6a79;
+        box-shadow: 0 8px 20px rgba(38, 52, 77, 0.06);
+      }
+
+      .empty-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1f2329;
+      }
+
+      .empty-copy {
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .gsc-control-cse,
+      .gsc-control-cse .gsc-table-result {
+        font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif !important;
+      }
+
+      .gsc-control-cse {
+        padding: 0 !important;
+        border: 0 !important;
+        background: transparent !important;
+      }
+
+      .gsc-above-wrapper-area,
+      .gsc-adBlockEmpty,
+      .gsc-webResult.gsc-result .gsc-url-top,
+      .gsc-orderby-container {
+        display: none !important;
+      }
+
+      .gsc-result-info {
+        padding: 0 0 14px !important;
+        margin: 0 !important;
+        color: #7a818a !important;
+        font-size: 12px !important;
+      }
+
+      .gsc-results-wrapper-visible {
+        overflow: visible !important;
+      }
+
+      .gsc-cursor-box {
+        display: block !important;
+        margin: 0 !important;
+        padding-top: 18px !important;
+      }
+
+      .gsc-results .gsc-cursor {
+        display: flex !important;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .gsc-cursor-page {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        vertical-align: middle !important;
+        min-width: 36px !important;
+        height: 36px !important;
+        border-radius: 999px !important;
+        border: 0 !important;
+        background: #f3f5f9 !important;
+        color: #435064 !important;
+        line-height: normal !important;
+        text-align: center !important;
+        padding: 0 12px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+      }
+
+      .gsc-cursor-current-page {
+        background: #1683ff !important;
+        color: #ffffff !important;
+      }
+
+      .gsc-webResult.gsc-result,
+      .gsc-adBlock .gsc-result {
+        border: 0 !important;
+        background: #ffffff !important;
+        border-radius: 18px !important;
+        padding: 14px 16px !important;
+        margin-bottom: 14px !important;
+        box-shadow: 0 6px 18px rgba(38, 52, 77, 0.05);
+      }
+
+      .gsc-adBlock .gsc-result {
+        background: linear-gradient(180deg, #fbfdff 0%, #f7faff 100%) !important;
+      }
+
+      .gsc-result {
+        overflow: visible !important;
+      }
+
+      .gsc-table-result {
+        margin: 0 !important;
+      }
+
+      .gs-title,
+      .gs-title b {
+        color: #1f2329 !important;
+        text-decoration: none !important;
+        font-size: 20px !important;
+        font-weight: 700 !important;
+        line-height: 1.28 !important;
+      }
+
+      .gs-visibleUrl,
+      .gs-visibleUrl-long {
+        color: #6c7480 !important;
+        font-size: 12px !important;
+      }
+
+      .gs-snippet,
+      .gs-snippet b {
+        color: #536071 !important;
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+      }
+
+      .gsc-related-search-container {
+        margin: 14px 0 22px !important;
+        border-radius: 20px !important;
+        background: linear-gradient(180deg, #fbfcff 0%, #f7faff 100%) !important;
+        padding: 14px 16px 10px !important;
+        box-shadow: 0 6px 18px rgba(38, 52, 77, 0.04);
+      }
+
+      .gsc-related-search-container .gsc-related-searches-title {
+        display: block !important;
+        margin-bottom: 10px !important;
+        color: #7b8591 !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .gsc-related-search-container .gsc-option-selector {
+        display: flex !important;
+        align-items: center !important;
+        min-height: 52px !important;
+        padding: 0 !important;
+        border-top: 1px solid #e8edf5 !important;
+      }
+
+      .gsc-related-search-container .gsc-option-menu-item {
+        flex: 1 1 auto !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        min-height: 52px !important;
+        padding: 0 !important;
+        color: #2c3440 !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        line-height: 1.35 !important;
+        text-decoration: none !important;
+      }
+
+      .gsc-related-search-container .gsc-option-menu-item b {
+        color: #1f2329 !important;
+        font-weight: 700 !important;
+      }
+
+      .gsc-related-search-container .gsc-option-selector:first-of-type {
+        border-top: 0 !important;
+      }
+
+      .gsc-related-search-container .gsc-option-selector:hover {
+        background: transparent !important;
+      }
+
+      .gsc-related-search-container .gsc-option-selector::after {
+        content: "" !important;
+        width: 18px !important;
+        height: 18px !important;
+        flex: 0 0 18px !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23838d99' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='20' y1='20' x2='16.65' y2='16.65'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: 18px 18px !important;
+        opacity: 0.92;
+      }
+
+      .gcsc-find-more-on-google {
+        margin-top: 10px !important;
+      }
+
+      .gcsc-branding {
+        margin-top: 14px !important;
+      }
+
+      .gs-no-results-result .gs-snippet,
+      .gs-error-result .gs-snippet {
+        background: transparent !important;
+        border: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      @media (max-width: 480px) {
+        .page {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+
+        .results-card {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+
+        .gsc-webResult.gsc-result,
+        .gsc-adBlock .gsc-result {
+          padding: 12px 14px !important;
+        }
+
+        .gsc-related-search-container {
+          margin-top: 12px !important;
+          padding: 12px 14px 8px !important;
+          border-radius: 18px !important;
+        }
+
+        .gsc-related-search-container .gsc-option-selector {
+          min-height: 50px !important;
+        }
+
+        .gsc-related-search-container .gsc-option-menu-item {
+          min-height: 50px !important;
+          font-size: 15px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="result-shell">
+        <div id="emptyState" class="empty-state" hidden>
+          <div class="empty-title">No search query yet</div>
+          <div class="empty-copy">
+            Pass a <code>q</code> parameter to this page and the CSE mobile results
+            layout will render automatically.
+          </div>
+        </div>
+
+        <section id="resultsCard" class="results-card">
+          <!-- <div id="search-results"></div> -->
+          <div class="gcse-searchresults-only" data-webSearchSafesearch="off" data-safeSearch="off"></div>
+          <div id="related-search"></div>
+        </section>
+      </div>
+    </main>
+
+    <script src="../site/assets/js/gg-cse.min.js"></script>
+  </body>
+</html>

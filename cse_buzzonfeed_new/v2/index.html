@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <title>Privora Browser</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://cse.buzzonfeed.com/favicon.ico" />
+    <link rel="stylesheet" href="site/assets/css/cse.css" />
+    <style>
+      body { background: #fff; }
+
+      /* Push content above geometric center, like google.com on mobile. */
+      .home {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 18vh 20px 24px;
+      }
+
+      @media (max-height: 640px) {
+        .home { padding-top: 12vh; }
+      }
+
+      .home-inner {
+        width: min(100%, 560px);
+        text-align: center;
+      }
+
+      .home-logo {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        margin: 0 auto 18px;
+        display: block;
+      }
+
+      .home-title {
+        margin: 0 0 28px;
+        font-size: 30px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: var(--text);
+      }
+
+      /* Search bar: pill input with a circular submit button on the right. */
+      .home-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 50px;
+        padding: 0 6px 0 46px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid var(--border-strong);
+        transition: box-shadow 0.15s ease, border-color 0.15s ease;
+      }
+
+      .home-bar:hover,
+      .home-bar:focus-within {
+        box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+        border-color: rgba(223, 225, 229, 0);
+      }
+
+      .home-bar .search-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+        display: inline-flex;
+      }
+
+      .home-bar input {
+        flex: 1 1 auto;
+        height: 100%;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--text);
+        font-size: 16px;
+        min-width: 0;
+      }
+
+      .home-bar input::-webkit-search-cancel-button,
+      .home-bar input::-webkit-search-decoration {
+        -webkit-appearance: none;
+        appearance: none;
+        display: none;
+      }
+
+      .home-bar input[type="search"] {
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      .home-bar input::-ms-clear,
+      .home-bar input::-ms-reveal {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+
+      .home-bar input::placeholder {
+        color: var(--muted);
+      }
+
+      /* Circular submit button on the right edge of the bar. */
+      .home-submit {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        margin-left: 8px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.15s ease, transform 0.05s ease,
+          box-shadow 0.15s ease;
+      }
+
+      .home-submit:hover {
+        background: #1765c1;
+        box-shadow: 0 4px 10px rgba(26, 115, 232, 0.32);
+      }
+
+      .home-submit:active {
+        transform: translateY(1px) scale(0.98);
+      }
+
+      .home-submit:disabled {
+        background: var(--surface-hover);
+        color: var(--muted);
+        cursor: default;
+        box-shadow: none;
+      }
+
+      .home-submit svg {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="home">
+      <div class="home-inner">
+        <img class="home-logo" src="site/assets/img/logo.webp" alt="Privora Browser" width="84" height="84" />
+        <h1 class="home-title">Privora Browser</h1>
+
+        <form class="home-form" action="search/" method="get" role="search">
+          <div class="home-bar">
+            <span class="search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" />
+                <line x1="20" y1="20" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </span>
+            <input
+              name="q"
+              type="search"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+              enterkeyhint="search"
+              placeholder="Search the web"
+              autofocus
+            />
+            <button class="home-submit" type="submit" aria-label="Search">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+                <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer class="page-footer">
+      <span>Results &amp; ads by Google</span>
+    </footer>
+  </body>
+</html>

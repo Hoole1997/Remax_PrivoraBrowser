@@ -1,0 +1,955 @@
+/* ============================================================
+   Privora Browser — flat, Google-style results page.
+   Pure white background, no oversized rounded cards. The related
+   search block is pinned to the bottom via the body flex layout.
+   ============================================================ */
+
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-hover: #f6f7f9;
+  --border: #ebedf0;
+  --border-strong: #dadce0;
+  --text: #202124;
+  --text-soft: #4d5156;
+  --muted: #70757a;
+  --link: #1a0dab;
+  --link-visited: #681da8;
+  --url: #006621;
+  --accent: #1a73e8;
+  --accent-soft: #e8f0fe;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ----------------------- top bar ---------------------------- */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: max(10px, var(--safe-top)) 16px 10px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  text-decoration: none;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: block;
+  object-fit: cover;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 380px) {
+  .brand-name {
+    display: none;
+  }
+}
+
+/* search input ---------------------------------------------- */
+
+.search-form {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 8px 0 38px;
+  border-radius: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.search-form:hover {
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.18);
+  border-color: rgba(223, 225, 229, 0);
+}
+
+.search-form:focus-within {
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  border-color: rgba(223, 225, 229, 0);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  display: inline-flex;
+}
+
+.search-form input {
+  flex: 1 1 auto;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 15px;
+  min-width: 0;
+}
+
+/* Hide the browser's native "X" clear button on type="search" so it
+   doesn't duplicate our custom one. */
+.search-form input::-webkit-search-cancel-button,
+.search-form input::-webkit-search-decoration,
+.search-form input::-webkit-search-results-button,
+.search-form input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+.search-form input[type="search"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.search-form input::-ms-clear,
+.search-form input::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.search-form input::placeholder {
+  color: var(--muted);
+}
+
+.search-clear {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-left: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.search-clear:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.search-clear:active {
+  transform: scale(0.94);
+}
+
+/* ----------------------- page shell ------------------------- */
+
+.page {
+  flex: 1 1 auto;
+  width: min(100%, 640px);
+  margin: 0 auto;
+  padding: 12px 16px 24px;
+}
+
+.results-card {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.state-card {
+  padding: 56px 16px 48px;
+  text-align: center;
+}
+
+.state-illustration {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+}
+
+.state-icon {
+  position: relative;
+  z-index: 1;
+}
+
+/* empty state — concentric pulse rings around a search icon */
+
+.state-card--empty {
+  color: var(--accent);
+}
+
+.state-illustration--empty .ring {
+  position: absolute;
+  inset: 50% 50% 50% 50%;
+  width: 0;
+  height: 0;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: state-ring-pulse 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.state-illustration--empty .ring-1 {
+  animation-delay: 0s;
+}
+.state-illustration--empty .ring-2 {
+  animation-delay: 0.6s;
+}
+.state-illustration--empty .ring-3 {
+  animation-delay: 1.2s;
+}
+
+@keyframes state-ring-pulse {
+  0% {
+    width: 60px;
+    height: 60px;
+    opacity: 0.55;
+  }
+  80% {
+    width: 130px;
+    height: 130px;
+    opacity: 0;
+  }
+  100% {
+    width: 130px;
+    height: 130px;
+    opacity: 0;
+  }
+}
+
+.state-illustration--empty .state-icon {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 6px 16px rgba(26, 115, 232, 0.18);
+  animation: state-icon-bob 3s ease-in-out infinite;
+}
+
+@keyframes state-icon-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* error state — slow orbit + sparking exclamation */
+
+.state-card--error {
+  --error: #d93025;
+  --error-soft: #fce8e6;
+  color: var(--error);
+}
+
+.state-illustration--error .orbit {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px dashed rgba(217, 48, 37, 0.4);
+  animation: state-orbit-spin 8s linear infinite;
+}
+
+.state-illustration--error .orbit-1 {
+  inset: 14px;
+  border-color: rgba(217, 48, 37, 0.35);
+}
+
+.state-illustration--error .orbit-2 {
+  inset: 0;
+  border-style: dotted;
+  animation-direction: reverse;
+  animation-duration: 12s;
+  border-color: rgba(217, 48, 37, 0.22);
+}
+
+@keyframes state-orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+.state-illustration--error .state-icon {
+  color: var(--error);
+  background: var(--error-soft);
+  border-radius: 50%;
+  padding: 12px;
+  box-shadow: 0 8px 20px rgba(217, 48, 37, 0.18);
+  animation: state-icon-shake 2.6s ease-in-out infinite;
+}
+
+@keyframes state-icon-shake {
+  0%, 70%, 100% { transform: rotate(0deg); }
+  74% { transform: rotate(-7deg); }
+  78% { transform: rotate(6deg); }
+  82% { transform: rotate(-5deg); }
+  86% { transform: rotate(3deg); }
+  90% { transform: rotate(0deg); }
+}
+
+.state-illustration--error .spark {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--error);
+  opacity: 0;
+  animation: state-spark 2.6s ease-in-out infinite;
+}
+
+.state-illustration--error .spark-1 {
+  top: 24%;
+  left: 18%;
+  animation-delay: 0.2s;
+}
+.state-illustration--error .spark-2 {
+  top: 18%;
+  right: 22%;
+  animation-delay: 0.5s;
+}
+.state-illustration--error .spark-3 {
+  bottom: 22%;
+  right: 26%;
+  width: 4px;
+  height: 4px;
+  animation-delay: 0.8s;
+}
+
+@keyframes state-spark {
+  0%, 60%, 100% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  68% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  85% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+
+.state-title {
+  margin: 6px 0 8px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.state-copy {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.state-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  appearance: none;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  padding: 9px 18px;
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.state-button:hover {
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.18);
+  border-color: rgba(223, 225, 229, 0);
+}
+
+.state-button:active {
+  transform: translateY(1px);
+}
+
+.state-card--error .state-button {
+  color: var(--error);
+}
+
+.state-card--error .state-button svg {
+  animation: state-retry-spin 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: 50% 55%;
+}
+
+@keyframes state-retry-spin {
+  0%, 60%, 100% { transform: rotate(0); }
+  85% { transform: rotate(-360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .state-illustration .ring,
+  .state-illustration .orbit,
+  .state-illustration .spark,
+  .state-illustration .state-icon,
+  .state-card--error .state-button svg {
+    animation: none !important;
+  }
+}
+
+/* loading effect (indeterminate bar + shimmer skeleton) ---- */
+
+.loading {
+  padding-top: 8px;
+}
+
+.loading-bar {
+  position: relative;
+  height: 3px;
+  margin: 0 0 18px;
+  border-radius: 999px;
+  background: var(--surface-hover);
+  overflow: hidden;
+}
+
+.loading-bar span {
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 50%,
+    transparent 100%
+  );
+  animation: loading-bar-slide 1.15s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes loading-bar-slide {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
+}
+
+.skeleton {
+  display: grid;
+  gap: 22px;
+}
+
+.skel-row {
+  display: grid;
+  gap: 8px;
+}
+
+.skel-line {
+  position: relative;
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    #eef0f3 0%,
+    #f7f8fa 40%,
+    #eef0f3 80%
+  );
+  background-size: 200% 100%;
+  animation: skel-shimmer 1.4s linear infinite;
+}
+
+.skel-line--url {
+  width: 38%;
+  height: 10px;
+  background: linear-gradient(
+    90deg,
+    #e3efe5 0%,
+    #f3f8f4 40%,
+    #e3efe5 80%
+  );
+  background-size: 200% 100%;
+}
+
+.skel-line--title {
+  width: 80%;
+  height: 18px;
+  background: linear-gradient(
+    90deg,
+    #e3e6f4 0%,
+    #f0f2fb 40%,
+    #e3e6f4 80%
+  );
+  background-size: 200% 100%;
+}
+
+.skel-line--snippet {
+  width: 100%;
+}
+
+.skel-line--short {
+  width: 60%;
+}
+
+@keyframes skel-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-bar span,
+  .skel-line {
+    animation: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* related search slot pinned to the bottom of the layout ---- */
+
+.related-bottom {
+  width: min(100%, 640px);
+  margin: auto auto 0;
+  padding: 0 16px 24px;
+}
+
+/* footer ---------------------------------------------------- */
+
+.page-footer {
+  padding: 14px 16px max(14px, var(--safe-bottom));
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  background: var(--surface-hover);
+  border-top: 1px solid var(--border);
+}
+
+/* dev-only "TEST ADS" badge — only mounted when adTest === "on".
+   Click to flip back to production ads. */
+
+.test-badge {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #1f2937;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.test-badge:hover {
+  background: #111827;
+}
+
+.test-badge:active {
+  transform: translateY(1px);
+}
+
+.test-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+  animation: test-badge-pulse 1.6s ease-out infinite;
+}
+
+@keyframes test-badge-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+/* ============================================================
+   Google CSE overrides — flat list, no cards, classic colours.
+   ============================================================ */
+
+.gsc-control-cse,
+.gsc-control-cse .gsc-table-result {
+  font-family: inherit !important;
+  background: transparent !important;
+}
+
+.gsc-control-cse {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+/* Hide the internal CSE related-search block so it can't pop up
+   between results. We render our own at the bottom. */
+.gsc-above-wrapper-area,
+.gsc-adBlockEmpty,
+.gsc-webResult.gsc-result .gsc-url-top,
+.gsc-orderby-container,
+.gsc-related-search-container,
+.gsc-thinWrapper > .gcsc-find-more-on-google-root {
+  display: none !important;
+}
+
+.gsc-result-info {
+  padding: 8px 0 14px !important;
+  margin: 0 !important;
+  color: var(--muted) !important;
+  font-size: 12px !important;
+  border-bottom: 1px solid var(--border);
+}
+
+.gsc-results-wrapper-visible {
+  overflow: visible !important;
+}
+
+/* result rows ---------------------------------------------- */
+
+.gsc-webResult.gsc-result,
+.gsc-adBlock .gsc-result {
+  border: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 22px !important;
+  box-shadow: none !important;
+}
+
+.gsc-webResult.gsc-result:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+.gsc-adBlock .gsc-result {
+  margin-bottom: 22px !important;
+}
+
+.gsc-result {
+  overflow: visible !important;
+}
+
+.gsc-table-result {
+  margin: 0 !important;
+}
+
+/* Kill any divider Google injects in deeper wrappers (varies between
+   test mode and prod mode markup). Prod mode adds a <table> layer
+   that test mode skips — that's where the hairlines come from. */
+.gsc-results .gsc-webResult,
+.gsc-results .gsc-result,
+.gsc-results .gs-result,
+.gsc-results .gsc-table-result,
+.gsc-results .gsc-table-result td,
+.gsc-results .gsc-table-result tr,
+.gsc-results .gsc-thumbnail-inside,
+.gsc-results .gsc-url-top,
+.gsc-results .gsc-resultsbox-visible,
+.gsc-results .gsc-results-wrapper-services,
+.gsc-results .gsc-adBlockVertical,
+.gsc-results .gsc-adBlock {
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+/* Nuclear option: every table-shaped element inside the results host
+   loses all borders/spacing. CSE wraps each row in nested tables in
+   prod mode and the default UA styling is what creates the dividers. */
+.gcse-searchresults-only table,
+.gcse-searchresults-only tbody,
+.gcse-searchresults-only thead,
+.gcse-searchresults-only tfoot,
+.gcse-searchresults-only tr,
+.gcse-searchresults-only td,
+.gcse-searchresults-only th {
+  border: 0 !important;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  background: transparent !important;
+}
+
+/* Some prod-mode skins use ::before/::after pseudo lines as separators. */
+.gsc-results .gsc-webResult::before,
+.gsc-results .gsc-webResult::after,
+.gsc-results .gsc-result::before,
+.gsc-results .gsc-result::after,
+.gsc-results .gs-result::before,
+.gsc-results .gs-result::after {
+  display: none !important;
+  content: none !important;
+}
+
+.gsc-results hr,
+.gsc-results .gs-result hr,
+.gsc-resultsbox-visible hr,
+.gcse-searchresults-only hr {
+  display: none !important;
+}
+
+/* "Ad" label baked into AdSense rows */
+.gsc-adBlock .gs-snippet,
+.gsc-adBlock .gs-title {
+  /* keep the underlying styles */
+}
+
+.gsc-adBlock {
+  margin-bottom: 4px !important;
+}
+
+/* Thumbnail images: hide the ugly alt text while loading, show a
+   neutral placeholder background instead. Once loaded the image
+   covers the placeholder naturally. */
+.gs-image-box img,
+.gs-image img,
+.gsc-table-result img.gs-image,
+.gsc-thumbnail-inside img {
+  color: transparent !important;       /* hides alt text */
+  font-size: 0 !important;            /* double-insurance for alt */
+  background: var(--surface-hover) !important;
+  border-radius: 6px !important;
+  object-fit: cover !important;
+}
+
+/* title / url / snippet ------------------------------------ */
+
+.gs-title {
+  margin-bottom: 2px !important;
+  text-decoration: none !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+}
+
+.gs-title,
+.gs-title *.gs-title {
+  color: var(--link) !important;
+}
+
+.gs-title:visited,
+.gs-title:visited * {
+  color: var(--link-visited) !important;
+}
+
+.gs-title b {
+  color: inherit !important;
+  font-weight: 700 !important;
+}
+
+.gs-title:hover,
+.gs-title:hover * {
+  text-decoration: underline !important;
+}
+
+.gs-visibleUrl,
+.gs-visibleUrl-long {
+  color: var(--url) !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  margin-bottom: 2px !important;
+}
+
+.gs-snippet,
+.gs-snippet b {
+  color: var(--text-soft) !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+}
+
+.gs-snippet b {
+  font-weight: 700 !important;
+}
+
+.gs-no-results-result .gs-snippet,
+.gs-error-result .gs-snippet {
+  background: transparent !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 16px 0 !important;
+  color: var(--text-soft) !important;
+}
+
+/* pagination ------------------------------------------------ */
+
+.gsc-cursor-box {
+  display: block !important;
+  margin: 0 !important;
+  padding: 24px 0 8px !important;
+}
+
+.gsc-results .gsc-cursor {
+  display: flex !important;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.gsc-cursor-page {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--accent) !important;
+  text-align: center !important;
+  padding: 0 8px !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  border-radius: 4px !important;
+}
+
+.gsc-cursor-page:hover {
+  background: var(--surface-hover) !important;
+  text-decoration: underline !important;
+}
+
+.gsc-cursor-current-page {
+  background: transparent !important;
+  color: var(--text) !important;
+  font-weight: 700 !important;
+  cursor: default;
+}
+
+.gsc-cursor-current-page:hover {
+  background: transparent !important;
+  text-decoration: none !important;
+}
+
+.gcsc-branding {
+  display: none !important;
+}
+
+/* ============================================================
+   AdSense for Search — "related searches" block at the bottom
+   ============================================================ */
+
+#related-search {
+  background: var(--surface-hover);
+  border-radius: 8px;
+  padding: 6px 12px 0;
+}
+
+/* Fallback shown when AdSense for Search returns nothing. */
+.rs-fallback {
+  padding: 14px 4px 16px;
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+.rs-fallback-title {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.rs-fallback-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.rs-fallback-link:hover {
+  text-decoration: underline;
+}
+
+/* small phones --------------------------------------------- */
+
+@media (max-width: 380px) {
+  .page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .related-bottom {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .gs-title {
+    font-size: 17px !important;
+  }
+}

@@ -38,7 +38,6 @@ import mozilla.components.support.base.android.NotificationsDelegate
 import org.mozilla.geckoview.GeckoRuntime
 import org.mozilla.geckoview.GeckoRuntimeSettings
 
-import com.example.browser.feature.VideoDetectorFeature
 import com.example.browser.utils.SpUtils
 
 /**
@@ -338,14 +337,6 @@ class BrowserComponents(private val applicationContext: Context) {
         )
     }
     
-    /**
-     * VideoDetectorFeature - 视频检测功能
-     * 通过 WebExtension 监听网页中的视频链接
-     */
-    val videoDetectorFeature: VideoDetectorFeature by lazy {
-        VideoDetectorFeature(engine, store)
-    }
-
     /**
      * FileUploadsDirCleaner - 文件上传目录清理器
      * 用于清理文件上传时产生的临时文件

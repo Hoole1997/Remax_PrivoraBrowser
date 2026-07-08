@@ -10,16 +10,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.android.common.bill.ads.ext.AdShowExt
-import com.blankj.utilcode.util.ToastUtils
 import com.browser.common.loadInterstitial
 import com.example.browser.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.ironsource.ad
 import kotlinx.coroutines.launch
 import mozilla.components.browser.state.state.content.DownloadState
-import mozilla.components.feature.downloads.AbstractFetchDownloadService
-import mozilla.components.support.ktx.kotlin.toShortUrl
 import net.corekit.core.report.ReportDataManager
 
 /**
@@ -84,9 +80,13 @@ class CustomDownloadDialogFragment : BottomSheetDialogFragment() {
         // 下载按钮
         val btnDownload = view.findViewById<Button>(R.id.btn_download)
         btnDownload.setOnClickListener {
-            activity?.loadInterstitial {
-                onDownloadConfirmed?.invoke(download)
-                dismiss()
+            btnDownload.isEnabled = false
+            onDownloadConfirmed?.invoke(download)
+            dismissAllowingStateLoss()
+
+            // 下载必须先进入 Mozilla 下载流程，广告只做下载启动后的展示，避免阻塞下载。
+            activity?.loadInterstitial(position = "IV_Download_Start") {
+                // 下载已启动，不需要等待广告结果。
             }
         }
         ReportDataManager.reportData("ConfirmDownloadDialog",mapOf())

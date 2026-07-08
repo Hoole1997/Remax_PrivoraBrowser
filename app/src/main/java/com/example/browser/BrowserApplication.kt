@@ -101,9 +101,6 @@ class BrowserApplication : Application() {
             }
         )
 
-        // 初始化视频检测功能
-        initVideoDetector()
-
         // 恢复之前保存的标签页状态并设置自动保存
         restoreBrowserState()
 
@@ -113,16 +110,6 @@ class BrowserApplication : Application() {
             mozilla.components.browser.state.action.DownloadAction.RemoveDeletedDownloads
         )
         registerActivityLifecycleCallbacks()
-    }
-
-    /**
-     * 初始化视频检测功能
-     * 安装 WebExtension 插件，监听网页中的视频链接
-     */
-    private fun initVideoDetector() {
-        // 使用 BrowserComponents 中的 videoDetectorFeature
-        browserComponents.videoDetectorFeature.install()
-        Log.i(TAG, "Video detector initialized")
     }
 
     /**

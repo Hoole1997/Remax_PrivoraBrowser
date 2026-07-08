@@ -10,7 +10,6 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.example.browser.R
 import com.example.browser.base.BaseActivity
 import com.example.browser.components
-import com.example.browser.data.VideoInfo
 import com.example.browser.databinding.ActivityWebBinding
 import com.example.browser.data.bookmark.BookmarkRepository
 import com.example.browser.ui.MainActivity
@@ -21,7 +20,6 @@ import com.example.browser.ui.download.DownloadStartBottomSheet
 import com.example.browser.ui.search.SearchActivity
 import com.example.browser.ui.tabs.BrowserTabsActivity
 import com.example.browser.utils.NotificationPermissionHelper
-import com.example.browser.feature.VideoDetectorFeature
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
@@ -50,7 +48,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import android.content.pm.PackageManager
 import com.browser.common.loadInterstitial
-import net.corekit.core.report.ReportDataManager
 
 /**
  * 网页浏览Activity
@@ -95,8 +92,6 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
     private val shownDownloadIds = mutableSetOf<String>()
     private var webMenuSheet: WebMenuBottomSheet? = null
     
-    // 视频检测相关 - 使用 ViewModel 存储
-
     // SessionFeature：自动将 EngineView 与当前选中的标签页关联
     // 这个 Feature 会自动处理标签页切换，不需要手动管理
     private val sessionFeature = ViewBoundFeatureWrapper<SessionFeature>()
@@ -190,7 +185,6 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
         setupSitePermissionsFeature()
         setupPromptsFeature()
         setupThumbnails()
-        setupVideoDetector()
 
         // 优先尝试恢复已有 tab
         if (!restoreSelectedTab()) {
@@ -366,132 +360,6 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
         lifecycle.addObserver(thumbnails)
     }
     
-    /**
-     * 设置视频检测功能
-     * 监听视频检测回调，更新 UI 状态
-     */
-    private fun setupVideoDetector() {
-        // 观察 ViewModel 中的视频列表变化
-        viewModel.detectedVideos.observe(this) { videos ->
-            updateVideoCountBadge(videos.size)
-        }
-        
-        // 设置视频检测回调
-        components.videoDetectorFeature.setCallback(object : VideoDetectorFeature.VideoDetectorCallback {
-            override fun onVideoDetected(videoInfo: VideoInfo) {
-                // 使用 post 确保在主线程执行
-                binding.root.post {
-                    if (!isFinishing && !isDestroyed) {
-                        viewModel.addDetectedVideo(videoInfo)
-                    }
-                }
-            }
-        })
-        
-        // 点击视频下载按钮
-        binding.flDownload.setOnClickListener {
-            ReportDataManager.reportData("Short_Video_Switch",mapOf())
-            val count = viewModel.getDetectedVideoCount()
-            if (count > 0) {
-                // 显示视频列表弹框
-                showVideoListDialog()
-            } else {
-                ToastUtils.showShort(getString(R.string.detecting_videos))
-            }
-        }
-    }
-    
-    /**
-     * 显示视频列表弹框
-     */
-    private fun showVideoListDialog() {
-        val videos = viewModel.detectedVideos.value ?: return
-        if (videos.isEmpty()) return
-        
-        VideoListBottomSheet.newInstance(ArrayList(videos)).apply {
-            setOnDownloadClickListener { selectedVideos ->
-                downloadVideos(selectedVideos)
-            }
-        }.show(supportFragmentManager, "VideoListBottomSheet")
-    }
-    
-    /**
-     * 使用 Mozilla 下载组件下载视频
-     */
-    private fun downloadVideos(videos: List<VideoInfo>) {
-        videos.forEach { video ->
-            val fileName = extractFileName(video.url)
-            val download = DownloadState(
-                url = video.url,
-                fileName = fileName,
-                contentType = video.mime,
-                contentLength = video.size,
-                userAgent = null,
-                destinationDirectory = android.os.Environment.DIRECTORY_DOWNLOADS,
-                status = DownloadState.Status.INITIATED
-            )
-            
-            // 添加下载到 Store
-            components.store.dispatch(
-                mozilla.components.browser.state.action.DownloadAction.AddDownloadAction(download)
-            )
-        }
-        
-        ToastUtils.showShort(getString(R.string.videos_added_to_queue, videos.size))
-    }
-    
-    /**
-     * 从 URL 中提取文件名
-     */
-    private fun extractFileName(url: String): String {
-        return try {
-            val path = java.net.URL(url).path
-            val fileName = path.substringAfterLast("/")
-            val cleanName = fileName.substringBefore("?")
-            if (cleanName.isNotEmpty() && cleanName.contains(".")) {
-                cleanName
-            } else {
-                "video_${System.currentTimeMillis()}.mp4"
-            }
-        } catch (e: Exception) {
-            "video_${System.currentTimeMillis()}.mp4"
-        }
-    }
-    
-    /**
-     * 更新视频数量角标
-     */
-    private fun updateVideoCountBadge(count: Int) {
-        if (count > 0) {
-            binding.tvVideoCount.visibility = View.VISIBLE
-            binding.tvVideoCount.text = if (count > 99) "99+" else count.toString()
-        } else {
-            binding.tvVideoCount.visibility = View.GONE
-        }
-    }
-    
-    /**
-     * 重置视频检测状态
-     * 在页面开始加载时调用
-     */
-    private fun resetVideoDetectionState() {
-        viewModel.clearDetectedVideos()
-        
-        // 显示加载进度条，隐藏下载图标
-        binding.pbVideoCheck.visibility = View.VISIBLE
-        binding.ivVideoDownload.visibility = View.GONE
-        binding.tvVideoCount.visibility = View.GONE
-    }
-    
-    /**
-     * 页面加载完成时调用
-     */
-    private fun onPageLoadComplete() {
-        // 隐藏加载进度条，显示下载图标
-        binding.pbVideoCheck.visibility = View.GONE
-        binding.ivVideoDownload.visibility = View.VISIBLE
-    }
-
     /**
      * 设置 SessionFeature
      * 这个 Feature 会自动将 EngineView 与当前选中的标签页关联
@@ -1054,18 +922,12 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
         if (isLoading) {
             binding.ivRefresh.setImageResource(R.drawable.ic_browser_close)
             binding.progressBar.visibility = View.VISIBLE
-            
-            // 页面开始加载时，重置视频检测状态
-            resetVideoDetectionState()
         } else {
             binding.ivRefresh.setImageResource(R.drawable.ic_browser_refresh)
             binding.progressBar.visibility = View.GONE
 
             // 页面加载完成时，记录历史
             recordHistoryVisit(tab)
-            
-            // 页面加载完成
-            onPageLoadComplete()
         }
     }
 
@@ -1262,9 +1124,6 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
     override fun onDestroy() {
         dismissDownloadSheet()
         webMenuSheet = null
-
-        // 清理视频检测回调
-        components.videoDetectorFeature.setCallback(null)
 
         // 取消挂起的通知权限请求 Runnable，防止 Activity 销毁后仍触发权限弹框
         notificationPermissionRunnable?.let { binding.root.removeCallbacks(it) }

@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light" />
+    <meta name="referrer" content="origin" />
+    <title>Privora Browser</title>
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="https://cse.buzzonfeed.com/favicon.ico"
+    />
+    <link rel="stylesheet" href="../site/assets/css/cse.css" />
+
+    <!-- Single source of truth for third-party IDs and runtime knobs. -->
+    <script id="cse-config" type="application/json">
+      {
+        "cseId":  "10b2765dafb5242cb",
+        "pubId":  "pub-5149440008061651",
+        "gaId":   "G-1GD07SFJG8",
+        "adTest": "off",
+        "relatedSearchCount": 8,
+        "renderTimeoutMs": 8000
+      }
+    </script>
+
+    <!--
+      Synchronous bootstrap: must run BEFORE cse.js loads so that
+      __gcse and the _googCsa shim are available when Google's scripts
+      look for them. The forwarding handlers defined here are picked
+      up later by the ES modules and replaced with the real impl.
+    -->
+    <script>
+      (function bootstrap() {
+        var cfg = {};
+        try {
+          cfg = JSON.parse(
+            document.getElementById("cse-config").textContent
+          );
+        } catch (_) {}
+        window.__CSE_CONFIG__ = cfg;
+
+        // CSE has two completely different render paths:
+        //   - With only `?q=...`     -> wraps results in <table>,
+        //                                produces stray hairlines.
+        //   - With `#gsc.q=...` hash -> wraps results in <div>, clean.
+        //
+        // Force the second path by mirroring `?q=` into the hash
+        // before cse.js boots. Also rebuild the hash whenever its
+        // gsc.q does not match the current ?q (e.g. user resubmitted
+        // the form and we landed with a stale hash).
+        try {
+          var sp = new URLSearchParams(window.location.search);
+          var q = (sp.get("q") || "").trim();
+          var hash = window.location.hash || "";
+          var hashQMatch = hash.match(/[#&]gsc\.q=([^&]*)/);
+          var hashQ = hashQMatch ? decodeURIComponent(hashQMatch[1]) : "";
+          if (q && hashQ !== q) {
+            var newHash =
+              "#gsc.tab=0&gsc.q=" +
+              encodeURIComponent(q) +
+              "&gsc.page=1";
+            window.history.replaceState(
+              null,
+              "",
+              window.location.pathname + window.location.search + newHash
+            );
+          }
+        } catch (_) {}
+
+        // gtag stub. Real loader is appended below.
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+        window.gtag("js", new Date());
+        if (cfg.gaId) window.gtag("config", cfg.gaId);
+
+        // _googCsa queue shim used by AdSense for Search.
+        (function (g, o) {
+          g[o] =
+            g[o] ||
+            function () {
+              (g[o].q = g[o].q || []).push(arguments);
+            };
+          g[o].t = Date.now();
+        })(window, "_googCsa");
+
+        // CSE pre-binding. main.js will swap these for the real
+        // implementations once the module graph is loaded.
+        window.__cseHooks = {
+          web: { rendered: function () {} },
+          rsLoaded: function () {},
+        };
+        window.__gcse = {
+          parsetags: "onload",
+          searchCallbacks: {
+            web: {
+              rendered: function (gname, query, promoElts, resultElts) {
+                window.__cseHooks.web.rendered(
+                  gname,
+                  query,
+                  promoElts,
+                  resultElts
+                );
+              },
+            },
+          },
+        };
+        window.RSLoaded = function (a, b, c, d) {
+          window.__cseHooks.rsLoaded(a, b, c, d);
+        };
+      })();
+    </script>
+
+    <!--
+      Load Google scripts only after we know the final IDs. Creating
+      the tags with their completed URLs avoids a race where the async
+      request starts before `?id=` / `?cx=` has been appended.
+    -->
+    <script>
+      (function () {
+        var cfg = window.__CSE_CONFIG__ || {};
+
+        var ga = document.createElement("script");
+        ga.async = true;
+        ga.src =
+          "https://www.googletagmanager.com/gtag/js?id=" +
+          encodeURIComponent(cfg.gaId || "");
+        document.head.appendChild(ga);
+
+        var ads = document.createElement("script");
+        ads.async = true;
+        ads.src = "https://www.google.com/adsense/search/ads.js";
+        document.head.appendChild(ads);
+
+        if (cfg.cseId) {
+          var cse = document.createElement("script");
+          cse.async = true;
+          cse.src =
+            "https://cse.google.com/cse.js?cx=" +
+            encodeURIComponent(cfg.cseId);
+          document.head.appendChild(cse);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="topbar">
+      <form
+        id="searchForm"
+        class="search-form"
+        role="search"
+        action=""
+        method="get"
+      >
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+            <circle
+              cx="11"
+              cy="11"
+              r="7"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <line
+              x1="20"
+              y1="20"
+              x2="16.65"
+              y2="16.65"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </span>
+        <input
+          id="searchInput"
+          name="q"
+          type="search"
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+          enterkeyhint="search"
+          placeholder="Search the web"
+          aria-label="Search query"
+        />
+        <button
+          id="searchClear"
+          class="search-clear"
+          type="button"
+          aria-label="Clear query"
+          hidden
+        >
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+            <path
+              d="M6 6l12 12M18 6L6 18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </form>
+    </header>
+
+    <main class="page">
+      <!-- State: empty (no q parameter) -->
+      <section id="emptyState" class="state-card state-card--empty" hidden>
+        <div class="state-illustration state-illustration--empty" aria-hidden="true">
+          <span class="ring ring-1"></span>
+          <span class="ring ring-2"></span>
+          <span class="ring ring-3"></span>
+          <svg class="state-icon" viewBox="0 0 64 64" width="56" height="56" fill="none">
+            <circle cx="28" cy="28" r="16" stroke="currentColor" stroke-width="3" />
+            <line x1="40" y1="40" x2="52" y2="52" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          </svg>
+        </div>
+        <h2 class="state-title">Type something to search</h2>
+        <p class="state-copy">
+          Start typing a keyword in the bar above and we'll find pages,
+          news and products powered by Google.
+        </p>
+      </section>
+
+      <!-- State: error / timeout -->
+      <section id="errorState" class="state-card state-card--error" hidden>
+        <div class="state-illustration state-illustration--error" aria-hidden="true">
+          <span class="orbit orbit-1"></span>
+          <span class="orbit orbit-2"></span>
+          <svg class="state-icon" viewBox="0 0 64 64" width="60" height="60" fill="none">
+            <circle cx="32" cy="32" r="22" stroke="currentColor" stroke-width="3" opacity="0.25" />
+            <path d="M32 18v18" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            <circle cx="32" cy="44" r="2.4" fill="currentColor" />
+          </svg>
+          <span class="spark spark-1"></span>
+          <span class="spark spark-2"></span>
+          <span class="spark spark-3"></span>
+        </div>
+        <h2 class="state-title">Connection looks shaky</h2>
+        <p class="state-copy">
+          We couldn't reach the search engine in time. Check your
+          network and try again.
+        </p>
+        <button id="retryButton" class="state-button" type="button">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true">
+            <path d="M3 12a9 9 0 1 0 3-6.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 4v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>Try again</span>
+        </button>
+      </section>
+
+      <!-- State: results -->
+      <section id="resultsCard" class="results-card" hidden>
+        <div id="resultsLoading" class="loading" aria-live="polite" aria-busy="true">
+          <div class="loading-bar" aria-hidden="true">
+            <span></span>
+          </div>
+          <div class="skeleton" aria-hidden="true">
+            <div class="skel-row">
+              <div class="skel-line skel-line--url"></div>
+              <div class="skel-line skel-line--title"></div>
+              <div class="skel-line skel-line--snippet"></div>
+              <div class="skel-line skel-line--snippet skel-line--short"></div>
+            </div>
+            <div class="skel-row">
+              <div class="skel-line skel-line--url"></div>
+              <div class="skel-line skel-line--title"></div>
+              <div class="skel-line skel-line--snippet"></div>
+              <div class="skel-line skel-line--snippet skel-line--short"></div>
+            </div>
+            <div class="skel-row">
+              <div class="skel-line skel-line--url"></div>
+              <div class="skel-line skel-line--title"></div>
+              <div class="skel-line skel-line--snippet"></div>
+            </div>
+          </div>
+          <span class="visually-hidden">Searching…</span>
+        </div>
+        <div
+          class="gcse-searchresults-only"
+          data-webSearchSafesearch="off"
+          data-safeSearch="off"
+        ></div>
+      </section>
+    </main>
+
+    <!--
+      Related-search block lives OUTSIDE .page and uses
+      `margin: auto auto 0` so the body's flex column pushes it to
+      the bottom of the viewport (or below the results when there
+      are many).
+    -->
+    <aside class="related-bottom">
+      <div id="related-search"></div>
+    </aside>
+
+    <footer class="page-footer">
+      <span>Results &amp; ads by Google</span>
+    </footer>
+
+    <script type="module" src="../site/assets/js/main.js"></script>
+  </body>
+</html>

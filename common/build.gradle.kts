@@ -43,5 +43,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     api("com.github.toukaremax:core:1.0.11")
-    api("com.github.toukaremax:bill:1.0.28")
+    api("com.github.toukaremax:bill:1.0.36")
 }
