@@ -21,20 +21,24 @@ import mozilla.components.concept.engine.permission.SitePermissionsStorage
 import mozilla.components.concept.fetch.Client
 import mozilla.components.feature.app.links.AppLinksInterceptor
 import mozilla.components.feature.app.links.AppLinksUseCases
-import mozilla.components.feature.downloads.DefaultDateTimeProvider
+import mozilla.components.feature.app.links.AlwaysDeniedSchemes
 import mozilla.components.feature.downloads.DefaultFileSizeFormatter
+import mozilla.components.feature.downloads.DefaultPackageNameProvider
+import mozilla.components.feature.downloads.DownloadEstimator
 import mozilla.components.feature.downloads.DownloadMiddleware
 import mozilla.components.feature.downloads.DownloadsUseCases
+import mozilla.components.feature.downloads.filewriter.DefaultDownloadFileWriter
 import mozilla.components.feature.media.MediaSessionFeature
 import mozilla.components.feature.search.SearchUseCases
 import mozilla.components.feature.search.middleware.SearchMiddleware
 import mozilla.components.feature.session.SessionUseCases
 import mozilla.components.feature.tabs.TabsUseCases
 import mozilla.components.feature.sitepermissions.OnDiskSitePermissionsStorage
-import mozilla.components.feature.webcompat.WebCompatFeature
 import mozilla.components.feature.webnotifications.WebNotificationFeature
 import mozilla.components.feature.prompts.file.FileUploadsDirCleaner
 import mozilla.components.support.base.android.NotificationsDelegate
+import mozilla.components.support.utils.DefaultDateTimeProvider
+import mozilla.components.support.utils.DefaultDownloadFileUtils
 import org.mozilla.geckoview.GeckoRuntime
 import org.mozilla.geckoview.GeckoRuntimeSettings
 
@@ -57,7 +61,8 @@ class BrowserComponents(private val applicationContext: Context) {
     private val runtime: GeckoRuntime by lazy {
         val runtimeSettings = GeckoRuntimeSettings.Builder()
             .aboutConfigEnabled(true)  // 启用 about:config
-            .extensionsWebAPIEnabled(true)  // 启用扩展 WebAPI（PDF.js 需要）
+            // 禁用 mozAddonManager，避免网页安装或管理 Gecko WebExtension。
+            .extensionsWebAPIEnabled(false)
             .debugLogging(BuildConfig.DEBUG)  // Debug 模式下启用日志
             .consoleOutput(BuildConfig.DEBUG)  // Debug 模式下输出 console.log
             .build()
@@ -84,10 +89,7 @@ class BrowserComponents(private val applicationContext: Context) {
                 requestInterceptor = AppRequestInterceptor(applicationContext)
             ),
             runtime = runtime
-        ).also {
-            // 安装 WebCompat 功能，提供网站兼容性修复（包括 PDF.js 支持）
-            WebCompatFeature.install(it)
-        }
+        )
     }
 
     /**
@@ -125,8 +127,8 @@ class BrowserComponents(private val applicationContext: Context) {
     /**
      * BrowserIcons - 网站图标管理
      * 自动加载和缓存网站 favicon
-     * 使用 install() 方法将其安装到 Engine 和 Store 中
-     * BrowserIcons 内部会自动处理图标的持久化和恢复
+     * 不调用 install()，避免安装用于解析网页图标的内置 WebExtension。
+     * 书签和历史记录仍可通过 BrowserIcons 的 HTTP 加载流程获取图标。
      */
     val icons by lazy {
         BrowserIcons(applicationContext, client)
@@ -146,6 +148,26 @@ class BrowserComponents(private val applicationContext: Context) {
      */
     val dateTimeProvider by lazy {
         DefaultDateTimeProvider()
+    }
+
+    /**
+     * 下载文件访问能力由一个共享实例提供，确保中间件、下载用例和后台服务
+     * 对下载目录、重名文件和 MediaStore 使用完全一致的规则。
+     */
+    val downloadFileUtils by lazy {
+        DefaultDownloadFileUtils(applicationContext)
+    }
+
+    val downloadEstimator by lazy {
+        DownloadEstimator(dateTimeProvider)
+    }
+
+    val packageNameProvider by lazy {
+        DefaultPackageNameProvider(applicationContext)
+    }
+
+    val downloadFileWriter by lazy {
+        DefaultDownloadFileWriter(applicationContext, downloadFileUtils)
     }
 
     /**
@@ -173,8 +195,10 @@ class BrowserComponents(private val applicationContext: Context) {
                 SearchMiddleware(applicationContext),
                 // 下载中间件：自动处理下载请求并启动 DownloadService
                 DownloadMiddleware(
-                    applicationContext,
-                    com.example.browser.service.DownloadService::class.java
+                    applicationContext = applicationContext,
+                    downloadServiceClass = com.example.browser.service.DownloadService::class.java,
+                    deleteFileFromStorage = { true },
+                    downloadFileUtils = downloadFileUtils,
                 ),
                 // 缩略图中间件：自动捕获标签页截图并保存到 ThumbnailStorage
                 ThumbnailsMiddleware(thumbnailStorage)
@@ -184,9 +208,6 @@ class BrowserComponents(private val applicationContext: Context) {
                 trimMemoryAutomatically = false
             )
         ).apply {
-            // 安装 BrowserIcons，使其能够自动加载和管理网站图标
-            icons.install(engine, this)
-            
             // 初始化默认搜索引擎
             initializeDefaultSearchEngines()
 
@@ -233,7 +254,10 @@ class BrowserComponents(private val applicationContext: Context) {
                 regionSearchEnginesOrder = defaultEngines.map { it.id },
                 regionDefaultSearchEngineId = DefaultSearchEngines.DEFAULT_SEARCH_ENGINE_ID,
                 userSelectedSearchEngineId = savedEngineId,
-                userSelectedSearchEngineName = savedEngineName
+                userSelectedSearchEngineName = savedEngineName,
+                userSelectedPrivateSearchEngineId = savedEngineId,
+                userSelectedPrivateSearchEngineName = savedEngineName,
+                searchEnginesConfigurationId = null,
             )
         )
     }
@@ -276,7 +300,7 @@ class BrowserComponents(private val applicationContext: Context) {
      * 提供下载管理相关操作
      */
     val downloadsUseCases: DownloadsUseCases by lazy {
-        DownloadsUseCases(store)
+        DownloadsUseCases(store, downloadFileUtils)
     }
 
     /**
@@ -306,7 +330,7 @@ class BrowserComponents(private val applicationContext: Context) {
     val appLinksInterceptor: AppLinksInterceptor by lazy {
         AppLinksInterceptor(
             context = applicationContext,
-            alwaysDeniedSchemes = setOf("http", "https"),  // 不拦截 http/https
+            alwaysDeniedSchemes = AlwaysDeniedSchemes(setOf("http", "https")),  // 不拦截 http/https
             launchInApp = {
                 // 默认自动打开第三方应用
                 // 如果需要让用户选择，可以从 SharedPreferences 读取用户设置

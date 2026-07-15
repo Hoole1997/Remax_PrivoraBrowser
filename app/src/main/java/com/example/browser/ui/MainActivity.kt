@@ -2,6 +2,7 @@ package com.example.browser.ui
 
 import android.app.Dialog
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,21 +36,19 @@ import com.example.browser.ui.photoclean.PhotoScanDialogFragment
 import com.example.browser.ui.photoclean.model.PhotoCleanMode
 import com.example.browser.ui.scan.ScanResultActivity
 import com.example.browser.ui.speed.SpeedTestActivity
+import com.example.browser.ui.tabs.TabCountUi
+import com.example.browser.ui.tabs.tabCountChanges
 import com.example.browser.ui.web.WebActivity
 import com.example.browser.utils.GoogleBarcodeScanner
 import com.example.browser.view.NavigationItemView
 import com.example.browser.view.NavigationTabsItemView
 import com.hjq.permissions.XXPermissions
 import com.hjq.permissions.permission.PermissionLists
-import io.docview.push.builder.LANDING_NOTIFICATION_ACTION
 import io.docview.push.config.Content
-import io.docview.push.news.NewsNotificationBuilder.EXTRA_NEWS_URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem
-import mozilla.components.browser.state.selector.selectedTab
 import mozilla.components.lib.state.ext.flowScoped
 import net.corekit.core.report.ReportDataManager
 import kotlin.coroutines.resume
@@ -67,9 +66,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
     private var navigationTabsItemView: NavigationTabsItemView? = null
     private val navigationItems = mutableListOf<NavigationItemView>()
     private val shortViewModel by viewModels<ShortVideoViewModel>()
-    private val notificationType by lazy {
-        intent.getIntExtra(LANDING_NOTIFICATION_ACTION, 0)
-    }
+    private var isRestoringActivityState = false
 
     /**
      * 默认浏览器系统弹框结果回调。
@@ -85,6 +82,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
         )
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // BaseActivity 会在 super.onCreate() 内调用 initView，因此必须提前记录恢复状态。
+        // 低内存重建时系统可能先提供旧 base Intent，新的 singleTask Intent 随后才进入 onNewIntent。
+        isRestoringActivityState = savedInstanceState != null
+        super.onCreate(savedInstanceState)
+    }
+
     override fun initBinding(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
     }
@@ -95,12 +99,19 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
 
     override fun initView() {
         initNavigation()
-        handleExternalIntent(intent)
-        handleNotificationIntent()
-        components.store.flowScoped { flow ->
-            flow.mapNotNull { state -> state.selectedTab }
-                .collect { tab ->
-                    navigationTabsItemView?.setTabCounts(tabCounts())
+        // 冷启动不改变三个 AUTO 参数的历史语义；恢复态只清理、不重放旧的一次性动作。
+        handleLaunchIntent(
+            sourceIntent = intent,
+            includeOneShotActions = !isRestoringActivityState,
+            includeAutomaticActions = false,
+        )
+        components.store.flowScoped(
+            owner = this,
+            dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+        ) { flow ->
+            flow.tabCountChanges()
+                .collect { tabCount ->
+                    updateNavigationTabCount(tabCount)
                 }
         }
         requestNotificationPermission()
@@ -230,29 +241,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
         super.onNewIntent(intent)
         // 更新当前 Intent，确保 getIntent() 返回最新的 Intent
         setIntent(intent)
-        // 处理新的外部链接
-        handleExternalIntent(intent)
-        handleNotificationIntent()
-        if (intent.hasExtra(EXTRA_AUTO_JUNK)) {
-            if (intent.getBooleanExtra(EXTRA_AUTO_JUNK,false)) {
-                JunkScanActivity.start(this)
-            }
-        }
-        if (intent.hasExtra(EXTRA_AUTO_DUPLICATE)) {
-            if (intent.getBooleanExtra(EXTRA_AUTO_DUPLICATE,false)) {
-                launchPhotoClean(PhotoCleanMode.DUPLICATE)
-            }
-        }
-        if (intent.hasExtra(EXTRA_AUTO_SIMILAR)) {
-            if (intent.getBooleanExtra(EXTRA_AUTO_SIMILAR,false)) {
-                launchPhotoClean(PhotoCleanMode.SIMILAR)
-            }
-        }
-
-        // 处理从 WebActivity 返回时切换到 Tabs 页面
-        if (intent.getBooleanExtra(EXTRA_SWITCH_TO_TABS, false)) {
-            binding.viewPager.setCurrentItem(MainFragmentPagerAdapter.POSITION_TABS,false)
-        }
+        handleLaunchIntent(
+            sourceIntent = intent,
+            includeOneShotActions = true,
+            includeAutomaticActions = true,
+        )
     }
 
     private fun launchPhotoClean(mode: PhotoCleanMode) {
@@ -277,21 +270,48 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
     }
 
     /**
-     * 处理从外部打开的链接（作为默认浏览器）
-     * @param intent 要处理的 Intent，可能来自 onCreate 或 onNewIntent
+     * 统一处理创建和 singleTask 新投递的 Intent。
+     *
+     * 解析阶段会先消费所有应用内的一次性参数，再按原有顺序执行跳转，避免 startActivity
+     * 引发的生命周期重入再次读取到旧动作。
      */
-    private fun handleExternalIntent(intent: Intent?) {
-        if (intent?.action == Intent.ACTION_VIEW && intent.data != null) {
-            val url = intent.data.toString()
-            LogUtils.d("MainActivity", "handleExternalIntent: $url")
-            // 跳转到 WebActivity 打开链接
-            val webIntent = Intent(this, WebActivity::class.java).apply {
-                putExtra(WebActivity.EXTRA_URL, url)
-                // 添加 FLAG_ACTIVITY_CLEAR_TOP，确保如果 WebActivity 已经存在，会清除其上面的 Activity
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            }
-            startActivity(webIntent)
+    private fun handleLaunchIntent(
+        sourceIntent: Intent,
+        includeOneShotActions: Boolean,
+        includeAutomaticActions: Boolean,
+    ) {
+        val request = MainLaunchIntentConsumer.consume(
+            sourceIntent = sourceIntent,
+            includeOneShotActions = includeOneShotActions,
+            includeAutomaticActions = includeAutomaticActions,
+        )
+
+        request.externalUrl?.let(::openExternalUrl)
+        request.notification?.let(::navigateToNotificationDestination)
+
+        if (request.openJunkScan) {
+            JunkScanActivity.start(this)
         }
+        if (request.openDuplicatePhotos) {
+            launchPhotoClean(PhotoCleanMode.DUPLICATE)
+        }
+        if (request.openSimilarPhotos) {
+            launchPhotoClean(PhotoCleanMode.SIMILAR)
+        }
+        if (request.switchToTabs) {
+            binding.viewPager.setCurrentItem(MainFragmentPagerAdapter.POSITION_TABS, false)
+        }
+    }
+
+    /** 处理从系统分发的 HTTP/HTTPS 链接（作为默认浏览器）。 */
+    private fun openExternalUrl(url: String) {
+        LogUtils.d(TAG, "handleExternalIntent: $url")
+        val webIntent = Intent(this, WebActivity::class.java).apply {
+            putExtra(WebActivity.EXTRA_URL, url)
+            // 如果 WebActivity 已存在，复用现有实例并通过 onNewIntent 加载新地址。
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
+        startActivity(webIntent)
     }
 
     private fun initNavigation() {
@@ -344,6 +364,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
                 }
             })
         }
+
+        // 初始化时同步一次宿主可见状态，覆盖 Activity 恢复到短视频 Tab 的场景。
+        shortViewModel.setHostSelected(
+            binding.viewPager.currentItem == MainFragmentPagerAdapter.POSITION_SHORT,
+        )
+
+        // Flow 会在 STARTED 后开始推送；先同步当前值，避免首帧显示布局中的默认数字。
+        updateNavigationTabCount(components.store.state.tabs.size)
     }
 
     private fun newNavigationItem(
@@ -374,9 +402,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
         }
     }
 
-    private fun tabCounts() : String {
-        val tabCount = components.store.state.tabs.size
-        return if (tabCount > 99) "99" else tabCount.toString()
+    private fun updateNavigationTabCount(tabCount: Int) {
+        navigationTabsItemView?.setTabCounts(TabCountUi.format(tabCount))
     }
 
     override fun initEdgeToEdge() {
@@ -395,9 +422,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
         }
     }
 
-    private fun handleNotificationIntent() {
-        LogUtils.d("通知类型: ${notificationType}")
-        when(notificationType) {
+    /** 使用已快照的通知请求跳转，不再依赖 Activity 可能已被替换的当前 Intent。 */
+    private fun navigateToNotificationDestination(request: NotificationLaunchRequest) {
+        LogUtils.d("通知类型: ${request.actionType}")
+        when (request.actionType) {
             Content.ICON_TYPE_JUNK -> {
                 JunkScanActivity.start(this)
             }
@@ -414,8 +442,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
                 }
             }
             Content.ICON_TYPE_REAL_NEWS -> {
-                intent.getStringExtra(EXTRA_NEWS_URL)?.let {
-                    NewsDetailsActivity.start(this,it,isMoreNews = true)
+                request.newsUrl?.let {
+                    NewsDetailsActivity.start(this, it, isMoreNews = true)
                 }
             }
             Content.ICON_TYPE_SPEED -> {
@@ -527,6 +555,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
         }
         val insetsController = androidx.core.view.WindowInsetsControllerCompat(window, window.decorView)
         val isShortVideoTab = (position == MainFragmentPagerAdapter.POSITION_SHORT)
+
+        // 同步状态先于 Fragment 生命周期事务生效，低端机切页时也能立即关闭播放器门禁。
+        shortViewModel.setHostSelected(isShortVideoTab)
         
         // Short Video Tab (position = 1) 使用深色背景，需要浅色图标
         insetsController.isAppearanceLightStatusBars = !isShortVideoTab
@@ -550,8 +581,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainModel>() {
             navigationItems.forEach { it.updateDefaultTextColor(defaultColor) }
             navigationTabsItemView?.updateDefaultTextColor(defaultColor)
 
-            //兜底处理，防止切换tab后视频还在播放
-            shortViewModel.pauseVideo()
         }
     }
 

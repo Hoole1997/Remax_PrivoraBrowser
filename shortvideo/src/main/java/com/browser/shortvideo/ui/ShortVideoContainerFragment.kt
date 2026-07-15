@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -52,7 +51,7 @@ class ShortVideoContainerFragment : Fragment() {
     
     // 广告管理器 - 供子 Fragment 使用
     val videoAdManager: VideoAdManager by lazy { VideoAdManager() }
-    private val viewModel by activityViewModels<ShortVideoViewModel>()
+    private var pageChangeCallback: ViewPager2.OnPageChangeCallback? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,12 +65,10 @@ class ShortVideoContainerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.let {
-            ViewCompat.setOnApplyWindowInsetsListener(it.root) { v, insets ->
-                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
-                insets
-            }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
+            insets
         }
         // 初始化广告配置
         initAdConfig()
@@ -128,11 +125,13 @@ class ShortVideoContainerFragment : Fragment() {
             adapter = TabPagerAdapter(this@ShortVideoContainerFragment)
             
             // 监听页面切换，更新 Tab 样式
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            val callback = object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     updateTabStyle(position)
                 }
-            })
+            }
+            pageChangeCallback = callback
+            registerOnPageChangeCallback(callback)
         }
     }
     
@@ -167,8 +166,11 @@ class ShortVideoContainerFragment : Fragment() {
     }
     
     override fun onDestroyView() {
-        super.onDestroyView()
+        pageChangeCallback?.let(binding.viewPager::unregisterOnPageChangeCallback)
+        pageChangeCallback = null
+        binding.viewPager.adapter = null
         _binding = null
+        super.onDestroyView()
     }
     
     /**

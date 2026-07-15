@@ -3,7 +3,11 @@ package com.example.browser.service
 import mozilla.components.browser.state.store.BrowserStore
 import mozilla.components.concept.fetch.Client
 import mozilla.components.feature.downloads.AbstractFetchDownloadService
+import mozilla.components.feature.downloads.DownloadEstimator
+import mozilla.components.feature.downloads.PackageNameProvider
+import mozilla.components.feature.downloads.filewriter.DownloadFileWriter
 import mozilla.components.support.base.android.NotificationsDelegate
+import mozilla.components.support.utils.DownloadFileUtils
 import com.example.browser.R
 import com.example.browser.components
 
@@ -30,6 +34,26 @@ class DownloadService : AbstractFetchDownloadService() {
      */
     override val store: BrowserStore by lazy {
         components.store
+    }
+
+    /**
+     * Mozilla 152 将文件定位、写入和进度估算拆成独立协作者。
+     * 这里复用 BrowserComponents 中的单例，避免服务与 UI 使用不同下载规则。
+     */
+    override val packageNameProvider: PackageNameProvider by lazy {
+        components.packageNameProvider
+    }
+
+    override val downloadEstimator: DownloadEstimator by lazy {
+        components.downloadEstimator
+    }
+
+    override val downloadFileUtils: DownloadFileUtils by lazy {
+        components.downloadFileUtils
+    }
+
+    override val downloadFileWriter: DownloadFileWriter by lazy {
+        components.downloadFileWriter
     }
 
     /**

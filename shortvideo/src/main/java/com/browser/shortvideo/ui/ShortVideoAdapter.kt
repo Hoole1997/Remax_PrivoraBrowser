@@ -4,8 +4,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -17,11 +15,10 @@ import com.browser.shortvideo.player.IFramePlayerOptions
 import com.browser.shortvideo.player.PlayerConstants
 import com.browser.shortvideo.player.YouTubePlayer
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import jp.wasabeef.glide.transformations.BlurTransformation
-import kotlinx.coroutines.launch
-import net.corekit.core.utils.ConfigRemoteManager
+import java.util.Collections
+import java.util.WeakHashMap
 
 /**
  * 短视频 Adapter
@@ -41,10 +38,17 @@ class ShortVideoAdapter(
 
     }
     
-    private var currentPlayingPosition = 0
-    
-    // 当前播放的 ViewHolder 引用
-    private var currentPlayingHolder: VideoViewHolder? = null
+    /** 页面生命周期、广告状态和选中位置统一通过该状态对象决定播放许可。 */
+    private val playbackState = ShortVideoPlaybackState()
+
+    /**
+     * RecyclerView 的缓存池也会持有 WebView，因此需要跟踪全部 Holder，而非只跟踪当前项。
+     */
+    private val createdHolders: MutableSet<VideoViewHolder> =
+        Collections.newSetFromMap(WeakHashMap())
+
+    val isPlaybackAllowed: Boolean
+        get() = playbackState.isPlaybackAllowed
     
     // 记录已关注的视频 ID（用于 UI 状态缓存）
     private val followedVideoIds = mutableSetOf<String>()
@@ -88,7 +92,7 @@ class ShortVideoAdapter(
             parent,
             false
         )
-        return VideoViewHolder(binding)
+        return VideoViewHolder(binding).also(createdHolders::add)
     }
     
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
@@ -96,7 +100,7 @@ class ShortVideoAdapter(
         // 使用外部检查器或内部缓存判断关注状态
         val isFollowed = isFollowedChecker?.invoke(video.id) ?: followedVideoIds.contains(video.id)
         val isLiked = likedVideoIds.contains(video.id)
-        holder.bind(video, position == currentPlayingPosition, isFollowed, isLiked)
+        holder.bind(video, isFollowed, isLiked)
 
         // 点赞按钮 - 切换点赞状态
         holder.binding.btnLike.setOnClickListener {
@@ -177,42 +181,74 @@ class ShortVideoAdapter(
     }
     
     /**
-     * 播放指定位置的视频
+     * 更新当前页面选中的视频。该方法只改变选择，不会绕过生命周期门禁启动播放。
      */
-    fun playAt(position: Int) {
-        if (position == currentPlayingPosition) return
-        val oldPosition = currentPlayingPosition
-        currentPlayingPosition = position
-        notifyItemChanged(oldPosition)
-        notifyItemChanged(position)
-    }
-    
-    /**
-     * 暂停所有视频（除了指定位置）
-     */
-    fun pauseAllExcept(position: Int) {
-        // 由 playAt 处理
-    }
-    
-    /**
-     * 暂停所有视频
-     */
-    fun pauseAll() {
-        val oldPosition = currentPlayingPosition
-        currentPlayingPosition = -1
-        // 直接调用当前播放 holder 的暂停方法，立即生效
-        currentPlayingHolder?.pauseVideo()
-        currentPlayingHolder = null
-        if (oldPosition >= 0) {
-            notifyItemChanged(oldPosition)
+    fun selectPosition(position: Int) {
+        val normalizedPosition = if (position >= 0) {
+            position
+        } else {
+            ShortVideoPlaybackState.NO_POSITION
+        }
+
+        if (playbackState.selectPosition(normalizedPosition)) {
+            // 滑到其他视频后恢复自动播放语义，不继承上一项的手动暂停状态。
+            createdHolders.toList().forEach(VideoViewHolder::onSelectionChanged)
+        } else {
+            reconcileAllHolders()
         }
     }
-    
+
     /**
-     * 释放所有播放器资源
+     * 由当前 Feed 的 RESUMED 状态驱动。关闭时先落状态，再向全部播放器发送暂停。
+     */
+    fun setFeedResumed(resumed: Boolean) {
+        val changed = playbackState.setFeedResumed(resumed)
+        if (changed && resumed) {
+            createdHolders.toList().forEach(VideoViewHolder::onFeedResumed)
+        }
+        reconcileAllHolders()
+    }
+
+    /** 首页底栏切换时同步更新，早于 Fragment maxLifecycle 事务形成第一道暂停屏障。 */
+    fun setHostSelected(selected: Boolean) {
+        val changed = playbackState.setHostSelected(selected)
+        if (changed && selected) {
+            createdHolders.toList().forEach(VideoViewHolder::onFeedResumed)
+        }
+        reconcileAllHolders()
+    }
+
+    /**
+     * 数据加载、错误或空态隐藏内容时，已缓存的 Holder 也必须保持静音。
+     */
+    fun setContentAvailable(available: Boolean) {
+        playbackState.setContentAvailable(available)
+        reconcileAllHolders()
+    }
+
+    /** 广告采用计数门禁，重叠请求必须全部结束后才允许恢复。 */
+    fun onAdStarted() {
+        playbackState.onAdStarted()
+        reconcileAllHolders()
+    }
+
+    fun onAdFinished() {
+        playbackState.onAdFinished()
+        reconcileAllHolders()
+    }
+
+    /**
+     * Fragment View 终止销毁时释放 RecyclerView 缓存池中的全部 WebView。
      */
     fun releaseAll() {
-        // 由 Fragment onDestroyView 调用
+        if (!playbackState.release()) return
+
+        createdHolders.toList().forEach(VideoViewHolder::release)
+        createdHolders.clear()
+    }
+
+    private fun reconcileAllHolders() {
+        createdHolders.toList().forEach(VideoViewHolder::reconcilePlayback)
     }
     
     /**
@@ -226,12 +262,11 @@ class ShortVideoAdapter(
         private var isPlayerReady = false
         private var youTubePlayer: YouTubePlayer? = null
         private var pendingVideoId: String? = null
-        private var pendingAutoPlay = false
         
         private var isPlaying = false
         private var isAttached = false  // 是否附加到窗口
-        private var shouldPlay = false  // 是否应该播放
         private var hasUserPaused = false  // 用户是否主动暂停过
+        private var isReleased = false
         
         init {
             initializePlayer()
@@ -241,6 +276,9 @@ class ShortVideoAdapter(
         private fun setupTouchInterceptor() {
             // 点击透明覆盖层控制播放/暂停
             binding.touchInterceptor.setOnClickListener {
+                // 隐藏页面、非当前项和已回收 Holder 都不能通过点击绕过播放门禁。
+                if (!isSelectedHolderActive()) return@setOnClickListener
+
                 if (isPlaying) {
                     hasUserPaused = true  // 标记用户主动暂停
                     youTubePlayer?.pause()
@@ -248,8 +286,9 @@ class ShortVideoAdapter(
 //                    shouldShowNativeDialog(binding.ivPlayPause.context)
                 } else {
                     // 恢复播放前显示黑色遮罩，遮挡 YouTube UI 闪烁
+                    hasUserPaused = false
                     showBlackOverlay()
-                    youTubePlayer?.play()
+                    reconcilePlayback()
                 }
             }
         }
@@ -299,7 +338,8 @@ class ShortVideoAdapter(
             // 配置播放器选项 - controls=0 隐藏 YouTube 原生控件，使用自定义覆盖层
             val options = IFramePlayerOptions.Builder(binding.root.context)
                 .controls(0)  // 隐藏 YouTube 原生控件
-                .autoplay(1)  // 自动播放
+                // IFrame 不自行决定播放，当前可见项统一由 playbackState 控制。
+                .autoplay(0)
                 .rel(0)
                 .ivLoadPolicy(3)
                 .ccLoadPolicy(0)
@@ -307,12 +347,17 @@ class ShortVideoAdapter(
                 .build()
             
             binding.youtubePlayerView.initialize({ player ->
+                if (isReleased) return@initialize
+
                 youTubePlayer = player
                 isPlayerReady = true
                 Log.d(TAG, "onReady - Player initialized")
                 
                 player.addListener(object : AbstractYouTubePlayerListener() {
                     override fun onStateChange(youTubePlayer: YouTubePlayer, state: PlayerConstants.PlayerState) {
+                        if (isReleased) return
+
+                        val shouldPlay = shouldPlayNow()
                         Log.d(TAG, "onStateChange: $state, isAttached: $isAttached, shouldPlay: $shouldPlay")
                         // 更新播放状态
                         isPlaying = (state == PlayerConstants.PlayerState.PLAYING)
@@ -346,30 +391,20 @@ class ShortVideoAdapter(
                     }
                 })
                 
-                // 如果有待加载的视频，立即加载并播放
+                // onReady 可能晚于 Fragment onPause，必须读取实时门禁，不能使用 bind 时的旧值。
                 pendingVideoId?.let { videoId ->
-                    Log.d(TAG, "onReady - Loading pending video: $videoId, autoPlay: $pendingAutoPlay")
-                    // 始终使用 loadVideo 自动播放，避免显示缩略图覆盖层
-                    player.loadVideo(videoId, 0f)
-                    if (!pendingAutoPlay) {
-                        // 如果不需要播放，加载后立即暂停
-                        player.pause()
-                    }
+                    val shouldPlay = shouldPlayNow()
+                    Log.d(TAG, "onReady - Loading pending video: $videoId, shouldPlay: $shouldPlay")
+                    loadOrCueVideo(player, videoId, shouldPlay)
                     currentVideoId = videoId
                     pendingVideoId = null
                 }
             }, options, null)
         }
         
-        fun bind(video: YouTubeVideo, shouldPlayVideo: Boolean, isFollowed: Boolean = false, isLiked: Boolean = false) {
-            // 更新 shouldPlay 标志
-            this.shouldPlay = shouldPlayVideo
-            
-            // 如果是当前播放的视频，更新 holder 引用
-            if (shouldPlayVideo) {
-                currentPlayingHolder = this
-            }
-            
+        fun bind(video: YouTubeVideo, isFollowed: Boolean = false, isLiked: Boolean = false) {
+            if (isReleased) return
+
             // 设置视频信息
             binding.tvVideoTitle.text = video.snippet.title
             binding.tvLikeCount.text = formatCount(video.statistics?.likeCount)
@@ -395,50 +430,96 @@ class ShortVideoAdapter(
             
             // 清理视频 ID（去除可能的空白字符）
             val videoId = video.id.trim()
-            
-            Log.d(TAG, "bind - Video ID: '$videoId', currentVideoId: '$currentVideoId', shouldPlay: $shouldPlayVideo, isPlayerReady: $isPlayerReady")
-            
+
+            Log.d(
+                TAG,
+                "bind - Video ID: '$videoId', currentVideoId: '$currentVideoId', " +
+                    "shouldPlay: ${shouldPlayNow()}, isPlayerReady: $isPlayerReady",
+            )
+
             // 加载/切换视频
             if (currentVideoId != videoId) {
+                hasUserPaused = false
                 pendingVideoId = videoId
-                pendingAutoPlay = shouldPlayVideo
-                
-                if (isPlayerReady && youTubePlayer != null) {
-                    if (shouldPlayVideo) {
-                        // 需要播放：使用 loadVideo 自动播放
-                        youTubePlayer?.loadVideo(videoId, 0f)
-                    } else {
-                        // 不需要播放：使用 cueVideo 预加载，节省资源
-                        youTubePlayer?.cueVideo(videoId, 0f)
-                    }
-                    currentVideoId = videoId
-                    pendingVideoId = null
-                }
-            } else {
-                // 同一个视频，只是控制播放/暂停
-                if (shouldPlayVideo) {
-                    youTubePlayer?.play()
-                } else {
-                    youTubePlayer?.pause()
-                }
             }
-            
+
+            reconcilePlayback()
+
             // 更新播放按钮状态
             updatePlayPauseButton()
         }
-        
-        fun pauseVideo() {
-            shouldPlay = false
-            youTubePlayer?.pause()
+
+        /**
+         * 根据实时状态收敛播放器。所有异步入口最终都只能走到这里。
+         */
+        fun reconcilePlayback() {
+            if (isReleased) return
+
+            val player = youTubePlayer
+            if (!isPlayerReady || player == null) return
+
+            pendingVideoId?.let { videoId ->
+                loadOrCueVideo(player, videoId, shouldPlayNow())
+                currentVideoId = videoId
+                pendingVideoId = null
+                return
+            }
+
+            if (shouldPlayNow() && currentVideoId != null) {
+                showBlackOverlay()
+                player.play()
+            } else {
+                player.pause()
+            }
         }
-        
+
+        private fun loadOrCueVideo(
+            player: YouTubePlayer,
+            videoId: String,
+            shouldPlay: Boolean,
+        ) {
+            if (shouldPlay) {
+                showBlackOverlay()
+                player.loadVideo(videoId, 0f)
+            } else {
+                // 隐藏或预加载项只 cue，禁止“先播放再暂停”产生后台音频窗口。
+                player.cueVideo(videoId, 0f)
+            }
+        }
+
+        private fun shouldPlayNow(): Boolean {
+            return playbackState.canPlay(
+                position = bindingAdapterPosition,
+                isAttached = isAttached,
+                isUserPaused = hasUserPaused,
+            )
+        }
+
+        private fun isSelectedHolderActive(): Boolean {
+            val position = bindingAdapterPosition
+            return playbackState.isPlaybackAllowed &&
+                isAttached &&
+                position != RecyclerView.NO_POSITION &&
+                position == playbackState.selectedPosition
+        }
+
+        fun onSelectionChanged() {
+            hasUserPaused = false
+            reconcilePlayback()
+        }
+
+        fun onFeedResumed() {
+            // 保持原有体验：离开再返回 Feed 时，当前视频自动恢复。
+            hasUserPaused = false
+        }
+
         fun onAttach() {
             isAttached = true
+            reconcilePlayback()
         }
         
         fun onDetach() {
             isAttached = false
-            shouldPlay = false
             youTubePlayer?.pause()
         }
         
@@ -448,7 +529,7 @@ class ShortVideoAdapter(
          */
         fun onRecycled() {
             Log.d(TAG, "onRecycled - Pausing and resetting state")
-            shouldPlay = false
+            isAttached = false
             hasUserPaused = false
             youTubePlayer?.pause()
             // 不清除 currentVideoId 和播放器状态，保持 WebView 可复用
@@ -495,7 +576,14 @@ class ShortVideoAdapter(
          * 完全释放播放器资源 - 仅在 Fragment 销毁时调用
          */
         fun release() {
+            if (isReleased) return
+
             Log.d(TAG, "release - Fully releasing player")
+            youTubePlayer?.pause()
+            isReleased = true
+            isAttached = false
+            hasUserPaused = false
+            binding.ivCover.animate().cancel()
             binding.youtubePlayerView.release()
             youTubePlayer = null
             currentVideoId = null

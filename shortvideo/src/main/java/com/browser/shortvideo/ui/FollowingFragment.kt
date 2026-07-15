@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.android.common.bill.ads.AdResult
@@ -48,6 +49,9 @@ class FollowingFragment : Fragment() {
     
     // 是否已初始化视图
     private var isViewCreated = false
+
+    private var pageChangeCallback: ViewPager2.OnPageChangeCallback? = null
+    private var pendingAdPosition: Int? = null
     
     // 广告管理器 - 从父 Fragment 获取
     private val videoAdManager: VideoAdManager?
@@ -71,10 +75,8 @@ class FollowingFragment : Fragment() {
         
         setupAdapter()
         setupViewPager()
-        viewModel.videoPause.observe(viewLifecycleOwner) {
-            if (it) {
-                adapter.pauseAll()
-            }
+        viewModel.isHostSelected.observe(viewLifecycleOwner) { isSelected ->
+            adapter.setHostSelected(isSelected)
         }
     }
     
@@ -84,22 +86,16 @@ class FollowingFragment : Fragment() {
         // 每次回到此页面时重新加载已关注列表
         if (isViewCreated) {
             loadFollowedVideos()
-            
-            // 恢复播放当前视频
-            if (adapter.itemCount > 0) {
-                val currentPosition = binding.viewPager.currentItem
-                adapter.playAt(currentPosition)
-            }
+            adapter.setFeedResumed(true)
         }
     }
     
     override fun onPause() {
-        super.onPause()
-        
-        // 暂停所有视频播放
+        // 先关闭持续门禁，确保后续广告和播放器回调只能保持暂停。
         if (isViewCreated) {
-            adapter.pauseAll()
+            adapter.setFeedResumed(false)
         }
+        super.onPause()
     }
     
     private fun setupAdapter() {
@@ -127,22 +123,31 @@ class FollowingFragment : Fragment() {
             adapter = this@FollowingFragment.adapter
             orientation = ViewPager2.ORIENTATION_VERTICAL
             offscreenPageLimit = 2
-            
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+
+            pendingAdPosition = currentItem
+            val callback = object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    
-                    // 检查是否应该展示广告，如果展示广告则不播放视频
-                    val showingAd = checkAndShowAd(position)
 
-                    if (!showingAd) {
-                        binding.viewPager.post {
-                            this@FollowingFragment.adapter.pauseAllExcept(position)
-                            this@FollowingFragment.adapter.playAt(position)
-                        }
+                    val hasVideo = this@FollowingFragment.adapter.currentList.getOrNull(position) != null
+
+                    if (
+                        hasVideo &&
+                        this@FollowingFragment.adapter.isPlaybackAllowed &&
+                        viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+                    ) {
+                        checkAndShowAd(position)
+                        pendingAdPosition = null
+                    } else {
+                        pendingAdPosition = position
                     }
+
+                    // 选择和播放许可分离，缓存页可以更新位置但绝不会启动播放器。
+                    this@FollowingFragment.adapter.selectPosition(position)
                 }
-            })
+            }
+            pageChangeCallback = callback
+            registerOnPageChangeCallback(callback)
         }
     }
     
@@ -180,41 +185,78 @@ class FollowingFragment : Fragment() {
             return
         }
         
-        // 暂停当前视频播放
-        adapter.pauseAll()
-        
-        val resumeVideo = {
-            // 广告关闭后播放指定位置的视频
-            adapter.playAt(pendingPosition)
-            
-            // 标记广告已展示
-            videoAdManager?.onAdShown(activity)
-        }
+        // 广告只关闭自身条件，不能在回调时覆盖 Fragment 已暂停的生命周期条件。
+        adapter.onAdStarted()
+        adapter.selectPosition(pendingPosition)
         
         // 使用协程展示插屏广告
         viewLifecycleOwner.lifecycleScope.launch {
-            when (val result = AdShowExt.showInterstitialAd(activity as androidx.fragment.app.FragmentActivity, position = "IV_Shorts")) {
-                is AdResult.Success -> {
-                    Log.d(TAG, "✅ Interstitial ad displayed successfully")
-                    resumeVideo.invoke()
+            try {
+                when (val result = AdShowExt.showInterstitialAd(activity, position = "IV_Shorts")) {
+                    is AdResult.Success -> {
+                        Log.d(TAG, "✅ Interstitial ad displayed successfully")
+                    }
+                    is AdResult.Failure -> {
+                        Log.w(TAG, "❌ Failed to display interstitial ad: ${result.error.message}")
+                    }
                 }
-                is AdResult.Failure -> {
-                    Log.w(TAG, "❌ Failed to display interstitial ad: ${result.error.message}")
-                    resumeVideo.invoke()
-                }
+                // 保持原有广告成功/失败后都更新间隔的业务语义。
+                videoAdManager?.onAdShown(activity)
+            } finally {
+                adapter.onAdFinished()
             }
         }
     }
     
     private fun loadFollowedVideos() {
         val videos = followedStorage.getFollowedVideos()
-        adapter.submitList(videos)
+        val selectedPosition = if (videos.isEmpty()) {
+            ShortVideoPlaybackState.NO_POSITION
+        } else {
+            binding.viewPager.currentItem.coerceAtMost(videos.lastIndex)
+        }
+
+        // 先关闭内容门禁并收敛位置，Diff 较慢时也不会继续播放已删除的视频。
+        adapter.setContentAvailable(false)
+        adapter.selectPosition(selectedPosition)
+
+        if (
+            selectedPosition >= 0 &&
+            pendingAdPosition == selectedPosition &&
+            viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+        ) {
+            checkAndShowAd(selectedPosition)
+            pendingAdPosition = null
+        }
+
+        adapter.submitList(videos) {
+            if (!isViewCreated || _binding == null) return@submitList
+
+            if (
+                selectedPosition >= 0 &&
+                binding.viewPager.currentItem != selectedPosition
+            ) {
+                binding.viewPager.setCurrentItem(selectedPosition, false)
+            }
+            adapter.selectPosition(selectedPosition)
+
+            if (
+                selectedPosition >= 0 &&
+                pendingAdPosition == selectedPosition &&
+                viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+            ) {
+                checkAndShowAd(selectedPosition)
+                pendingAdPosition = null
+            }
+            adapter.setContentAvailable(videos.isNotEmpty())
+        }
         
         // 显示/隐藏状态
         showContent(videos.isNotEmpty())
     }
     
     private fun showLoading() {
+        adapter.setContentAvailable(false)
         binding.viewPager.isVisible = false
         binding.layoutLoading.isVisible = true
         binding.layoutEmpty.isVisible = false
@@ -228,6 +270,10 @@ class FollowingFragment : Fragment() {
     }
     
     private fun showContent(hasData: Boolean) {
+        if (!hasData) {
+            adapter.selectPosition(ShortVideoPlaybackState.NO_POSITION)
+            adapter.setContentAvailable(false)
+        }
         binding.viewPager.isVisible = hasData
         binding.layoutLoading.isVisible = false
         binding.layoutEmpty.isVisible = !hasData
@@ -235,6 +281,7 @@ class FollowingFragment : Fragment() {
     }
     
     private fun showError() {
+        adapter.setContentAvailable(false)
         binding.viewPager.isVisible = false
         binding.layoutLoading.isVisible = false
         binding.layoutEmpty.isVisible = false
@@ -242,8 +289,19 @@ class FollowingFragment : Fragment() {
     }
     
     override fun onDestroyView() {
-        super.onDestroyView()
+        isViewCreated = false
+        pendingAdPosition = null
+
+        pageChangeCallback?.let(binding.viewPager::unregisterOnPageChangeCallback)
+        pageChangeCallback = null
+
+        if (::adapter.isInitialized) {
+            adapter.setFeedResumed(false)
+            binding.viewPager.adapter = null
+            adapter.releaseAll()
+        }
+
         _binding = null
+        super.onDestroyView()
     }
 }
-

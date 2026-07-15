@@ -38,7 +38,10 @@ class ShortVideoViewModel(
     
     private val _videos = mutableListOf<YouTubeVideo>()
 
-    val videoPause = MutableLiveData<Boolean>(false)
+    /**
+     * 首页是否选中短视频 Tab。它是持续状态而不是一次性暂停事件，主线程更新会同步通知观察者。
+     */
+    val isHostSelected = MutableLiveData(false)
 
     /**
      * 初始加载
@@ -108,7 +111,9 @@ class ShortVideoViewModel(
         return repository.getSavedVideoId()
     }
     
-    fun pauseVideo() {
-        videoPause.postValue(true)
+    fun setHostSelected(selected: Boolean) {
+        if (isHostSelected.value != selected) {
+            isHostSelected.value = selected
+        }
     }
 }

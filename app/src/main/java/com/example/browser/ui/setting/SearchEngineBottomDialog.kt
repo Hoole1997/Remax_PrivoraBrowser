@@ -99,7 +99,10 @@ class SearchEngineBottomDialog : BottomSheetDialogFragment() {
 
     private fun observeSearchEngines() {
         lifecycleScope.launch {
-            store.flowScoped(viewLifecycleOwner) { flow ->
+            store.flowScoped(
+                owner = viewLifecycleOwner,
+                dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+            ) { flow ->
                 flow.map { state -> state.search }
                     .distinctUntilChanged()
                     .collect { searchState ->

@@ -2,10 +2,8 @@ package com.example.browser.ui.search
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AbstractComposeView
 import mozilla.components.compose.browser.awesomebar.AwesomeBar
@@ -24,10 +22,12 @@ class AwesomeBarWrapper @JvmOverloads constructor(
 
     private val providers = mutableStateOf(emptyList<ConceptAwesomeBar.SuggestionProvider>())
     private val text = mutableStateOf("")
+    private val hiddenSuggestions = mutableStateOf(emptySet<ConceptAwesomeBar.GroupedSuggestion>())
 
     private var _onEditSuggestionListener: ((String) -> Unit)? = null
     private var _onStopListener: (() -> Unit)? = null
     private var _onSuggestionClickedListener: ((ConceptAwesomeBar.Suggestion) -> Unit)? = null
+    private var _onRemoveSuggestionListener: ((ConceptAwesomeBar.GroupedSuggestion) -> Unit)? = null
 
     @Composable
     override fun Content() {
@@ -40,16 +40,22 @@ class AwesomeBarWrapper @JvmOverloads constructor(
                 autocompleteIcon = Color(context.getColor(android.R.color.tab_indicator_text)).copy(alpha = 0.6f)
             ),
             providers = providers.value,
+            hiddenSuggestions = hiddenSuggestions.value,
             onSuggestionClicked = { suggestion ->
                 // 先调用建议自己的点击回调 (会加载 URL 或执行搜索)
                 suggestion.onSuggestionClicked?.invoke()
-                // 然后通知外部监听器
-                _onSuggestionClickedListener?.invoke(suggestion)
+                // 旧监听器只接收普通建议；新型航班/体育等建议仍执行自己的回调。
+                (suggestion as? ConceptAwesomeBar.Suggestion)?.let { clickedSuggestion ->
+                    _onSuggestionClickedListener?.invoke(clickedSuggestion)
+                }
                 // 最后触发停止回调
                 _onStopListener?.invoke()
             },
             onAutoComplete = {
                 // 自动补全功能（可选）
+            },
+            onRemoveClicked = { groupedSuggestion ->
+                _onRemoveSuggestionListener?.invoke(groupedSuggestion)
             },
             onScroll = {
                 // 滚动时收起键盘
@@ -75,6 +81,8 @@ class AwesomeBarWrapper @JvmOverloads constructor(
         _onStopListener = null
         _onEditSuggestionListener = null
         _onSuggestionClickedListener = null
+        _onRemoveSuggestionListener = null
+        hiddenSuggestions.value = emptySet()
     }
 
     fun setOnSuggestionClickedListener(listener: (ConceptAwesomeBar.Suggestion) -> Unit) {
@@ -111,5 +119,15 @@ class AwesomeBarWrapper @JvmOverloads constructor(
 
     override fun setOnEditSuggestionListener(listener: (String) -> Unit) {
         _onEditSuggestionListener = listener
+    }
+
+    override fun updateHiddenSuggestions(hiddenSuggestions: Set<ConceptAwesomeBar.GroupedSuggestion>) {
+        this.hiddenSuggestions.value = hiddenSuggestions
+    }
+
+    override fun setOnRemoveSuggestionButtonClicked(
+        listener: (ConceptAwesomeBar.GroupedSuggestion) -> Unit,
+    ) {
+        _onRemoveSuggestionListener = listener
     }
 }

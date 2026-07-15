@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
-import com.blankj.utilcode.util.ActivityUtils
 import com.browser.shortvideo.databinding.FragmentShortVideoBinding
 import kotlinx.coroutines.launch
 
@@ -32,6 +30,8 @@ class ShortVideoFragment : Fragment() {
     private var isDataLoaded = false
     // 是否已初始化视图
     private var isViewCreated = false
+
+    private var pageChangeCallback: ViewPager2.OnPageChangeCallback? = null
     
     private val viewModel: ShortVideoViewModel by activityViewModels<ShortVideoViewModel>()
     
@@ -69,6 +69,9 @@ class ShortVideoFragment : Fragment() {
         setupAdapter()
         setupViewPager()
         observeViewModel()
+        viewModel.isHostSelected.observe(viewLifecycleOwner) { isSelected ->
+            adapter.setHostSelected(isSelected)
+        }
         
         // 不在这里加载数据，等待 onResume 时懒加载
     }
@@ -82,20 +85,19 @@ class ShortVideoFragment : Fragment() {
             isDataLoaded = true
         }
         
-        // 恢复播放当前视频
-        if (isViewCreated && adapter.itemCount > 0) {
+        if (isViewCreated) {
             val currentPosition = binding.viewPager.currentItem
-            adapter.playAt(currentPosition)
+            adapter.selectPosition(currentPosition)
+            adapter.setContentAvailable(adapter.currentList.getOrNull(currentPosition) != null)
+            adapter.setFeedResumed(true)
         }
     }
     
     override fun onPause() {
-        super.onPause()
-        
-        // 暂停所有视频播放
         if (isViewCreated) {
-            adapter.pauseAll()
+            adapter.setFeedResumed(false)
         }
+        super.onPause()
     }
     
     private fun setupAdapter() {
@@ -115,15 +117,10 @@ class ShortVideoFragment : Fragment() {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             offscreenPageLimit = 2  // 预加载前后各2个
             
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            val callback = object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    // 使用 post 延迟执行，避免在 scroll callback 中修改数据
-                    binding.viewPager.post {
-                        // 暂停其他视频，播放当前视频
-                        this@ShortVideoFragment.adapter.pauseAllExcept(position)
-                        this@ShortVideoFragment.adapter.playAt(position)
-                    }
+                    this@ShortVideoFragment.adapter.selectPosition(position)
                     
                     // 接近底部时加载更多
                     val itemCount = this@ShortVideoFragment.adapter.itemCount
@@ -131,7 +128,9 @@ class ShortVideoFragment : Fragment() {
                         viewModel.loadMore()
                     }
                 }
-            })
+            }
+            pageChangeCallback = callback
+            registerOnPageChangeCallback(callback)
         }
     }
     
@@ -145,7 +144,17 @@ class ShortVideoFragment : Fragment() {
                         }
                         is ShortVideoViewModel.UiState.Success -> {
                             showContent(state.videos.isNotEmpty())
-                            adapter.submitList(state.videos)
+                            adapter.setContentAvailable(false)
+                            adapter.submitList(state.videos) {
+                                if (!isViewCreated || _binding == null) return@submitList
+                                val selectedPosition = if (state.videos.isEmpty()) {
+                                    ShortVideoPlaybackState.NO_POSITION
+                                } else {
+                                    binding.viewPager.currentItem.coerceAtMost(state.videos.lastIndex)
+                                }
+                                adapter.selectPosition(selectedPosition)
+                                adapter.setContentAvailable(state.videos.isNotEmpty())
+                            }
                         }
                         is ShortVideoViewModel.UiState.Error -> {
                             showError()
@@ -157,19 +166,35 @@ class ShortVideoFragment : Fragment() {
     }
     
     private fun showLoading() {
+        adapter.setContentAvailable(false)
         binding.viewPager.isVisible = false
     }
     
     private fun showContent(hasData: Boolean) {
+        if (!hasData) {
+            adapter.selectPosition(ShortVideoPlaybackState.NO_POSITION)
+            adapter.setContentAvailable(false)
+        }
         binding.viewPager.isVisible = hasData
     }
     
     private fun showError() {
+        adapter.setContentAvailable(false)
         binding.viewPager.isVisible = false
     }
     
     override fun onDestroyView() {
-        super.onDestroyView()
+        isViewCreated = false
+        pageChangeCallback?.let(binding.viewPager::unregisterOnPageChangeCallback)
+        pageChangeCallback = null
+
+        if (::adapter.isInitialized) {
+            adapter.setFeedResumed(false)
+            binding.viewPager.adapter = null
+            adapter.releaseAll()
+        }
+
         _binding = null
+        super.onDestroyView()
     }
 }

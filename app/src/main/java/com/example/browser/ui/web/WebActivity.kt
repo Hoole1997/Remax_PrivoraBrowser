@@ -343,7 +343,10 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
                 fileUploadsDirCleaner = components.fileUploadsDirCleaner,
                 onNeedToRequestPermissions = { permissions ->
                     requestPromptsPermissionsLauncher.launch(permissions)
-                }
+                },
+                isSuggestEmailMaskEnabled = { false },
+                isEmailMaskFeatureEnabled = { false },
+                androidPhotoPicker = null,
             ),
             owner = this,
             view = binding.root
@@ -390,6 +393,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
                 applicationContext = applicationContext,
                 store = components.store,
                 useCases = components.downloadsUseCases,
+                downloadFileUtils = components.downloadFileUtils,
                 fragmentManager = null,  // 设置为 null 以禁用内置对话框
                 downloadManager = FetchDownloadManager(
                     applicationContext = applicationContext,
@@ -403,11 +407,17 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
                     // 为简化，假设已有权限（在 FileFragment 中已请求）
                 },
                 // 使用自定义下载对话框
-                customFirstPartyDownloadDialog = { filename, contentSize, positiveAction, negativeAction ->
+                customFirstPartyDownloadDialog = {
+                        currentDownload,
+                        duplicateFileName,
+                        positiveAction,
+                        negativeAction,
+                        _ ->
+                    val download = currentDownload.value
                     showCustomDownloadDialog(
-                        filename = filename.value,
-                        fileSize = contentSize.value,
-                        onDownloadConfirmed = { positiveAction.value.invoke() },
+                        filename = duplicateFileName.value ?: download.fileName ?: "download",
+                        fileSize = download.contentLength ?: 0L,
+                        onDownloadConfirmed = { positiveAction.value.invoke(download) },
                         onDownloadCancelled = { negativeAction.value.invoke() }
                     )
                 }
@@ -555,7 +565,9 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
         storeScope?.cancel()
         lastProgress = -1
         lastLoading = null
-        storeScope = components.store.flowScoped { flow ->
+        storeScope = components.store.flowScoped(
+            dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+        ) { flow ->
             flow.mapNotNull { state -> state.selectedTab }
                 .collect { tab ->
                     // 更新当前标签页 ID
@@ -584,7 +596,9 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
 
     private fun observeDownloadState() {
         downloadsScope?.cancel()
-        downloadsScope = components.store.flowScoped { flow ->
+        downloadsScope = components.store.flowScoped(
+            dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+        ) { flow ->
             flow.map { state -> state.downloads }
                 .collect { downloadsMap ->
                     handleDownloadUpdates(downloadsMap.values)
@@ -594,7 +608,9 @@ class WebActivity : BaseActivity<ActivityWebBinding, WebModel>() {
 
     private fun observeSearchEngine() {
         searchEngineScope?.cancel()
-        searchEngineScope = components.store.flowScoped { flow ->
+        searchEngineScope = components.store.flowScoped(
+            dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+        ) { flow ->
             flow.map { state -> state.search.selectedOrDefaultSearchEngine?.id }
                 .distinctUntilChanged()
                 .collect {

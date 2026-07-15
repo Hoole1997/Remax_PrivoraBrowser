@@ -3,6 +3,12 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+    }
+}
+
 val analyticsConfig = findProperty("analytics") as Map<*, *>
 
 android {
@@ -32,9 +38,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     
     buildFeatures {
         viewBinding = true

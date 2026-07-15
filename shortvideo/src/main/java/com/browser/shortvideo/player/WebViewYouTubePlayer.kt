@@ -25,6 +25,9 @@ private class YouTubePlayerImpl(
     @GuardedBy("lock")
     private val listeners = mutableSetOf<YouTubePlayerListener>()
 
+    @Volatile
+    private var isReleased = false
+
     override fun loadVideo(videoId: String, startSeconds: Float) = webView.invoke("loadVideo", videoId, startSeconds)
     override fun cueVideo(videoId: String, startSeconds: Float) = webView.invoke("cueVideo", videoId, startSeconds)
     override fun play() = webView.invoke("playVideo")
@@ -37,17 +40,28 @@ private class YouTubePlayerImpl(
     }
     override fun seekTo(time: Float) = webView.invoke("seekTo", time)
     override fun setPlaybackRate(playbackRate: PlayerConstants.PlaybackRate) = webView.invoke("setPlaybackRate", playbackRate.toFloat())
-    override fun addListener(listener: YouTubePlayerListener) = synchronized(lock) { listeners.add(listener) }
+    override fun addListener(listener: YouTubePlayerListener): Boolean {
+        if (isReleased) return false
+        return synchronized(lock) {
+            if (isReleased) false else listeners.add(listener)
+        }
+    }
     override fun removeListener(listener: YouTubePlayerListener) = synchronized(lock) { listeners.remove(listener) }
 
-    fun getListeners(): Collection<YouTubePlayerListener> = synchronized(lock) { listeners.toList() }
+    fun getListeners(): Collection<YouTubePlayerListener> {
+        if (isReleased) return emptyList()
+        return synchronized(lock) { listeners.toList() }
+    }
 
     fun release() {
+        isReleased = true
         synchronized(lock) { listeners.clear() }
         mainThread.removeCallbacksAndMessages(null)
     }
 
     private fun WebView.invoke(function: String, vararg args: Any) {
+        if (isReleased) return
+
         val stringArgs = args.map {
             if (it is String) {
                 "'$it'"
@@ -55,7 +69,18 @@ private class YouTubePlayerImpl(
                 it.toString()
             }
         }
-        mainThread.post { loadUrl("javascript:$function(${stringArgs.joinToString(",")})") }
+        val command = Runnable {
+            if (!isReleased) {
+                loadUrl("javascript:$function(${stringArgs.joinToString(",")})")
+            }
+        }
+
+        // Adapter 和 JS Bridge 的调用通常已经在主线程，直接执行可减少低端机命令重排。
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            command.run()
+        } else {
+            mainThread.post(command)
+        }
     }
 }
 
@@ -71,6 +96,7 @@ class WebViewYouTubePlayer @JvmOverloads constructor(
 
     private var youTubePlayerInitListener: ((YouTubePlayer) -> Unit)? = null
     private val youTubePlayerBridge = YouTubePlayerBridge(this)
+    private var isReleased = false
 
     internal var isBackgroundPlaybackEnabled = false
 
@@ -132,21 +158,33 @@ class WebViewYouTubePlayer @JvmOverloads constructor(
     
     // 当播放器真正准备好时触发（由 YouTubePlayerBridge.sendReady 调用）
     override fun onPlayerReady() {
-        youTubePlayerInitListener?.invoke(_youTubePlayer)
+        if (!isReleased) {
+            youTubePlayerInitListener?.invoke(_youTubePlayer)
+        }
     }
 
     fun addListener(listener: YouTubePlayerListener) = _youTubePlayer.addListener(listener)
     fun removeListener(listener: YouTubePlayerListener) = _youTubePlayer.removeListener(listener)
 
     override fun destroy() {
+        if (isReleased) return
+
+        isReleased = true
+        youTubePlayerInitListener = null
         _youTubePlayer.release()
+        youTubePlayerBridge.release()
+        stopLoading()
+        removeJavascriptInterface("YouTubePlayerBridge")
+        webChromeClient = null
+        removeAllViews()
         super.destroy()
     }
 
+    /**
+     * 终止释放。调用前必须先将本 WebView 所在 Adapter 从 RecyclerView/ViewPager 移除。
+     */
     fun release() {
-        _youTubePlayer.release()
-        stopLoading()
-        loadUrl("about:blank")
+        destroy()
     }
 
     override fun onWindowVisibilityChanged(visibility: Int) {

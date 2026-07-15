@@ -395,7 +395,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchModel>() {
      */
     private fun observeSearchEngine() {
         lifecycleScope.launch {
-            components.browserComponents.store.flowScoped(this@SearchActivity) { flow ->
+            components.browserComponents.store.flowScoped(
+                owner = this@SearchActivity,
+                dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+            ) { flow ->
                 flow.map { state -> state.search }
                     .distinctUntilChanged()
                     .collect { searchState ->

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,10 @@ import com.example.browser.ui.photoclean.model.PhotoCleanGroup
 import com.example.browser.ui.photoclean.model.PhotoCleanMode
 import com.example.browser.ui.photoclean.scanner.DuplicatePhotoFinder
 import com.example.browser.ui.photoclean.scanner.SimilarPhotoFinder
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PhotoScanDialogFragment : DialogFragment() {
@@ -29,6 +33,7 @@ class PhotoScanDialogFragment : DialogFragment() {
     private var scanJob: Job? = null
     private var scanResult: List<PhotoCleanGroup> = emptyList()
     private var onResultReady: ((List<PhotoCleanGroup>) -> Unit)? = null
+    private val scanUiState = MutableStateFlow<PhotoScanUiState>(PhotoScanUiState.Scanning())
 
     private val cleanMode: PhotoCleanMode
         get() {
@@ -37,6 +42,7 @@ class PhotoScanDialogFragment : DialogFragment() {
         }
 
     companion object {
+        private const val TAG = "PhotoScanDialog"
         private const val ARG_MODE = "clean_mode"
 
         fun newInstance(mode: PhotoCleanMode): PhotoScanDialogFragment {
@@ -78,6 +84,7 @@ class PhotoScanDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
+        observeScanUiState()
         startScan()
     }
 
@@ -121,6 +128,27 @@ class PhotoScanDialogFragment : DialogFragment() {
         startSpinnerAnimation()
     }
 
+    /** 所有 View 更新都在主线程按单一状态渲染，避免后台回调直接排队操作 View。 */
+    private fun observeScanUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            scanUiState.collect { state ->
+                when (state) {
+                    is PhotoScanUiState.Scanning -> showProgressState(state)
+                    PhotoScanUiState.Completed -> showCompletedState(scanResult)
+                }
+            }
+        }
+    }
+
+    private fun showProgressState(state: PhotoScanUiState.Scanning) {
+        val b = _binding ?: return
+        b.pbProgress.progress = state.progressPercent
+        b.tvPercent.text = "${state.progressPercent}%"
+        if (state.currentFile.isNotEmpty()) {
+            b.tvFilePath.text = state.currentFile
+        }
+    }
+
     private fun showCompletedState(groups: List<PhotoCleanGroup>) {
         stopSpinnerAnimation()
         val b = _binding ?: return
@@ -156,43 +184,37 @@ class PhotoScanDialogFragment : DialogFragment() {
     }
 
     private fun startScan() {
+        scanUiState.value = PhotoScanUiState.Scanning()
         scanJob = viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val appContext = requireContext().applicationContext
                 scanResult = when (cleanMode) {
                     PhotoCleanMode.DUPLICATE -> {
                         DuplicatePhotoFinder.findDuplicates(appContext) { progress ->
-                            binding.root.post {
-                                if (_binding == null) return@post
-                                if (progress.progressPercent >= 0) {
-                                    binding.pbProgress.progress = progress.progressPercent
-                                    binding.tvPercent.text = "${progress.progressPercent}%"
-                                }
-                                if (progress.currentFile.isNotEmpty()) {
-                                    binding.tvFilePath.text = progress.currentFile
-                                }
-                            }
+                            updateProgress(progress.progressPercent, progress.currentFile)
                         }
                     }
                     PhotoCleanMode.SIMILAR -> {
                         SimilarPhotoFinder.findSimilar(appContext) { progress ->
-                            binding.root.post {
-                                if (_binding == null) return@post
-                                if (progress.progressPercent >= 0) {
-                                    binding.pbProgress.progress = progress.progressPercent
-                                    binding.tvPercent.text = "${progress.progressPercent}%"
-                                }
-                                if (progress.currentFile.isNotEmpty()) {
-                                    binding.tvFilePath.text = progress.currentFile
-                                }
-                            }
+                            updateProgress(progress.progressPercent, progress.currentFile)
                         }
                     }
                 }
-                showCompletedState(scanResult)
-            } catch (e: Exception) {
-                showCompletedState(emptyList())
+                scanUiState.value = PhotoScanUiState.Completed
+            } catch (cancellation: CancellationException) {
+                throw cancellation
+            } catch (error: Exception) {
+                Log.e(TAG, "Photo scan failed for mode=$cleanMode", error)
+                scanResult = emptyList()
+                scanUiState.value = PhotoScanUiState.Completed
             }
+        }
+    }
+
+    /** StateFlow.update 可从扫描线程安全调用，并会合并低端机来不及渲染的中间进度。 */
+    private fun updateProgress(progressPercent: Int, currentFile: String) {
+        scanUiState.update { state ->
+            state.withProgress(progressPercent, currentFile)
         }
     }
 

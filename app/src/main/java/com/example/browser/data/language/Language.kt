@@ -1,48 +1,50 @@
 package com.example.browser.data.language
 
 /**
- * 语言数据类
+ * 应用支持的语言。
+ *
+ * [nativeName] 是语言使用者对本语言的称呼（例如“中文”“Español”），作为语言弹框和
+ * 设置页当前值的唯一用户可见名称。它不跟随当前界面语言翻译，避免两处展示不一致。
  */
 data class Language(
-    val code: String,           // 语言代码，如 "en", "zh", "ja", "ko"
-    val displayName: String,    // 显示名称
-    val nativeName: String,     // 本地名称
-    val isSelected: Boolean = false
+    val code: String,
+    val nativeName: String,
+    val isSelected: Boolean = false,
 )
 
 /**
  * 支持的语言列表
  */
 object SupportedLanguages {
-    val ENGLISH = Language("en", "English", "English")
-    val CHINESE = Language("zh", "Chinese", "中文")
-    val JAPANESE = Language("ja", "Japanese", "日本語")
-    val KOREAN = Language("ko", "Korean", "한국어")
-    val HINDI = Language("hi", "Hindi", "हिन्दी")
-    val SPANISH = Language("es", "Spanish", "Español")
-    val INDONESIAN = Language("id", "Indonesian", "Bahasa Indonesia")
-    val PORTUGUESE = Language("pt", "Portuguese", "Português")
-    val RUSSIAN = Language("ru", "Russian", "Русский")
-    val FRENCH = Language("fr", "French", "Français")
-    val GERMAN = Language("de", "German", "Deutsch")
-    
-    fun getAllLanguages(): List<Language> {
-        return listOf(
-            ENGLISH, 
-            CHINESE, 
-            JAPANESE, 
-            KOREAN,
-            HINDI,
-            SPANISH,
-            INDONESIAN,
-            PORTUGUESE,
-            RUSSIAN,
-            FRENCH,
-            GERMAN
-        )
-    }
-    
+    val ENGLISH = Language("en", "English")
+    val CHINESE = Language("zh", "中文")
+    val JAPANESE = Language("ja", "日本語")
+    val KOREAN = Language("ko", "한국어")
+    val HINDI = Language("hi", "हिन्दी")
+    val SPANISH = Language("es", "Español")
+    val INDONESIAN = Language("id", "Bahasa Indonesia")
+    val PORTUGUESE = Language("pt", "Português")
+    val RUSSIAN = Language("ru", "Русский")
+    val FRENCH = Language("fr", "Français")
+    val GERMAN = Language("de", "Deutsch")
+
+    private val allLanguages = listOf(
+        ENGLISH,
+        CHINESE,
+        JAPANESE,
+        KOREAN,
+        HINDI,
+        SPANISH,
+        INDONESIAN,
+        PORTUGUESE,
+        RUSSIAN,
+        FRENCH,
+        GERMAN,
+    )
+
+    fun getAllLanguages(): List<Language> = allLanguages
+
     fun getLanguageByCode(code: String): Language? {
-        return getAllLanguages().find { it.code == code }
+        return allLanguages.find { it.code == code }
     }
 }

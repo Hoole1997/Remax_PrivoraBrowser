@@ -6,7 +6,9 @@ devicecompat = "1.0"
 flexbox = "3.0.0"
 glide = "5.0.5"
 glideTransformations = "4.3.0"
-kotlin = "2.1.0"
+# Android Components 152 publishes Kotlin 2.3 metadata, so consumers must use
+# a Kotlin compiler from the same metadata generation.
+kotlin = "2.3.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"

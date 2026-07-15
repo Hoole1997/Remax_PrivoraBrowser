@@ -9,6 +9,12 @@ plugins {
     id("com.google.firebase.firebase-perf")
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
 // ==================== 配置 ====================
 
 val appConfig = findProperty("app") as Map<*, *>
@@ -191,14 +197,27 @@ android {
         // 启用 Compose
         compose = true
     }
+    androidResources {
+        // 保留 AAPT 默认忽略项，并额外拒绝所有名为 extensions 的 assets 目录。
+        // Mozilla 组件可能随库携带扩展脚本，即使业务层未初始化也不能进入 APK/AAB。
+        ignoreAssetsPatterns += listOf(
+            "!.svn",
+            "!.git",
+            "!.ds_store",
+            "!*.scc",
+            ".*",
+            "<dir>_*",
+            "!CVS",
+            "!thumbs.db",
+            "!picasa.ini",
+            "!*~",
+            "!extensions",
+        )
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     packaging {
         jniLibs {
             useLegacyPackaging = true
@@ -295,6 +314,14 @@ dependencies {
 }
 
 configurations.configureEach {
+    // Mozilla App Services 152 uses protobuf-javalite 4.x, which already contains
+    // the well-known descriptor classes bundled by Firebase's legacy artifact.
+    exclude(group = "com.google.firebase", module = "protolite-well-known-types")
+
+    // Kotlin 2.3 parcelize-runtime contains the former android-extensions parcel
+    // APIs. Older ad/UI SDKs still request the retired runtime and cause duplicates.
+    exclude(group = "org.jetbrains.kotlin", module = "kotlin-android-extensions-runtime")
+
     resolutionStrategy.capabilitiesResolution.withCapability("org.mozilla.telemetry:glean-native") {
         val toBeSelected = candidates.find {
             it.id is ModuleComponentIdentifier &&

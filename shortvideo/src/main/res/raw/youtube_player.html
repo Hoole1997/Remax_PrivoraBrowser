@@ -84,7 +84,8 @@
 
 
     function sendPlayerStateChange(playerState) {
-      clearTimeout(timerId);
+      clearInterval(timerId);
+      timerId = undefined;
 
       switch (playerState) {
         case YT.PlayerState.UNSTARTED:
@@ -139,7 +140,8 @@
         timerId = setInterval(function() {
           YouTubePlayerBridge.sendVideoCurrentTime( player.getCurrentTime() )
           YouTubePlayerBridge.sendVideoLoadedFraction( player.getVideoLoadedFraction() )
-        }, 100 );
+        // 当前页面没有逐帧进度 UI，降低桥接频率可显著减少低端机主线程排队。
+        }, 1000 );
       }
     }
 

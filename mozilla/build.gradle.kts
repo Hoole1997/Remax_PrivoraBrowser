@@ -3,6 +3,12 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
+}
+
 android {
     namespace = "com.example.mozilla"
     compileSdk = 36
@@ -24,17 +30,23 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
+        // GeckoView 152 uses Java 17 APIs; keep this module aligned with the
+        // application module and Mozilla's supported consumer configuration.
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
 dependencies {
 
-    val mozComponentsVersion = "140.0"
+    // Keep all Android Components on one stable release. browser-engine-gecko
+    // supplies the matching GeckoView build transitively, avoiding version skew.
+    val mozComponentsVersion = "152.0.5"
+
+    // Keep this module's existing JVM and instrumentation smoke tests runnable.
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
     // Mozilla compose components
     api("org.mozilla.components:compose-awesomebar:$mozComponentsVersion")
@@ -68,7 +80,8 @@ dependencies {
     // Mozilla feature components
     api("org.mozilla.components:feature-awesomebar:$mozComponentsVersion")
     api("org.mozilla.components:feature-autofill:$mozComponentsVersion")
-    api("org.mozilla.components:feature-readerview:$mozComponentsVersion")
+    // WebExtension 支持已按安全要求关闭：不要引入 feature-addons、
+    // feature-readerview、feature-webcompat 或 support-webextensions。
     api("org.mozilla.components:feature-media:$mozComponentsVersion")
     api("org.mozilla.components:feature-search:$mozComponentsVersion")
 
@@ -84,9 +97,7 @@ dependencies {
     api("org.mozilla.components:feature-pwa:$mozComponentsVersion")
     api("org.mozilla.components:feature-prompts:$mozComponentsVersion")
     api("org.mozilla.components:feature-sitepermissions:$mozComponentsVersion")
-    api("org.mozilla.components:feature-webcompat:$mozComponentsVersion")
     api("org.mozilla.components:feature-webnotifications:$mozComponentsVersion")
-    api("org.mozilla.components:feature-addons:$mozComponentsVersion")
     api("org.mozilla.components:feature-findinpage:$mozComponentsVersion")
     api("org.mozilla.components:feature-prompts:$mozComponentsVersion")
 
@@ -97,7 +108,6 @@ dependencies {
     // Mozilla support components
     api("org.mozilla.components:support-base:$mozComponentsVersion")
     api("org.mozilla.components:support-utils:$mozComponentsVersion")
-    api("org.mozilla.components:support-webextensions:$mozComponentsVersion")
     api("org.mozilla.components:support-ktx:$mozComponentsVersion")
     api("org.mozilla.components:support-locale:$mozComponentsVersion")
 

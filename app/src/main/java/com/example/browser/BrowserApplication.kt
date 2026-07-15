@@ -18,7 +18,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import mozilla.components.feature.media.MediaSessionFeature
 import mozilla.components.support.ktx.android.content.isMainProcess
-import mozilla.components.support.webextensions.WebExtensionSupport
 import net.corekit.core.controller.ChannelUserController
 import net.corekit.core.log.CoreLogger
 import net.corekit.core.report.ReportDataManager
@@ -81,25 +80,6 @@ class BrowserApplication : Application() {
         // 初始化 Web 通知功能，注册到引擎
         // 这样所有网页都可以使用 Notification API
         browserComponents.webNotificationFeature
-
-        // 初始化 WebExtension 支持（PDF.js 等内置扩展需要）
-        WebExtensionSupport.initialize(
-            runtime = browserComponents.engine,
-            store = browserComponents.store,
-            onNewTabOverride = { _, engineSession, url ->
-                browserComponents.tabsUseCases.addTab(
-                    url = url,
-                    selectTab = true,
-                    engineSession = engineSession
-                )
-            },
-            onCloseTabOverride = { _, sessionId ->
-                browserComponents.tabsUseCases.removeTab(sessionId)
-            },
-            onSelectTabOverride = { _, sessionId ->
-                browserComponents.tabsUseCases.selectTab(sessionId)
-            }
-        )
 
         // 恢复之前保存的标签页状态并设置自动保存
         restoreBrowserState()

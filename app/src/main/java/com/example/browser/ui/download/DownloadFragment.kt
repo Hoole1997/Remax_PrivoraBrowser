@@ -79,7 +79,10 @@ class DownloadFragment : BaseFragment<FragmentDownloadBinding, DownloadModel>() 
      */
     private fun observeDownloads() {
         val store = requireContext().components.store
-        store.flowScoped(viewLifecycleOwner) { flow ->
+        store.flowScoped(
+            owner = viewLifecycleOwner,
+            dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+        ) { flow ->
             flow.mapNotNull { state -> state.downloads }
                 .collect { downloadsMap ->
                     // 转换为 DownloadItem 列表，并计算下载速度

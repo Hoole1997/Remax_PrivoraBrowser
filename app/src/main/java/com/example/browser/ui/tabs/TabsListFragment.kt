@@ -97,7 +97,9 @@ class TabsListFragment : Fragment() {
     }
 
     private fun observeBrowserState() {
-        storeScope = activity?.components?.store?.flowScoped { flow ->
+        storeScope = activity?.components?.store?.flowScoped(
+            dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+        ) { flow ->
             flow.collect { state ->
                 if (isAdded && !isDetached && view != null) {
                     updateTabsList()

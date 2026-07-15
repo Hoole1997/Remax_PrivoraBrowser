@@ -42,6 +42,9 @@ class YouTubePlayerBridge(private val youTubePlayerOwner: YouTubePlayerBridgeCal
 
     private val mainThreadHandler: Handler = Handler(Looper.getMainLooper())
 
+    @Volatile
+    private var isReleased = false
+
     interface YouTubePlayerBridgeCallbacks {
         val listeners: Collection<YouTubePlayerListener>
         fun getInstance(): YouTubePlayer
@@ -49,11 +52,26 @@ class YouTubePlayerBridge(private val youTubePlayerOwner: YouTubePlayerBridgeCal
         fun onPlayerReady()
     }
 
-    @JavascriptInterface
-    fun sendYouTubeIFrameAPIReady() = mainThreadHandler.post { youTubePlayerOwner.onYouTubeIFrameAPIReady() }
+    fun release() {
+        isReleased = true
+        mainThreadHandler.removeCallbacksAndMessages(null)
+    }
+
+    private fun dispatch(callback: () -> Unit) {
+        if (isReleased) return
+
+        mainThreadHandler.post {
+            if (!isReleased) {
+                callback()
+            }
+        }
+    }
 
     @JavascriptInterface
-    fun sendReady() = mainThreadHandler.post {
+    fun sendYouTubeIFrameAPIReady() = dispatch { youTubePlayerOwner.onYouTubeIFrameAPIReady() }
+
+    @JavascriptInterface
+    fun sendReady() = dispatch {
         // 先通知 WebViewYouTubePlayer 播放器已准备好
         youTubePlayerOwner.onPlayerReady()
         // 然后通知所有监听器
@@ -63,7 +81,7 @@ class YouTubePlayerBridge(private val youTubePlayerOwner: YouTubePlayerBridgeCal
     @JavascriptInterface
     fun sendStateChange(state: String) {
         val playerState = parsePlayerState(state)
-        mainThreadHandler.post {
+        dispatch {
             youTubePlayerOwner.listeners.forEach { it.onStateChange(youTubePlayerOwner.getInstance(), playerState) }
         }
     }
@@ -71,7 +89,7 @@ class YouTubePlayerBridge(private val youTubePlayerOwner: YouTubePlayerBridgeCal
     @JavascriptInterface
     fun sendPlaybackQualityChange(quality: String) {
         val playbackQuality = parsePlaybackQuality(quality)
-        mainThreadHandler.post {
+        dispatch {
             youTubePlayerOwner.listeners.forEach { it.onPlaybackQualityChange(youTubePlayerOwner.getInstance(), playbackQuality) }
         }
     }
@@ -79,7 +97,7 @@ class YouTubePlayerBridge(private val youTubePlayerOwner: YouTubePlayerBridgeCal
     @JavascriptInterface
     fun sendPlaybackRateChange(rate: String) {
         val playbackRate = parsePlaybackRate(rate)
-        mainThreadHandler.post {
+        dispatch {
             youTubePlayerOwner.listeners.forEach { it.onPlaybackRateChange(youTubePlayerOwner.getInstance(), playbackRate) }
         }
     }
@@ -87,13 +105,13 @@ class YouTubePlayerBridge(private val youTubePlayerOwner: YouTubePlayerBridgeCal
     @JavascriptInterface
     fun sendError(error: String) {
         val playerError = parsePlayerError(error)
-        mainThreadHandler.post {
+        dispatch {
             youTubePlayerOwner.listeners.forEach { it.onError(youTubePlayerOwner.getInstance(), playerError) }
         }
     }
 
     @JavascriptInterface
-    fun sendApiChange() = mainThreadHandler.post {
+    fun sendApiChange() = dispatch {
         youTubePlayerOwner.listeners.forEach { it.onApiChange(youTubePlayerOwner.getInstance()) }
     }
 
@@ -105,7 +123,7 @@ class YouTubePlayerBridge(private val youTubePlayerOwner: YouTubePlayerBridgeCal
             e.printStackTrace()
             return
         }
-        mainThreadHandler.post {
+        dispatch {
             youTubePlayerOwner.listeners.forEach { it.onCurrentSecond(youTubePlayerOwner.getInstance(), currentTimeSeconds) }
         }
     }
@@ -119,7 +137,7 @@ class YouTubePlayerBridge(private val youTubePlayerOwner: YouTubePlayerBridgeCal
             e.printStackTrace()
             return
         }
-        mainThreadHandler.post {
+        dispatch {
             youTubePlayerOwner.listeners.forEach { it.onVideoDuration(youTubePlayerOwner.getInstance(), videoDuration) }
         }
     }
@@ -132,13 +150,13 @@ class YouTubePlayerBridge(private val youTubePlayerOwner: YouTubePlayerBridgeCal
             e.printStackTrace()
             return
         }
-        mainThreadHandler.post {
+        dispatch {
             youTubePlayerOwner.listeners.forEach { it.onVideoLoadedFraction(youTubePlayerOwner.getInstance(), loadedFraction) }
         }
     }
 
     @JavascriptInterface
-    fun sendVideoId(videoId: String) = mainThreadHandler.post {
+    fun sendVideoId(videoId: String) = dispatch {
         youTubePlayerOwner.listeners.forEach { it.onVideoId(youTubePlayerOwner.getInstance(), videoId) }
     }
 

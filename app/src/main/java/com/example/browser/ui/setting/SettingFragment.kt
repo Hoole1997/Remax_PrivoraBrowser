@@ -107,7 +107,8 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding, SettingsModel>() {
 
     private fun updateLanguageDisplay() {
         val code = LanguageUtils.getCurrentLanguage(requireContext())
-        languageName = SupportedLanguages.getLanguageByCode(code)?.displayName ?: code.uppercase()
+        // 与语言选择弹框共用语言自身名称，不随当前界面语言翻译。
+        languageName = SupportedLanguages.getLanguageByCode(code)?.nativeName ?: code.uppercase()
     }
 
     private fun openFeedback() {
@@ -140,7 +141,10 @@ class SettingFragment : BaseFragment<FragmentSettingsBinding, SettingsModel>() {
         val store = application.browserComponents.store
 
         lifecycleScope.launch {
-            store.flowScoped(viewLifecycleOwner) { flow ->
+            store.flowScoped(
+                owner = viewLifecycleOwner,
+                dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+            ) { flow ->
                 flow.map { state -> state.search }
                     .distinctUntilChanged()
                     .collect { searchState ->

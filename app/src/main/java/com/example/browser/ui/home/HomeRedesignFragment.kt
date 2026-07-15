@@ -25,6 +25,8 @@ import com.example.browser.ui.news.NewsModel
 import com.example.browser.ui.news.NewsMoreActivity
 import com.example.browser.ui.scan.ScanResultActivity
 import com.example.browser.ui.search.SearchActivity
+import com.example.browser.ui.tabs.TabCountUi
+import com.example.browser.ui.tabs.tabCountChanges
 import com.example.browser.ui.web.WebActivity
 import com.example.browser.ui.website.RecommendedWebsitesActivity
 import com.example.browser.utils.GoogleBarcodeScanner
@@ -137,17 +139,21 @@ class HomeRedesignFragment : BaseFragment<FragmentHomeRedesignBinding, HomeModel
      * 观察 Tab 数量变化
      */
     private fun observeTabCount() {
-        requireContext().components.store.flowScoped(viewLifecycleOwner) { flow ->
-            flow.collect { state ->
-                val tabCount = state.tabs.size
-                val countText = if (tabCount > 99) "99" else tabCount.toString()
-                binding?.tvTabCount?.text = countText
+        requireContext().components.store.flowScoped(
+            owner = viewLifecycleOwner,
+            dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+        ) { flow ->
+            flow.tabCountChanges().collect { tabCount ->
+                binding?.tvTabCount?.text = TabCountUi.format(tabCount)
             }
         }
     }
 
     private fun observeSearchEngine() {
-        requireContext().components.store.flowScoped(viewLifecycleOwner) { flow ->
+        requireContext().components.store.flowScoped(
+            owner = viewLifecycleOwner,
+            dispatcher = kotlinx.coroutines.Dispatchers.Main.immediate,
+        ) { flow ->
             flow.map { state -> state.search.selectedOrDefaultSearchEngine }
                 .distinctUntilChanged()
                 .collect { searchEngine ->
